@@ -15,16 +15,25 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
-        .hero { height: 35vh; display: flex; align-items: center; padding: 20px; background: linear-gradient(180deg, rgba(0,0,0,0), var(--bg)), url('https://wikimedia.org') no-repeat center/cover; }
+        
+        .hero { position: relative; height: 35vh; overflow: hidden; display: flex; align-items: center; padding: 20px; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0.4; }
+        .hero-content { position: relative; z-index: 2; }
         .hero h1 { font-size: 24px; font-weight: 900; }
-        .nav { position: sticky; top: 0; background: rgba(6,8,12,0.95); display: flex; border-bottom: 1px solid var(--border); z-index: 10; }
+        
+        .nav { position: sticky; top: 0; background: rgba(6,8,12,0.95); display: flex; border-bottom: 1px solid var(--border); z-index: 10; backdrop-filter: blur(10px); }
         .nav a { flex: 1; text-align: center; color: var(--gray); text-decoration: none; padding: 15px 5px; font-size: 13px; font-weight: 600; }
+        
         .container { padding: 0 16px; }
         .h2 { font-size: 18px; margin: 30px 0 10px; border-left: 4px solid var(--blue); padding-left: 10px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; }
+        
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
         .card:active { border-color: var(--blue); background: #151b26; }
-        .img { height: 280px; background-size: cover; background-position: center top; }
+        
+        /* Прямое отображение картинок через тег img */
+        .card-image { width: 100%; height: 320px; object-fit: cover; object-position: top center; display: block; border-bottom: 1px solid var(--border); }
+        
         .info { padding: 15px; }
         .info h3 { font-size: 16px; }
         .info p { font-size: 12px; color: var(--gray); margin-top: 2px; }
@@ -39,7 +48,8 @@
 <body>
 
     <header class="hero">
-        <div>
+        <img class="hero-bg" src="https://yandex.net" alt="Обложка">
+        <div class="hero-content">
             <span style="color:var(--blue); font-size:10px; font-weight:bold; letter-spacing:1px;">МВД РОССИИ</span>
             <h1>ОМВД БАРВИХА-СЕВЕРНОЕ</h1>
             <p style="color:var(--gray); font-size:12px;">Официальный цифровой реестр ведомства</p>
@@ -56,9 +66,9 @@
         <!-- СОТРУДНИКИ -->
         <h2 id="registry" class="h2">1. Личный состав</h2>
         <div class="grid">
-            <!-- Измайлов (Правильное фото Александра Петрова) -->
-            <div class="card" onclick="openBox('Гриша Измайлов', '<b>Звание:</b> Капитан полиции.<br><b>Должность:</b> Старший оперуполномоченный ОУР.<br><br>Показывает самый высокий процент раскрываемости. Финансово независим, циничен, но принципиален.')">
-                <div class="img" style="background-image: url('https://kpcdn.net');"></div>
+            <!-- Измайлов -->
+            <div class="card" onclick="openBox('Гриша Измайлов', '<b>Звание:</b> Капитан полиции.<br><b>Должность:</b> Старший оперуполномоченный ОУР.<br><br>Показывает самый высокий процент раскрываемости. Финансово независим, циничен, но всегда стоит за правду.')">
+                <img class="card-image" src="https://yandex.net" alt="Измайлов">
                 <div class="info">
                     <span class="tag">Личное дело</span>
                     <h3>Измайлов Г. А.</h3>
@@ -66,9 +76,9 @@
                 </div>
             </div>
             
-            <!-- Яковлев (Правильное фото Сергея Бурунова) -->
-            <div class="card" onclick="openBox('Володя Яковлев', '<b>Звание:</b> Полковник полиции.<br><b>Должность:</b> Начальник ОМВД «Барвиха-Северное».<br><br>Опыт службы в органах внутренних дел более 20 лет. Строго следует уставу, тяжело переносит нестандартные методы работы Измайлова.')">
-                <div class="img" style="background-image: url('https://kpcdn.net');"></div>
+            <!-- Яковлев -->
+            <div class="card" onclick="openBox('Володя Яковлев', '<b>Звание:</b> Полковник полиции.<br><b>Должность:</b> Начальник ОМВД «Барвиха-Северное».<br><br>Опыт службы в органах внутренних дел более 20 лет. Строго следует уставу, тяжело переносит выходки Измайлова.')">
+                <img class="card-image" src="https://yandex.net" alt="Яковлев">
                 <div class="info">
                     <span class="tag" style="color:#ff3b30;">Руководство</span>
                     <h3>Яковлев В. С.</h3>
@@ -80,9 +90,9 @@
         <!-- АВТОПАРК -->
         <h2 id="fleet" class="h2">2. Служебный автопарк</h2>
         <div class="grid">
-            <!-- Mercedes (Правильный Мерседес Е-класса Измайлова из сериала) -->
-            <div class="card" onclick="openBox('Mercedes-Benz E-Class', '<b>Модификация:</b> E400 AMG 4MATIC.<br><b>Госномер:</b> О001ОО 77.<br><br>Используется при проведении оперативно-розыскных мероприятий в VIP-секторе и скоростного перехвата целей.')">
-                <div class="img" style="background-image: url('https://topruscar.ru');"></div>
+            <!-- Mercedes Измайлова -->
+            <div class="card" onclick="openBox('Mercedes-Benz E-Class', '<b>Модификация:</b> E400 AMG 4MATIC.<br><b>Госномер:</b> О001ОО 77.<br><br>Личный автомобиль старшего оперуполномоченного Измайлова. Периодически используется для скоростного перехвата целей.')">
+                <img class="card-image" src="https://yandex.net" alt="Mercedes">
                 <div class="info">
                     <span class="tag">Спецтранспорт</span>
                     <h3>Mercedes-Benz E-Class</h3>
@@ -90,9 +100,9 @@
                 </div>
             </div>
             
-            <!-- Патрульный УАЗ Патриот -->
-            <div class="card" onclick="openBox('Патрульный транспорт', '<b>Состав:</b> Внедорожники УАЗ Патриот ОМВД Барвиха.<br><br>Оснащены светосигнальными громкоговорящими устройствами (СГУ), ведомственной радиосвязью и отсеками для конвоирования.')">
-                <div class="img" style="background-image: url('https://autoreview.ru');"></div>
+            <!-- Патрульный транспорт -->
+            <div class="card" onclick="openBox('Патрульный транспорт', '<b>Состав:</b> Внедорожники УАЗ Патриот дежурной части.<br><br>Оснащены светосигнальными установками (СГУ), радиостанциями ведомственной связи и отсеками для задержанных.')">
+                <img class="card-image" src="https://yandex.net" alt="Патруль">
                 <div class="info">
                     <span class="tag" style="color:#5ac8fa;">Дежурная часть</span>
                     <h3>Патрульные ТС</h3>
@@ -104,12 +114,12 @@
         <!-- АРХИВ ДЕЛ -->
         <h2 id="cases" class="h2">3. Архив уголовных дел</h2>
         <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
-            <div class="card" style="padding:15px;" onclick="openBox('Дело №1024', '<b>Статья:</b> ст. 158 УК РФ (Кража).<br><b>Фабула:</b> Похищение ценного швейцарского хронографа на территории поселка Жуковка. Дело закрыто, имущество возвращено.')">
+            <div class="card" style="padding:15px;" onclick="openBox('Дело №1024', '<b>Статья:</b> ст. 158 УК РФ (Кража).<br><b>Фабула:</b> Похищение ценных часов на территории поселка Жуковка. Дело успешно закрыто опергруппой.')">
                 <span class="tag">Архивное производство</span>
                 <h4 style="margin-top:2px;">УД-2026-1024: Дело по району Барвиха</h4>
                 <p style="font-size:12px; color:var(--gray);">Статья 158 УК РФ (Кликабельно)</p>
             </div>
-            <div class="card" style="padding:15px;" onclick="openBox('Дело №1025', '<b>Статья:</b> ст. 166 УК РФ (Угон ТС).<br><b>Фабула:</b> Неправомерное завладение элитным спорткаром со стоянки ТЦ Luxury Village. Фигуранты задержаны оперативной группой.')">
+            <div class="card" style="padding:15px;" onclick="openBox('Дело №1025', '<b>Статья:</b> ст. 166 УК РФ (Угон ТС).<br><b>Фабула:</b> Неправомерное завладение спорткаром со стоянки ТЦ Luxury Village. Подозреваемые задержаны.')">
                 <span class="tag">Архивное производство</span>
                 <h4 style="margin-top:2px;">УД-2026-1025: Угон спорткара</h4>
                 <p style="font-size:12px; color:var(--gray);">Статья 166 УК РФ (Кликабельно)</p>
