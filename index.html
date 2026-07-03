@@ -11,14 +11,13 @@
             --border: #1b222d;
             --blue: #007aff;
             --red: #ff3b30;
-            --gold: #ffd700;
             --text: #ffffff;
             --gray: #8e8e93;
         }
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             scroll-behavior: smooth; -webkit-tap-highlight-color: transparent;
         }
 
@@ -28,133 +27,56 @@
             position: fixed; top: 12px; right: 12px; z-index: 2000;
             background: rgba(15, 19, 26, 0.95); border: 1px solid var(--border);
             padding: 10px 16px; border-radius: 8px; font-size: 11px; font-weight: bold;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
             cursor: pointer;
         }
-        .audio-widget:active { background: var(--blue); }
 
         .main-hero {
-            height: 50vh; display: flex; align-items: center; padding: 24px;
+            height: 40vh; display: flex; align-items: center; padding: 24px;
             background: linear-gradient(180deg, rgba(0,0,0,0.1), var(--dark-bg)), 
                         url('https://kinorium.com') no-repeat center center/cover;
         }
         .gov-badge { color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; display: block; margin-bottom: 8px; text-transform: uppercase; }
-        .main-hero h1 { font-size: 32px; font-weight: 900; letter-spacing: 0.5px; line-height: 1.1; }
-        .main-hero p { font-size: 14px; color: var(--gray); margin-top: 8px; max-width: 90%; }
+        .main-hero h1 { font-size: 26px; font-weight: 900; }
+        .main-hero p { font-size: 13px; color: var(--gray); margin-top: 4px; }
 
         .portal-nav {
             position: sticky; top: 0; z-index: 1000; background: rgba(6, 8, 12, 0.95);
             backdrop-filter: blur(10px); display: flex; border-bottom: 1px solid var(--border);
         }
         .nav-item { flex: 1; text-align: center; color: var(--gray); text-decoration: none; padding: 16px 5px; font-size: 13px; font-weight: 600; }
-        .nav-item:active { background: rgba(255,255,255,0.05); color: #fff; border-bottom: 2px solid var(--blue); }
 
         .container { padding: 0 16px; }
-        .portal-section { padding-top: 45px; }
-        .section-header { font-size: 20px; font-weight: 700; border-left: 4px solid var(--blue); padding-left: 12px; letter-spacing: -0.3px; }
-        .section-desc { font-size: 12px; color: var(--gray); margin: 6px 0 20px; }
+        .portal-section { padding-top: 35px; }
+        .section-header { font-size: 18px; font-weight: 700; border-left: 4px solid var(--blue); padding-left: 12px; }
+        .section-desc { font-size: 12px; color: var(--gray); margin: 6px 0 15px; }
 
-        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .data-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
-        .data-card:active { transform: scale(0.97); border-color: var(--blue); background: #151b26; }
-        .img-wrapper { height: 280px; background-size: cover; background-position: center top; }
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .data-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; }
+        .data-card:active { border-color: var(--blue); background: #151b26; }
+        .img-wrapper { height: 260px; background-size: cover; background-position: center top; }
         .card-details { padding: 16px; }
-        .status-tag { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; }
+        .status-tag { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; }
         .tag-red { color: var(--red); }
         .tag-blue { color: #5ac8fa; }
-        .data-card h3 { font-size: 17px; margin-top: 4px; font-weight: 600; }
-        .data-card p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+        .data-card h3 { font-size: 16px; margin-top: 4px; }
+        .data-card p { font-size: 12px; color: var(--gray); }
 
         .search-box input {
-            width: 100%; padding: 14px; background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 10px; color: #fff; margin: 15px 0; font-size: 15px;
+            width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; color: #fff; margin: 15px 0; font-size: 14px;
         }
-        .cases-list { max-height: 300px; overflow-y: scroll; display: flex; flex-direction: column; gap: 8px; background: #030406; padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
-        .case-row { background: var(--bg-card); padding: 14px; border-radius: 8px; display: flex; gap: 14px; align-items: center; border: 1px solid transparent; cursor: pointer; }
-        .case-row:active { border-color: var(--blue); background: #151b26; }
-        .case-badge { background: #1b222d; color: var(--gray); font-size: 10px; padding: 5px 10px; border-radius: 5px; font-weight: bold; }
-        .case-info h4 { font-size: 14px; color: #fff; }
-        .case-info p { font-size: 12px; color: var(--gray); margin-top: 2px; }
+        .cases-list { max-height: 250px; overflow-y: scroll; display: flex; flex-direction: column; gap: 8px; background: #030406; padding: 8px; border-radius: 8px; }
+        .case-row { background: var(--bg-card); padding: 12px; border-radius: 6px; display: flex; gap: 12px; align-items: center; cursor: pointer; }
+        .case-badge { background: #1b222d; color: var(--gray); font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .case-info h4 { font-size: 13px; color: #fff; }
+        .case-info p { font-size: 11px; color: var(--gray); }
 
-        .kusp-form { background: var(--bg-card); padding: 20px; border-radius: 14px; border: 1px solid var(--border); margin: 15px 0; }
-        .kusp-form h3 { font-size: 15px; margin-bottom: 12px; color: var(--blue); }
-        .kusp-form input { width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px; color:#fff; font-size:14px; margin-bottom: 12px; }
-        .btn-primary { width: 100%; background: var(--blue); color: #fff; padding: 14px; border-radius: 8px; font-weight: bold; border: none; font-size: 14px; box-shadow: 0 4px 14px rgba(0,122,255,0.3); cursor: pointer; }
-        .btn-primary:active { background: #0051a8; transform: scale(0.98); }
+        .kusp-form { background: var(--bg-card); padding: 16px; border-radius: 12px; border: 1px solid var(--border); margin: 15px 0; }
+        .kusp-form h3 { font-size: 14px; margin-bottom: 10px; color: var(--blue); }
+        .kusp-form input { width: 100%; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border); border-radius: 6px; color:#fff; font-size:13px; margin-bottom: 10px; }
+        .btn-primary { width: 100%; background: var(--blue); color: #fff; padding: 12px; border-radius: 6px; font-weight: bold; border: none; font-size: 13px; cursor: pointer; }
 
         .table-scroll { overflow-x: auto; background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); }
-        .kusp-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; min-width: 500px; }
-        .kusp-table th, .kusp-table td { padding: 14px; border-bottom: 1px solid var(--border); }
-        .kusp-table th { background: #111622; color: var(--gray); font-weight: 600; }
-        .status-ok { color: #34c759; font-weight: bold; }
-
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; padding: 16px; }
-        .modal-box { background: var(--bg-card); border: 1px solid var(--border); width: 100%; max-width: 380px; border-radius: 16px; padding: 24px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
-        .modal-badge { font-size: 9px; background: #1c2333; padding: 4px 8px; border-radius: 5px; color: var(--gray); font-weight: bold; letter-spacing: 0.5px; }
-        #modal-title { font-size: 18px; margin-top: 6px; font-weight: 700; color: #fff; }
-        .modal-body { font-size: 14px; color: #d1d1d6; margin-top: 16px; line-height: 1.5; }
-        .modal-close { position: absolute; top: 16px; right: 18px; font-size: 26px; color: var(--gray); cursor: pointer; }
-
-        .portal-footer { text-align: center; padding: 40px 16px; font-size: 11px; color: var(--gray); margin-top: 50px; border-top: 1px solid var(--border); }
-    </style>
-</head>
-<body>
-
-    <audio id="portal-audio" src="https://soundhelix.com" loop></audio>
-
-    <div class="audio-widget" onclick="toggleAudio()">
-        <span id="audio-status">🚨 АУДИОСИСТЕМА: ВЫКЛ</span>
-    </div>
-
-    <header class="main-hero">
-        <div class="hero-content">
-            <span class="gov-badge">Министерство Внутренних Дел РФ</span>
-            <h1>ИАС БАРВИХА-СЕВЕРНОЕ</h1>
-            <p>Ультимативная база данных материально-технической базы, личных дел и криминального архива</p>
-        </div>
-    </header>
-
-    <nav class="portal-nav">
-        <a href="#registry" class="nav-item">Сотрудники</a>
-        <a href="#fleet" class="nav-item">Автопарк</a>
-        <a href="#cases" class="nav-item">Архив дел</a>
-        <a href="#kusp" class="nav-item">Регистрация КУСП</a>
-    </nav>
-
-    <main class="container">
-        <!-- СОТРУДНИКИ -->
-        <section id="registry" class="portal-section">
-            <h2 class="section-header">1. Оперативный состав ОМВД</h2>
-            <p class="section-desc">Нажмите на карту сотрудника для выгрузки секретного личного дела.</p>
-            <div class="grid-layout">
-                <div class="data-card" onclick="openArchiveModal('izmaylov')">
-                    <div class="img-wrapper" style="background-image: url('https://yandex.net');"></div>
-                    <div class="card-details">
-                        <span class="status-tag">Капитан полиции</span>
-                        <h3>Измайлов Григорий Александрович</h3>
-                        <p>Старший оперуполномоченный ОУР</p>
-                    </div>
-                </div>
-                <div class="data-card" onclick="openArchiveModal('yakovlev')">
-                    <div class="img-wrapper" style="background-image: url('https://yandex.net');"></div>
-                    <div class="card-details">
-                        <span class="status-tag tag-red">Полковник полиции</span>
-                        <h3>Яковлев Владимир Сергеевич</h3>
-                        <p>Начальник территориального отдела</p>
-                    </div>
-                </div>
-                <div class="data-card" onclick="openArchiveModal('mukhich')">
-                    <div class="img-wrapper" style="background-image: url('https://yandex.net');"></div>
-                    <div class="card-details">
-                        <span class="status-tag tag-blue">Капитан юстиции</span>
-                        <h3>Мухич Игорь Валерьевич</h3>
-                        <p>Следователь следственного отдела</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- АВТОПАРК -->
-        <section id="fleet" class="portal-section">
-            <h2 class="section-header">2. Закрепленный транспортный парк</h2>
-            <p class="section-desc">Нажмите для просмотра полных ТТХ автомобилей.</p>
+        .kusp-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; min-width: 500px; }
+        .kusp-table th, .kusp-table td
+    
