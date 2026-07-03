@@ -15,7 +15,7 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
-        .hero { height: 35vh; display: flex; align-items: center; padding: 20px; background: linear-gradient(180deg, rgba(0,0,0,0), var(--bg)), url('https://kinorium.com') no-repeat center/cover; }
+        .hero { height: 35vh; display: flex; align-items: center; padding: 20px; background: linear-gradient(180deg, rgba(0,0,0,0), var(--bg)), url('https://wikimedia.org') no-repeat center/cover; }
         .hero h1 { font-size: 24px; font-weight: 900; }
         .nav { position: sticky; top: 0; background: rgba(6,8,12,0.95); display: flex; border-bottom: 1px solid var(--border); z-index: 10; }
         .nav a { flex: 1; text-align: center; color: var(--gray); text-decoration: none; padding: 15px 5px; font-size: 13px; font-weight: 600; }
@@ -24,7 +24,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; }
         .card:active { border-color: var(--blue); background: #151b26; }
-        .img { height: 250px; background-size: cover; background-position: center top; }
+        .img { height: 280px; background-size: cover; background-position: center top; }
         .info { padding: 15px; }
         .info h3 { font-size: 16px; }
         .info p { font-size: 12px; color: var(--gray); margin-top: 2px; }
@@ -56,16 +56,19 @@
         <!-- СОТРУДНИКИ -->
         <h2 id="registry" class="h2">1. Личный состав</h2>
         <div class="grid">
-            <div class="card" onclick="openBox('Гриша Измайлов', '<b>Звание:</b> Капитан полиции.<br><b>Должность:</b> Старший оперуполномоченный ОУР.<br><br>Показывает самый высокий процент раскрываемости. Финансово независим.')">
-                <div class="img" style="background-image: url('https://yandex.net');"></div>
+            <!-- Измайлов (Правильное фото Александра Петрова) -->
+            <div class="card" onclick="openBox('Гриша Измайлов', '<b>Звание:</b> Капитан полиции.<br><b>Должность:</b> Старший оперуполномоченный ОУР.<br><br>Показывает самый высокий процент раскрываемости. Финансово независим, циничен, но принципиален.')">
+                <div class="img" style="background-image: url('https://kpcdn.net');"></div>
                 <div class="info">
                     <span class="tag">Личное дело</span>
                     <h3>Измайлов Г. А.</h3>
                     <p>Капитан полиции (Кликабельно)</p>
                 </div>
             </div>
-            <div class="card" onclick="openBox('Володя Яковлев', '<b>Звание:</b> Полковник полиции.<br><b>Должность:</b> Начальник ОМВД «Барвиха-Северное».<br><br>Опыт службы в органах внутренних дел более 20 лет. Строго следует уставу.')">
-                <div class="img" style="background-image: url('https://yandex.net');"></div>
+            
+            <!-- Яковлев (Правильное фото Сергея Бурунова) -->
+            <div class="card" onclick="openBox('Володя Яковлев', '<b>Звание:</b> Полковник полиции.<br><b>Должность:</b> Начальник ОМВД «Барвиха-Северное».<br><br>Опыт службы в органах внутренних дел более 20 лет. Строго следует уставу, тяжело переносит нестандартные методы работы Измайлова.')">
+                <div class="img" style="background-image: url('https://kpcdn.net');"></div>
                 <div class="info">
                     <span class="tag" style="color:#ff3b30;">Руководство</span>
                     <h3>Яковлев В. С.</h3>
@@ -77,16 +80,19 @@
         <!-- АВТОПАРК -->
         <h2 id="fleet" class="h2">2. Служебный автопарк</h2>
         <div class="grid">
-            <div class="card" onclick="openBox('Mercedes-Benz E-Class', '<b>Модификация:</b> E400 AMG 4MATIC.<br><b>Госномер:</b> О001ОО 77.<br><br>Используется при проведении оперативно-розыскных мероприятий в VIP-секторе.')">
-                <div class="img" style="background-image: url('https://kinorium.com');"></div>
+            <!-- Mercedes (Правильный Мерседес Е-класса Измайлова из сериала) -->
+            <div class="card" onclick="openBox('Mercedes-Benz E-Class', '<b>Модификация:</b> E400 AMG 4MATIC.<br><b>Госномер:</b> О001ОО 77.<br><br>Используется при проведении оперативно-розыскных мероприятий в VIP-секторе и скоростного перехвата целей.')">
+                <div class="img" style="background-image: url('https://topruscar.ru');"></div>
                 <div class="info">
                     <span class="tag">Спецтранспорт</span>
                     <h3>Mercedes-Benz E-Class</h3>
                     <p>Оперативный автомобиль (Кликабельно)</p>
                 </div>
             </div>
-            <div class="card" onclick="openBox('Патрульный транспорт', '<b>Состав:</b> Внедорожники УАЗ Патриот и седаны LADA.<br><br>Оснащены СГУ, ведомственной радиосвязью и отсеками для конвоирования задержанных.')">
-                <div class="img" style="background-image: url('https://kinorium.com');"></div>
+            
+            <!-- Патрульный УАЗ Патриот -->
+            <div class="card" onclick="openBox('Патрульный транспорт', '<b>Состав:</b> Внедорожники УАЗ Патриот ОМВД Барвиха.<br><br>Оснащены светосигнальными громкоговорящими устройствами (СГУ), ведомственной радиосвязью и отсеками для конвоирования.')">
+                <div class="img" style="background-image: url('https://autoreview.ru');"></div>
                 <div class="info">
                     <span class="tag" style="color:#5ac8fa;">Дежурная часть</span>
                     <h3>Патрульные ТС</h3>
@@ -132,4 +138,3 @@
     </script>
 </body>
 </html>
-
