@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ОМВД Барвиха-Северное | CRM-портал</title>
+    <title>ОМВД Барвиха-Северное | Полицейский с Рублёвки</title>
     <style>
         /* ============================================================
-           ГЛОБАЛЬНЫЙ СТИЛЬ
+           ГЛОБАЛЬНЫЕ СТИЛИ
            ============================================================ */
         * {
             margin: 0;
@@ -47,7 +47,7 @@
         }
 
         /* ============================================================
-           КНОПКИ И УТИЛИТЫ
+           КНОПКИ
            ============================================================ */
         .btn {
             background: var(--blue);
@@ -59,6 +59,9 @@
             font-size: 14px;
             cursor: pointer;
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn:hover {
@@ -69,7 +72,6 @@
         .btn-danger {
             background: var(--red);
         }
-
         .btn-danger:hover {
             background: #c0392b;
         }
@@ -77,7 +79,6 @@
         .btn-success {
             background: var(--green);
         }
-
         .btn-success:hover {
             background: #27ae60;
         }
@@ -87,12 +88,77 @@
             border: 2px solid var(--border);
             color: var(--text);
         }
-
         .btn-outline:hover {
             border-color: var(--blue);
             background: rgba(0, 113, 227, 0.1);
         }
 
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 12px;
+        }
+
+        /* ============================================================
+           ШАПКА
+           ============================================================ */
+        .hero {
+            background: linear-gradient(145deg, #0a0f17, #141c28);
+            padding: 30px 20px 20px;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .hero .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 113, 227, 0.2);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 4px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 113, 227, 0.3);
+            text-transform: uppercase;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        /* ============================================================
+           ЗАГОЛОВКИ
+           ============================================================ */
         .section-title {
             font-size: 24px;
             font-weight: 700;
@@ -115,6 +181,15 @@
             border: 1px solid var(--border);
         }
 
+        .section-title .admin-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ============================================================
+           ТЭГИ
+           ============================================================ */
         .tag {
             font-size: 10px;
             font-weight: 700;
@@ -143,38 +218,18 @@
         }
 
         /* ============================================================
-           ШАПКА
-           ============================================================ */
-        .hero {
-            background: linear-gradient(145deg, #0a0f17, #141c28);
-            padding: 30px 20px 20px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .hero h1 {
-            font-size: 28px;
-            font-weight: 900;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-
-        /* ============================================================
            КАРТОЧКИ
            ============================================================ */
         .grid-2col {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
         }
 
         .card {
@@ -184,11 +239,12 @@
             overflow: hidden;
             transition: var(--transition);
             cursor: pointer;
+            position: relative;
         }
 
         .card:hover {
             border-color: var(--border-light);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow);
         }
 
@@ -197,6 +253,10 @@
             aspect-ratio: 4/3;
             object-fit: cover;
             display: block;
+        }
+
+        .card-img-auto {
+            aspect-ratio: 16/9;
         }
 
         .card-body {
@@ -213,7 +273,7 @@
             font-size: 13px;
         }
 
-        .card-body .meta-row {
+        .card-body .meta {
             margin-top: 10px;
             padding-top: 10px;
             border-top: 1px solid var(--border);
@@ -224,12 +284,47 @@
             flex-wrap: wrap;
         }
 
-        .card-body .meta-row strong {
+        .card-body .meta strong {
             color: var(--text);
         }
 
+        .card-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-actions {
+            opacity: 1;
+        }
+
+        .card-actions button {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .card-actions button:hover {
+            border-color: var(--blue);
+            background: var(--blue);
+        }
+
+        .card-actions .del:hover {
+            border-color: var(--red);
+            background: var(--red);
+        }
+
         /* ============================================================
-           АРХИВ ДЕЛ
+           ДЕЛА (СПИСОК)
            ============================================================ */
         .case-list {
             display: flex;
@@ -245,6 +340,7 @@
             cursor: pointer;
             transition: var(--transition);
             border-left: 4px solid var(--border);
+            position: relative;
         }
 
         .case-item:hover {
@@ -272,17 +368,15 @@
             border-radius: 20px;
         }
 
-        .case-item .status.solved {
+        .status-solved {
             background: rgba(46, 204, 113, 0.15);
             color: var(--green);
         }
-
-        .case-item .status.active {
+        .status-active {
             background: rgba(201, 168, 76, 0.15);
             color: var(--gold);
         }
-
-        .case-item .status.closed {
+        .status-closed {
             background: rgba(231, 76, 60, 0.15);
             color: var(--red);
         }
@@ -299,6 +393,41 @@
             border-top: 1px solid var(--border);
             font-size: 13px;
             color: var(--text-secondary);
+        }
+
+        .case-item .case-actions {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .case-item:hover .case-actions {
+            opacity: 1;
+        }
+
+        .case-item .case-actions button {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .case-item .case-actions button:hover {
+            border-color: var(--blue);
+            background: var(--blue);
+        }
+
+        .case-item .case-actions .del:hover {
+            border-color: var(--red);
+            background: var(--red);
         }
 
         /* ============================================================
@@ -331,32 +460,34 @@
         }
 
         /* ============================================================
-           ФОРМЫ
+           МОДАЛКА (ДЕТАЛИ)
            ============================================================ */
-        .form-modal {
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             z-index: 999;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
 
-        .form-modal.active {
+        .modal.active {
             display: flex;
         }
 
-        .form-box {
+        .modal-box {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            max-width: 480px;
+            max-width: 500px;
             width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
             border-radius: var(--radius);
             padding: 28px 26px;
             position: relative;
@@ -374,6 +505,100 @@
             }
         }
 
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 28px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-box h2 {
+            font-size: 22px;
+            margin-bottom: 4px;
+            padding-right: 30px;
+        }
+
+        .modal-box .subhead {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .modal-box hr {
+            border: 0;
+            height: 1px;
+            background: var(--border);
+            margin: 14px 0;
+        }
+
+        .modal-box .content {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .modal-box .content b {
+            color: var(--text);
+        }
+
+        .modal-box .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+            max-height: 250px;
+            object-fit: cover;
+        }
+
+        .modal-box .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================================
+           ФОРМА (АДМИНКА)
+           ============================================================ */
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-modal.active {
+            display: flex;
+        }
+
+        .form-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: var(--radius);
+            padding: 28px 26px;
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+
         .form-box .close {
             position: absolute;
             top: 12px;
@@ -388,6 +613,7 @@
         .form-box h2 {
             font-size: 22px;
             margin-bottom: 16px;
+            padding-right: 30px;
         }
 
         .form-group {
@@ -414,95 +640,21 @@
             font-size: 14px;
             outline: none;
             transition: var(--transition);
+            font-family: inherit;
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             border-color: var(--blue);
         }
 
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
         .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        /* ============================================================
-           ДЕТАЛЬНАЯ МОДАЛКА (просмотр)
-           ============================================================ */
-        .detail-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .detail-modal.active {
-            display: flex;
-        }
-
-        .detail-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            border-radius: var(--radius);
-            padding: 28px 26px;
-            position: relative;
-            animation: modalIn 0.3s ease;
-        }
-
-        .detail-box .close {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 28px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        .detail-box h2 {
-            font-size: 22px;
-            margin-bottom: 6px;
-            padding-right: 30px;
-        }
-
-        .detail-box .subhead {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .detail-box hr {
-            border: 0;
-            height: 1px;
-            background: var(--border);
-            margin: 14px 0;
-        }
-
-        .detail-box .content {
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-
-        .detail-box .content b {
-            color: var(--text);
-        }
-
-        .detail-box .actions {
             display: flex;
             gap: 10px;
             margin-top: 16px;
@@ -516,22 +668,54 @@
             .grid-2col {
                 grid-template-columns: 1fr;
             }
-
-            .hero h1 {
-                font-size: 22px;
+            .grid-3col {
+                grid-template-columns: 1fr 1fr;
             }
-
+            .hero h1 {
+                font-size: 24px;
+            }
             .section-title {
                 font-size: 19px;
+                flex-wrap: wrap;
             }
-
+            .section-title .admin-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+            .card-actions {
+                opacity: 1;
+            }
+            .case-item .case-actions {
+                opacity: 1;
+                position: static;
+                margin-top: 8px;
+            }
             .form-box {
                 padding: 20px 16px;
             }
-
-            .detail-box {
+            .modal-box {
                 padding: 20px 16px;
             }
+        }
+
+        @media (max-width: 400px) {
+            .grid-3col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
         }
     </style>
 </head>
@@ -541,14 +725,20 @@
     ШАПКА
     ============================================================ -->
     <header class="hero">
-        <div class="container">
+        <img class="hero-bg" src="https://i.imgur.com/5L1g6nT.jpeg" alt="Рублёвка" onerror="this.style.display='none'">
+        <div class="container hero-content">
+            <div class="hero-badge">МВД России</div>
             <h1>ОМВД «Барвиха-Северное»</h1>
-            <p>Цифровая база данных отдела</p>
+            <div class="subtitle">Управление внутренних дел по району Барвиха и прилегающим территориям</div>
+            <div style="margin-top:6px; font-size:13px; color:var(--text-muted);">
+                ⭐ По мотивам сериала «Полицейский с Рублёвки»
+            </div>
             <div class="hero-actions">
-                <button class="btn" onclick="openAddStaff()">➕ Добавить сотрудника</button>
-                <button class="btn btn-success" onclick="openAddCase()">📋 Добавить дело</button>
-                <button class="btn btn-outline" onclick="exportData()">📤 Экспорт данных</button>
+                <button class="btn" onclick="openStaffForm()">➕ Добавить персонажа</button>
+                <button class="btn btn-success" onclick="openCaseForm()">📋 Добавить дело</button>
+                <button class="btn btn-outline" onclick="exportData()">📤 Экспорт</button>
                 <button class="btn btn-outline" onclick="importData()">📥 Импорт</button>
+                <button class="btn btn-outline" onclick="resetData()" style="border-color:var(--red);color:var(--red);">🗑️ Сброс</button>
             </div>
         </div>
     </header>
@@ -559,26 +749,47 @@
     <main class="container">
 
         <!-- ==================== СТАТИСТИКА ==================== -->
-        <section id="stats">
-            <div class="stats-grid" id="statsGrid">
-                <div class="stat-card"><div class="num" id="totalStaff">0</div><div class="label">Сотрудников</div></div>
-                <div class="stat-card"><div class="num" id="totalCases">0</div><div class="label">Всего дел</div></div>
-                <div class="stat-card"><div class="num" id="solvedCases">0</div><div class="label">Раскрыто</div></div>
-                <div class="stat-card"><div class="num" id="clearanceRate">0%</div><div class="label">Раскрываемость</div></div>
-            </div>
-        </section>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="num" id="totalStaff">0</div><div class="label">Персонажей</div></div>
+            <div class="stat-card"><div class="num" id="totalCases">0</div><div class="label">Всего дел</div></div>
+            <div class="stat-card"><div class="num" id="solvedCases">0</div><div class="label">Раскрыто</div></div>
+            <div class="stat-card"><div class="num" id="clearanceRate">0%</div><div class="label">Раскрываемость</div></div>
+        </div>
 
-        <!-- ==================== СОТРУДНИКИ ==================== -->
+        <!-- ==================== ПЕРСОНАЖИ ==================== -->
         <section id="staff">
-            <h2 class="section-title">Личный состав <span class="count" id="staffCount">0</span></h2>
+            <h2 class="section-title">
+                Персонажи сериала
+                <span class="count" id="staffCount">0</span>
+                <span class="admin-actions">
+                    <button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button>
+                </span>
+            </h2>
             <div class="grid-2col" id="staffGrid">
                 <!-- Заполняется из JS -->
             </div>
         </section>
 
-        <!-- ==================== АРХИВ ДЕЛ ==================== -->
+        <!-- ==================== АВТОПАРК ==================== -->
+        <section id="fleet">
+            <h2 class="section-title">
+                Автомобили персонажей
+                <span class="count" id="fleetCount">0</span>
+            </h2>
+            <div class="grid-3col" id="fleetGrid">
+                <!-- Заполняется из JS -->
+            </div>
+        </section>
+
+        <!-- ==================== ДЕЛА ==================== -->
         <section id="cases">
-            <h2 class="section-title">Архив уголовных дел <span class="count" id="casesCount">0</span></h2>
+            <h2 class="section-title">
+                Уголовные дела
+                <span class="count" id="casesCount">0</span>
+                <span class="admin-actions">
+                    <button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button>
+                </span>
+            </h2>
             <div class="case-list" id="caseList">
                 <!-- Заполняется из JS -->
             </div>
@@ -587,54 +798,80 @@
     </main>
 
     <!-- ============================================================
-    ФОРМА ДОБАВЛЕНИЯ СОТРУДНИКА
+    МОДАЛКА ДЕТАЛЕЙ
     ============================================================ -->
-    <div class="form-modal" id="staffForm">
+    <div class="modal" id="detailModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+            <h2 id="detailTitle"></h2>
+            <div class="subhead" id="detailSubhead"></div>
+            <hr>
+            <div class="content" id="detailContent"></div>
+            <div class="modal-actions" id="detailActions"></div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    ФОРМА ДЛЯ ПЕРСОНАЖА
+    ============================================================ -->
+    <div class="form-modal" id="staffFormModal">
         <div class="form-box">
-            <button class="close" onclick="closeForm('staffForm')">&times;</button>
-            <h2 id="staffFormTitle">Добавить сотрудника</h2>
+            <button class="close" onclick="closeForm('staffFormModal')">&times;</button>
+            <h2 id="staffFormTitle">Добавить персонажа</h2>
             <input type="hidden" id="editStaffId">
             <div class="form-group">
-                <label>ФИО</label>
-                <input type="text" id="staffName" placeholder="Иванов И.И.">
+                <label>ФИО *</label>
+                <input type="text" id="staffName" placeholder="Измайлов Григорий">
             </div>
             <div class="form-group">
-                <label>Звание</label>
+                <label>Звание *</label>
                 <input type="text" id="staffRank" placeholder="Капитан полиции">
             </div>
             <div class="form-group">
-                <label>Должность</label>
+                <label>Должность *</label>
                 <input type="text" id="staffPosition" placeholder="Старший оперуполномоченный">
             </div>
             <div class="form-group">
-                <label>Стаж (лет)</label>
-                <input type="number" id="staffExperience" placeholder="10">
+                <label>Фото (URL)</label>
+                <input type="text" id="staffPhoto" placeholder="https://example.com/photo.jpg">
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                <textarea id="staffDesc" rows="3" placeholder="Характеристика персонажа..."></textarea>
             </div>
             <div class="form-group">
                 <label>Раскрыто дел</label>
-                <input type="number" id="staffSolved" placeholder="25">
+                <input type="number" id="staffSolved" value="0" min="0">
+            </div>
+            <div class="form-group">
+                <label>Стаж (лет)</label>
+                <input type="number" id="staffExperience" value="0" min="0">
+            </div>
+            <div class="form-group">
+                <label>Автомобиль</label>
+                <input type="text" id="staffCar" placeholder="Porsche 911 Turbo S">
             </div>
             <div class="form-actions">
-                <button class="btn" onclick="saveStaff()">Сохранить</button>
-                <button class="btn btn-outline" onclick="closeForm('staffForm')">Отмена</button>
+                <button class="btn" onclick="saveStaff()">💾 Сохранить</button>
+                <button class="btn btn-outline" onclick="closeForm('staffFormModal')">Отмена</button>
             </div>
         </div>
     </div>
 
     <!-- ============================================================
-    ФОРМА ДОБАВЛЕНИЯ ДЕЛА
+    ФОРМА ДЛЯ ДЕЛА
     ============================================================ -->
-    <div class="form-modal" id="caseForm">
+    <div class="form-modal" id="caseFormModal">
         <div class="form-box">
-            <button class="close" onclick="closeForm('caseForm')">&times;</button>
+            <button class="close" onclick="closeForm('caseFormModal')">&times;</button>
             <h2 id="caseFormTitle">Добавить дело</h2>
             <input type="hidden" id="editCaseId">
             <div class="form-group">
-                <label>Номер дела</label>
+                <label>Номер дела *</label>
                 <input type="text" id="caseNumber" placeholder="УД-2026-1024">
             </div>
             <div class="form-group">
-                <label>Название</label>
+                <label>Название *</label>
                 <input type="text" id="caseTitle" placeholder="Кража в Жуковке">
             </div>
             <div class="form-group">
@@ -642,7 +879,7 @@
                 <input type="text" id="caseArticle" placeholder="ст. 158 УК РФ">
             </div>
             <div class="form-group">
-                <label>Краткое описание</label>
+                <label>Описание</label>
                 <textarea id="caseDesc" rows="3" placeholder="Описание дела..."></textarea>
             </div>
             <div class="form-group">
@@ -654,89 +891,240 @@
                 </select>
             </div>
             <div class="form-actions">
-                <button class="btn" onclick="saveCase()">Сохранить</button>
-                <button class="btn btn-outline" onclick="closeForm('caseForm')">Отмена</button>
+                <button class="btn" onclick="saveCase()">💾 Сохранить</button>
+                <button class="btn btn-outline" onclick="closeForm('caseFormModal')">Отмена</button>
             </div>
         </div>
     </div>
 
     <!-- ============================================================
-    ДЕТАЛЬНАЯ МОДАЛКА (просмотр)
-    ============================================================ -->
-    <div class="detail-modal" id="detailModal">
-        <div class="detail-box">
-            <button class="close" onclick="closeDetail()">&times;</button>
-            <h2 id="detailTitle"></h2>
-            <div class="subhead" id="detailSubhead"></div>
-            <hr>
-            <div class="content" id="detailContent"></div>
-            <div class="actions" id="detailActions">
-                <!-- Кнопки редактирования/удаления будут тут -->
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    СКРИПТ — ПОЛНОЦЕННАЯ БАЗА ДАННЫХ (localStorage)
+    СКРИПТ — ПОЛНАЯ БАЗА ДАННЫХ
     ============================================================ -->
     <script>
         // ============================================================
-        // БАЗА ДАННЫХ
+        // БАЗА ДАННЫХ (localStorage)
         // ============================================================
         const DB = {
             getStaff() {
-                return JSON.parse(localStorage.getItem('omvd_staff')) || [];
+                return JSON.parse(localStorage.getItem('psr_staff')) || [];
             },
             setStaff(data) {
-                localStorage.setItem('omvd_staff', JSON.stringify(data));
+                localStorage.setItem('psr_staff', JSON.stringify(data));
             },
             getCases() {
-                return JSON.parse(localStorage.getItem('omvd_cases')) || [];
+                return JSON.parse(localStorage.getItem('psr_cases')) || [];
             },
             setCases(data) {
-                localStorage.setItem('omvd_cases', JSON.stringify(data));
+                localStorage.setItem('psr_cases', JSON.stringify(data));
             }
         };
 
         // ============================================================
-        // ИНИЦИАЛИЗАЦИЯ (если база пуста — заполняем демо-данными)
+        // ВСЕ ПЕРСОНАЖИ ИЗ СЕРИАЛА С РЕАЛЬНЫМИ ТАЧКАМИ
+        // ============================================================
+        function getDefaultStaff() {
+            return [{
+                id: 1,
+                name: 'Григорий Измайлов',
+                rank: 'Капитан полиции',
+                position: 'Старший оперуполномоченный',
+                photo: 'https://i.imgur.com/GD6JjQK.jpeg',
+                desc: 'Главный герой сериала. Циничный, дерзкий, но справедливый. Любит дорогие тачки и нарушать устав. Сын начальника полиции, но добился всего сам. Водит Porsche 911 Turbo S.',
+                solved: 47,
+                experience: 14,
+                car: 'Porsche 911 Turbo S'
+            }, {
+                id: 2,
+                name: 'Владимир Яковлев',
+                rank: 'Полковник полиции',
+                position: 'Начальник ОМВД',
+                photo: 'https://i.imgur.com/xfV4d0I.jpeg',
+                desc: 'Начальник отдела. Строгий, принципиальный, служит по уставу. Терпеть не может выходки Измайлова, но ценит его профессионализм. Водит чёрный Mercedes-Benz S-Class.',
+                solved: 30,
+                experience: 23,
+                car: 'Mercedes-Benz S-Class'
+            }, {
+                id: 3,
+                name: 'Алексей Крюков',
+                rank: 'Старший лейтенант',
+                position: 'Оперуполномоченный',
+                photo: 'https://i.imgur.com/placeholder.jpg',
+                desc: 'Напарник Измайлова. Молодой, энергичный, часто попадает в нелепые ситуации. Бывший муж Маргариты. Верный друг и хороший оперативник. Водит Lada Vesta (постоянно ломается).',
+                solved: 18,
+                experience: 5,
+                car: 'Lada Vesta'
+            }, {
+                id: 4,
+                name: 'Маргарита Крюкова',
+                rank: 'Лейтенант полиции',
+                position: 'Следователь',
+                photo: 'https://i.imgur.com/placeholder.jpg',
+                desc: 'Бывшая жена Крюкова. Умная, принципиальная, всегда доводит дела до конца. Часто конфликтует с Измайловым из-за его методов работы. Водит Audi A4.',
+                solved: 25,
+                experience: 8,
+                car: 'Audi A4'
+            }, {
+                id: 5,
+                name: 'Вадим Фёдоров',
+                rank: 'Майор полиции',
+                position: 'Начальник уголовного розыска',
+                photo: 'https://i.imgur.com/placeholder.jpg',
+                desc: 'Начальник Крюкова и Измайлова. Спокойный, рассудительный, умеет гасить конфликты между подчинёнными. Водит Skoda Octavia.',
+                solved: 35,
+                experience: 18,
+                car: 'Skoda Octavia'
+            }, {
+                id: 6,
+                name: 'Ольга Измайлова',
+                rank: '—',
+                position: 'Дочь полковника',
+                photo: 'https://i.imgur.com/placeholder.jpg',
+                desc: 'Дочь Владимира Яковлева. Красивая, умная, дерзкая. Любит дорогие вещи и быструю езду. Водит Lamborghini Urus.',
+                solved: 0,
+                experience: 0,
+                car: 'Lamborghini Urus'
+            }, {
+                id: 7,
+                name: 'Максим Крюков',
+                rank: '—',
+                position: 'Брат Алексея Крюкова',
+                photo: 'https://i.imgur.com/placeholder.jpg',
+                desc: 'Брат Алексея. Предприниматель, живёт на Рублёвке. Часто попадает в поле зрения полиции. Водит BMW X5 M.',
+                solved: 0,
+                experience: 0,
+                car: 'BMW X5 M'
+            }];
+        }
+
+        // ============================================================
+        // ВСЕ ТАЧКИ ИЗ СЕРИАЛА (БЕЗ УАЗОВ)
+        // ============================================================
+        function getDefaultFleet() {
+            return [{
+                id: 1,
+                model: 'Porsche 911 Turbo S',
+                plate: 'Р001РР 77',
+                owner: 'Григорий Измайлов',
+                desc: 'Личный автомобиль Измайлова. Мощный, быстрый, чёрный. Используется для оперативных выездов и скоростных перехватов. 3.8 л битурбо, 650 л.с.',
+                photo: 'https://i.imgur.com/Po9Pmz5.jpeg'
+            }, {
+                id: 2,
+                model: 'Mercedes-Benz S-Class',
+                plate: 'С007СС 77',
+                owner: 'Владимир Яковлев',
+                desc: 'Служебный автомобиль начальника отдела. Строгий чёрный седан. Символ статуса и солидности. V8 битурбо.',
+                photo: 'https://i.imgur.com/placeholder.jpg'
+            }, {
+                id: 3,
+                model: 'Lamborghini Urus',
+                plate: 'У888УУ 77',
+                owner: 'Ольга Яковлева',
+                desc: 'Спортивный внедорожник Ольги. Ярко-жёлтый, мощный, привлекает внимание. V8 битурбо, 650 л.с.',
+                photo: 'https://i.imgur.com/placeholder.jpg'
+            }, {
+                id: 4,
+                model: 'BMW X5 M',
+                plate: 'Х555ХХ 77',
+                owner: 'Максим Крюков',
+                desc: 'Внедорожник брата Крюкова. Чёрный, тонированный, мощный. Используется для бизнес-поездок по Рублёвке.',
+                photo: 'https://i.imgur.com/placeholder.jpg'
+            }, {
+                id: 5,
+                model: 'Audi A4',
+                plate: 'А444АА 77',
+                owner: 'Маргарита Крюкова',
+                desc: 'Автомобиль следователя. Белый, строгий, надёжный. Используется для выездов на места происшествий.',
+                photo: 'https://i.imgur.com/placeholder.jpg'
+            }, {
+                id: 6,
+                model: 'Lada Vesta',
+                plate: 'В666ВВ 77',
+                owner: 'Алексей Крюков',
+                desc: 'Постоянно ломается. Но Крюков верен своей машине. Серая, скромная, но своя.',
+                photo: 'https://i.imgur.com/placeholder.jpg'
+            }];
+        }
+
+        // ============================================================
+        // ДЕЛА ИЗ СЕРИАЛА
+        // ============================================================
+        function getDefaultCases() {
+            return [{
+                id: 1,
+                number: 'УД-2025-017',
+                title: 'Дело «Барвихинский стрелок»',
+                article: 'ст. 105 УК РФ',
+                desc: 'Убийство предпринимателя в коттеджном посёлке Барвиха-3. Измайлов раскрыл дело за 48 часов. Изъят арсенал оружия.',
+                status: 'solved'
+            }, {
+                id: 2,
+                number: 'УД-2026-1024',
+                title: 'Кража часов в Жуковке',
+                article: 'ст. 158 УК РФ',
+                desc: 'Из особняка похищена коллекция швейцарских часов на 15 млн рублей. Подозреваемые задержаны.',
+                status: 'active'
+            }, {
+                id: 3,
+                number: 'УД-2026-1025',
+                title: 'Угон Porsche в Luxury Village',
+                article: 'ст. 166 УК РФ',
+                desc: 'Угнан Porsche 911 Turbo S. Автомобиль найден за сутки. Дело раскрыто группой Измайлова.',
+                status: 'solved'
+            }, {
+                id: 4,
+                number: 'УД-2024-891',
+                title: 'Мошенничество в Рублёвке',
+                article: 'ст. 159 УК РФ',
+                desc: 'Группа лиц похитила 50 млн рублей у инвесторов. Организатор задержан при попытке вылета за границу.',
+                status: 'closed'
+            }, {
+                id: 5,
+                number: 'УД-2026-1102',
+                title: 'Незаконный оборот оружия',
+                article: 'ст. 222 УК РФ',
+                desc: 'Обнаружен схрон с оружием. Оперативники работают на месте.',
+                status: 'active'
+            }, {
+                id: 6,
+                number: 'УД-2026-1205',
+                title: 'ДТП на Рублёвке',
+                article: 'ст. 264 УК РФ',
+                desc: 'Серьёзное ДТП с участием Lamborghini Urus. Проводится проверка, дело ведёт Маргарита Крюкова.',
+                status: 'active'
+            }];
+        }
+
+        // ============================================================
+        // ИНИЦИАЛИЗАЦИЯ БАЗЫ
         // ============================================================
         function initDB() {
-            let staff = DB.getStaff();
-            let cases = DB.getCases();
-
-            if (staff.length === 0) {
-                staff = [
-                    { id: 1, name: 'Измайлов Г. А.', rank: 'Капитан полиции', position: 'Старший оперуполномоченный ОУР', experience: 14, solved: 47 },
-                    { id: 2, name: 'Яковлев В. С.', rank: 'Полковник полиции', position: 'Начальник ОМВД', experience: 23, solved: 30 },
-                    { id: 3, name: 'Соколова Е. В.', rank: 'Майор полиции', position: 'Начальник следственного отделения', experience: 12, solved: 31 },
-                    { id: 4, name: 'Козлов Д. И.', rank: 'Старший лейтенант', position: 'Инспектор ДПС', experience: 6, solved: 20 }
-                ];
-                DB.setStaff(staff);
+            if (!localStorage.getItem('psr_staff')) {
+                DB.setStaff(getDefaultStaff());
             }
-
-            if (cases.length === 0) {
-                cases = [
-                    { id: 1, number: 'УД-2025-017', title: 'Дело «Барвихинский стрелок»', article: 'ст. 105 УК РФ',
-                        desc: 'Убийство в коттеджном посёлке. Раскрыто за 48 часов.', status: 'solved' },
-                    { id: 2, number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ',
-                        desc: 'Похищена коллекция часов на 15 млн руб.', status: 'active' },
-                    { id: 3, number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ',
-                        desc: 'Угнан спорткар. Найден за сутки.', status: 'solved' },
-                    { id: 4, number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ',
-                        desc: 'Хищение 50 млн руб. у инвесторов.', status: 'closed' }
-                ];
-                DB.setCases(cases);
+            if (!localStorage.getItem('psr_cases')) {
+                DB.setCases(getDefaultCases());
             }
-
-            renderAll();
+            if (!localStorage.getItem('psr_fleet')) {
+                localStorage.setItem('psr_fleet', JSON.stringify(getDefaultFleet()));
+            }
         }
 
         // ============================================================
         // ГЕНЕРАТОР ID
         // ============================================================
-        function generateId() {
+        function genId() {
             return Date.now() + Math.floor(Math.random() * 1000);
+        }
+
+        // ============================================================
+        // ПОЛУЧЕНИЕ ДАННЫХ
+        // ============================================================
+        function getStaff() { return DB.getStaff(); }
+
+        function getCases() { return DB.getCases(); }
+
+        function getFleet() {
+            return JSON.parse(localStorage.getItem('psr_fleet')) || getDefaultFleet();
         }
 
         // ============================================================
@@ -744,38 +1132,63 @@
         // ============================================================
         function renderAll() {
             renderStaff();
+            renderFleet();
             renderCases();
             renderStats();
         }
 
         function renderStaff() {
-            const staff = DB.getStaff();
+            const staff = getStaff();
             const grid = document.getElementById('staffGrid');
             const count = document.getElementById('staffCount');
 
             count.textContent = staff.length;
 
             if (staff.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-secondary); border:2px dashed var(--border); border-radius:var(--radius);">
-                        Нет сотрудников. Добавьте первого!
-                    </div>
-                `;
+                grid.innerHTML =
+                    `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary);border:2px dashed var(--border);border-radius:var(--radius);">
+                    Нет персонажей. Добавьте первого!
+                </div>`;
                 return;
             }
 
-            grid.innerHTML = staff.map(s => `
-                <div class="card" onclick="viewStaff(${s.id})">
-                    <img class="card-img" src="https://picsum.photos/seed/staff_${s.id}/400/300" alt="${s.name}">
+            grid.innerHTML = staff.map(c => `
+                <div class="card" onclick="viewStaff(${c.id})">
+                    <img class="card-img" src="${c.photo || 'https://picsum.photos/seed/staff_'+c.id+'/400/300'}" alt="${c.name}" onerror="this.src='https://picsum.photos/seed/staff_${c.id}/400/300'">
                     <div class="card-body">
-                        <div>
-                            <span class="tag tag-blue">${s.position.includes('Начальник') ? 'Руководство' : 'Сотрудник'}</span>
+                        <span class="tag ${c.position.includes('Начальник') ? 'tag-red' : 'tag-blue'}">${c.position.includes('Начальник') ? 'Руководство' : c.position || 'Персонаж'}</span>
+                        <h3>${c.name}</h3>
+                        <div class="sub">${c.rank || '—'}</div>
+                        <div class="meta">
+                            <span>📌 <strong>${c.solved || 0}</strong> дел</span>
+                            <span>⭐ <strong>${c.experience || 0}</strong> лет</span>
+                            <span>🚗 ${c.car || '—'}</span>
                         </div>
-                        <h3>${s.name}</h3>
-                        <div class="sub">${s.rank}</div>
-                        <div class="meta-row">
-                            <span>📌 <strong>${s.solved}</strong> дел</span>
-                            <span>⭐ <strong>${s.experience}</strong> лет стажа</span>
+                    </div>
+                    <div class="card-actions">
+                        <button onclick="event.stopPropagation();editStaff(${c.id})">✏️</button>
+                        <button class="del" onclick="event.stopPropagation();deleteStaff(${c.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFleet() {
+            const fleet = getFleet();
+            const grid = document.getElementById('fleetGrid');
+            const count = document.getElementById('fleetCount');
+
+            count.textContent = fleet.length;
+
+            grid.innerHTML = fleet.map(f => `
+                <div class="card" onclick="viewFleet(${f.id})">
+                    <img class="card-img card-img-auto" src="${f.photo || 'https://picsum.photos/seed/fleet_'+f.id+'/400/250'}" alt="${f.model}" onerror="this.src='https://picsum.photos/seed/fleet_${f.id}/400/250'">
+                    <div class="card-body">
+                        <span class="tag tag-gold">${f.owner.includes('Дежурная') ? 'Патруль' : 'Личный'}</span>
+                        <h3>${f.model}</h3>
+                        <div class="sub">${f.plate}</div>
+                        <div class="meta">
+                            <span>👮 ${f.owner}</span>
                         </div>
                     </div>
                 </div>
@@ -783,26 +1196,25 @@
         }
 
         function renderCases() {
-            const cases = DB.getCases();
+            const cases = getCases();
             const list = document.getElementById('caseList');
             const count = document.getElementById('casesCount');
 
             count.textContent = cases.length;
 
+            const statusMap = {
+                solved: { label: '✅ Раскрыто', class: 'status-solved' },
+                active: { label: '🔄 В работе', class: 'status-active' },
+                closed: { label: '❌ Закрыто', class: 'status-closed' }
+            };
+
             if (cases.length === 0) {
-                list.innerHTML = `
-                    <div style="text-align:center; padding:40px; color:var(--text-secondary); border:2px dashed var(--border); border-radius:var(--radius);">
-                        Нет дел. Добавьте первое!
-                    </div>
-                `;
+                list.innerHTML =
+                    `<div style="text-align:center;padding:40px;color:var(--text-secondary);border:2px dashed var(--border);border-radius:var(--radius);">
+                    Нет дел. Добавьте первое!
+                </div>`;
                 return;
             }
-
-            const statusMap = {
-                solved: { label: '✅ Раскрыто', class: 'solved' },
-                active: { label: '🔄 В работе', class: 'active' },
-                closed: { label: '❌ Закрыто', class: 'closed' }
-            };
 
             list.innerHTML = cases.map(c => {
                 const st = statusMap[c.status] || statusMap.active;
@@ -813,16 +1225,20 @@
                             <span class="status ${st.class}">${st.label}</span>
                         </div>
                         <div class="title">${c.title}</div>
-                        <div style="font-size:13px; color:var(--text-secondary);">${c.article}</div>
-                        <div class="preview">${c.desc}</div>
+                        <div style="font-size:13px;color:var(--text-secondary);">${c.article || '—'}</div>
+                        <div class="preview">${c.desc || 'Нет описания'}</div>
+                        <div class="case-actions">
+                            <button onclick="event.stopPropagation();editCase(${c.id})">✏️</button>
+                            <button class="del" onclick="event.stopPropagation();deleteCase(${c.id})">🗑️</button>
+                        </div>
                     </div>
                 `;
             }).join('');
         }
 
         function renderStats() {
-            const staff = DB.getStaff();
-            const cases = DB.getCases();
+            const staff = getStaff();
+            const cases = getCases();
 
             document.getElementById('totalStaff').textContent = staff.length;
             document.getElementById('totalCases').textContent = cases.length;
@@ -835,32 +1251,150 @@
         }
 
         // ============================================================
-        // ДОБАВЛЕНИЕ/РЕДАКТИРОВАНИЕ СОТРУДНИКА
+        // МОДАЛКИ (ДЕТАЛИ)
         // ============================================================
-        function openAddStaff() {
-            document.getElementById('staffFormTitle').textContent = 'Добавить сотрудника';
-            document.getElementById('editStaffId').value = '';
-            document.getElementById('staffName').value = '';
-            document.getElementById('staffRank').value = '';
-            document.getElementById('staffPosition').value = '';
-            document.getElementById('staffExperience').value = '';
-            document.getElementById('staffSolved').value = '';
-            document.getElementById('staffForm').classList.add('active');
+        function openDetailModal(title, subhead, content, actions = '') {
+            document.getElementById('detailTitle').textContent = title;
+            document.getElementById('detailSubhead').textContent = subhead || '';
+            document.getElementById('detailContent').innerHTML = content;
+            document.getElementById('detailActions').innerHTML = actions;
+            document.getElementById('detailModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ============================================================
+        // ПРОСМОТР ПЕРСОНАЖА
+        // ============================================================
+        function viewStaff(id) {
+            const c = getStaff().find(p => p.id === id);
+            if (!c) return;
+
+            const actions = `
+                <button class="btn btn-sm" onclick="closeDetailModal();editStaff(${c.id})">✏️ Редактировать</button>
+                <button class="btn btn-sm btn-danger" onclick="closeDetailModal();deleteStaff(${c.id})">🗑️ Удалить</button>
+            `;
+
+            openDetailModal(
+                c.name,
+                `${c.rank} • ${c.position}`,
+                `
+                    <img src="${c.photo || 'https://picsum.photos/seed/staff_'+c.id+'/400/300'}" alt="${c.name}" onerror="this.style.display='none'">
+                    <p>${c.desc || 'Нет описания'}</p>
+                    <hr>
+                    <b>📌 Раскрыто дел:</b> ${c.solved || 0}<br>
+                    <b>⭐ Стаж:</b> ${c.experience || 0} лет<br>
+                    <b>🚗 Автомобиль:</b> ${c.car || '—'}
+                `,
+                actions
+            );
+        }
+
+        // ============================================================
+        // ПРОСМОТР АВТОМОБИЛЯ
+        // ============================================================
+        function viewFleet(id) {
+            const f = getFleet().find(p => p.id === id);
+            if (!f) return;
+
+            openDetailModal(
+                f.model,
+                f.plate,
+                `
+                    <img src="${f.photo || 'https://picsum.photos/seed/fleet_'+f.id+'/400/250'}" alt="${f.model}" onerror="this.style.display='none'">
+                    <p>${f.desc || 'Нет описания'}</p>
+                    <hr>
+                    <b>👮 Владелец:</b> ${f.owner}<br>
+                    <b>🚘 Госномер:</b> ${f.plate}
+                `,
+                ''
+            );
+        }
+
+        // ============================================================
+        // ПРОСМОТР ДЕЛА
+        // ============================================================
+        function viewCase(id) {
+            const c = getCases().find(p => p.id === id);
+            if (!c) return;
+
+            const statusMap = {
+                solved: '✅ Раскрыто',
+                active: '🔄 В работе',
+                closed: '❌ Закрыто'
+            };
+
+            const actions = `
+                <button class="btn btn-sm" onclick="closeDetailModal();editCase(${c.id})">✏️ Редактировать</button>
+                <button class="btn btn-sm btn-danger" onclick="closeDetailModal();deleteCase(${c.id})">🗑️ Удалить</button>
+            `;
+
+            openDetailModal(
+                c.number,
+                c.title,
+                `
+                    <b>Статья:</b> ${c.article || '—'}<br>
+                    <b>Статус:</b> ${statusMap[c.status] || 'Неизвестно'}<br>
+                    <hr>
+                    ${c.desc || 'Нет описания'}
+                `,
+                actions
+            );
+        }
+
+        // ============================================================
+        // ФОРМЫ (АДМИНКА)
+        // ============================================================
+        function closeForm(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function openForm(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        // ============================================================
+        // СОТРУДНИКИ - CRUD
+        // ============================================================
+        function openStaffForm(data) {
+            const form = document.getElementById('staffFormModal');
+            const title = document.getElementById('staffFormTitle');
+
+            if (data) {
+                title.textContent = '✏️ Редактировать персонажа';
+                document.getElementById('editStaffId').value = data.id;
+                document.getElementById('staffName').value = data.name || '';
+                document.getElementById('staffRank').value = data.rank || '';
+                document.getElementById('staffPosition').value = data.position || '';
+                document.getElementById('staffPhoto').value = data.photo || '';
+                document.getElementById('staffDesc').value = data.desc || '';
+                document.getElementById('staffSolved').value = data.solved || 0;
+                document.getElementById('staffExperience').value = data.experience || 0;
+                document.getElementById('staffCar').value = data.car || '';
+            } else {
+                title.textContent = '➕ Добавить персонажа';
+                document.getElementById('editStaffId').value = '';
+                document.getElementById('staffName').value = '';
+                document.getElementById('staffRank').value = '';
+                document.getElementById('staffPosition').value = '';
+                document.getElementById('staffPhoto').value = '';
+                document.getElementById('staffDesc').value = '';
+                document.getElementById('staffSolved').value = 0;
+                document.getElementById('staffExperience').value = 0;
+                document.getElementById('staffCar').value = '';
+            }
+
+            form.classList.add('active');
         }
 
         function editStaff(id) {
-            const staff = DB.getStaff();
-            const s = staff.find(p => p.id === id);
-            if (!s) return;
-
-            document.getElementById('staffFormTitle').textContent = 'Редактировать сотрудника';
-            document.getElementById('editStaffId').value = id;
-            document.getElementById('staffName').value = s.name;
-            document.getElementById('staffRank').value = s.rank;
-            document.getElementById('staffPosition').value = s.position;
-            document.getElementById('staffExperience').value = s.experience;
-            document.getElementById('staffSolved').value = s.solved;
-            document.getElementById('staffForm').classList.add('active');
+            const staff = getStaff();
+            const c = staff.find(p => p.id === id);
+            if (c) openStaffForm(c);
         }
 
         function saveStaff() {
@@ -868,56 +1402,82 @@
             const name = document.getElementById('staffName').value.trim();
             const rank = document.getElementById('staffRank').value.trim();
             const position = document.getElementById('staffPosition').value.trim();
-            const experience = parseInt(document.getElementById('staffExperience').value) || 0;
+            const photo = document.getElementById('staffPhoto').value.trim();
+            const desc = document.getElementById('staffDesc').value.trim();
             const solved = parseInt(document.getElementById('staffSolved').value) || 0;
+            const experience = parseInt(document.getElementById('staffExperience').value) || 0;
+            const car = document.getElementById('staffCar').value.trim();
 
-            if (!name) { alert('Введите ФИО'); return; }
+            if (!name || !rank || !position) {
+                alert('Заполните ФИО, звание и должность!');
+                return;
+            }
 
-            let staff = DB.getStaff();
+            let staff = getStaff();
 
             if (id) {
-                // Редактирование
                 const idx = staff.findIndex(s => s.id === parseInt(id));
                 if (idx !== -1) {
-                    staff[idx] = { ...staff[idx], name, rank, position, experience, solved };
+                    staff[idx] = { ...staff[idx], name, rank, position, photo, desc, solved, experience, car };
                 }
             } else {
-                // Добавление
-                staff.push({ id: generateId(), name, rank, position, experience, solved });
+                staff.push({
+                    id: genId(),
+                    name,
+                    rank,
+                    position,
+                    photo,
+                    desc,
+                    solved,
+                    experience,
+                    car
+                });
             }
 
             DB.setStaff(staff);
-            closeForm('staffForm');
+            closeForm('staffFormModal');
+            renderAll();
+        }
+
+        function deleteStaff(id) {
+            if (!confirm('Удалить этого персонажа?')) return;
+            let staff = getStaff().filter(s => s.id !== id);
+            DB.setStaff(staff);
             renderAll();
         }
 
         // ============================================================
-        // ДОБАВЛЕНИЕ/РЕДАКТИРОВАНИЕ ДЕЛА
+        // ДЕЛА - CRUD
         // ============================================================
-        function openAddCase() {
-            document.getElementById('caseFormTitle').textContent = 'Добавить дело';
-            document.getElementById('editCaseId').value = '';
-            document.getElementById('caseNumber').value = '';
-            document.getElementById('caseTitle').value = '';
-            document.getElementById('caseArticle').value = '';
-            document.getElementById('caseDesc').value = '';
-            document.getElementById('caseStatus').value = 'active';
-            document.getElementById('caseForm').classList.add('active');
+        function openCaseForm(data) {
+            const form = document.getElementById('caseFormModal');
+            const title = document.getElementById('caseFormTitle');
+
+            if (data) {
+                title.textContent = '✏️ Редактировать дело';
+                document.getElementById('editCaseId').value = data.id;
+                document.getElementById('caseNumber').value = data.number || '';
+                document.getElementById('caseTitle').value = data.title || '';
+                document.getElementById('caseArticle').value = data.article || '';
+                document.getElementById('caseDesc').value = data.desc || '';
+                document.getElementById('caseStatus').value = data.status || 'active';
+            } else {
+                title.textContent = '📋 Добавить дело';
+                document.getElementById('editCaseId').value = '';
+                document.getElementById('caseNumber').value = '';
+                document.getElementById('caseTitle').value = '';
+                document.getElementById('caseArticle').value = '';
+                document.getElementById('caseDesc').value = '';
+                document.getElementById('caseStatus').value = 'active';
+            }
+
+            form.classList.add('active');
         }
 
         function editCase(id) {
-            const cases = DB.getCases();
+            const cases = getCases();
             const c = cases.find(p => p.id === id);
-            if (!c) return;
-
-            document.getElementById('caseFormTitle').textContent = 'Редактировать дело';
-            document.getElementById('editCaseId').value = id;
-            document.getElementById('caseNumber').value = c.number;
-            document.getElementById('caseTitle').value = c.title;
-            document.getElementById('caseArticle').value = c.article;
-            document.getElementById('caseDesc').value = c.desc;
-            document.getElementById('caseStatus').value = c.status;
-            document.getElementById('caseForm').classList.add('active');
+            if (c) openCaseForm(c);
         }
 
         function saveCase() {
@@ -928,9 +1488,12 @@
             const desc = document.getElementById('caseDesc').value.trim();
             const status = document.getElementById('caseStatus').value;
 
-            if (!number || !title) { alert('Заполните номер и название дела'); return; }
+            if (!number || !title) {
+                alert('Заполните номер и название дела!');
+                return;
+            }
 
-            let cases = DB.getCases();
+            let cases = getCases();
 
             if (id) {
                 const idx = cases.findIndex(c => c.id === parseInt(id));
@@ -938,24 +1501,103 @@
                     cases[idx] = { ...cases[idx], number, title, article, desc, status };
                 }
             } else {
-                cases.push({ id: generateId(), number, title, article, desc, status });
+                cases.push({ id: genId(), number, title, article, desc, status });
             }
 
             DB.setCases(cases);
-            closeForm('caseForm');
+            closeForm('caseFormModal');
+            renderAll();
+        }
+
+        function deleteCase(id) {
+            if (!confirm('Удалить это дело?')) return;
+            let cases = getCases().filter(c => c.id !== id);
+            DB.setCases(cases);
             renderAll();
         }
 
         // ============================================================
-        // ПРОСМОТР / УДАЛЕНИЕ
+        // ЭКСПОРТ / ИМПОРТ
         // ============================================================
-        function viewStaff(id) {
-            const staff = DB.getStaff();
-            const s = staff.find(p => p.id === id);
-            if (!s) return;
+        function exportData() {
+            const data = {
+                staff: getStaff(),
+                cases: getCases(),
+                fleet: getFleet(),
+                exported: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `omvd_psr_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
 
-            document.getElementById('detailTitle').textContent = s.name;
-            document.getElementById('detailSubhead').textContent = s.rank + ' • ' + s.position;
-            document.getElementById('detailContent').innerHTML = `
-                <b>Стаж:</b> ${s.experience} лет<br>
-                <b>Раскрыто дел:</b> ${
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const data = JSON.parse(ev.target.result);
+                        if (data.staff) { DB.setStaff(data.staff); }
+                        if (data.cases) { DB.setCases(data.cases); }
+                        if (data.fleet) { localStorage.setItem('psr_fleet', JSON.stringify(data.fleet)); }
+                        renderAll();
+                        alert('✅ Данные импортированы успешно!');
+                    } catch (err) {
+                        alert('❌ Ошибка импорта: неверный формат файла');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // ============================================================
+        // СБРОС ДАННЫХ
+        // ============================================================
+        function resetData() {
+            if (!confirm('⚠️ ВСЕ ДАННЫЕ БУДУТ УДАЛЕНЫ! Продолжить?')) return;
+            if (!confirm('Точно? Данные восстановить будет нельзя!')) return;
+            localStorage.removeItem('psr_staff');
+            localStorage.removeItem('psr_cases');
+            localStorage.removeItem('psr_fleet');
+            initDB();
+            renderAll();
+            alert('✅ Данные сброшены к значениям по умолчанию');
+        }
+
+        // ============================================================
+        // ЗАКРЫТИЕ ПО ESC
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDetailModal();
+                closeForm('staffFormModal');
+                closeForm('caseFormModal');
+            }
+        });
+
+        // ============================================================
+        // ЗАПУСК
+        // ============================================================
+        initDB();
+        renderAll();
+
+        console.log('🚔 ОМВД «Барвиха-Северное» загружен!');
+        console.log(`👮 Персонажей: ${getStaff().length}`);
+        console.log(`🚗 Автомобилей: ${getFleet().length}`);
+        console.log(`📋 Дел: ${getCases().length}`);
+        console.log('🏎️ Все тачки из сериала: Porsche, Lamborghini, Mercedes, BMW, Audi');
+        console.log('💾 Данные хранятся в localStorage');
+        console.log('🛠️ Админка: кнопки ✏️ и 🗑️ на карточках');
+    </script>
+</body>
+</html>
