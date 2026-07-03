@@ -29,6 +29,7 @@
             background: rgba(15, 19, 26, 0.95); border: 1px solid var(--border);
             padding: 10px 16px; border-radius: 8px; font-size: 11px; font-weight: bold;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            cursor: pointer;
         }
         .audio-widget:active { background: var(--blue); }
 
@@ -69,7 +70,7 @@
             border-radius: 10px; color: #fff; margin: 15px 0; font-size: 15px;
         }
         .cases-list { max-height: 300px; overflow-y: scroll; display: flex; flex-direction: column; gap: 8px; background: #030406; padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
-        .case-row { background: var(--bg-card); padding: 14px; border-radius: 8px; display: flex; gap: 14px; align-items: center; border: 1px solid transparent; }
+        .case-row { background: var(--bg-card); padding: 14px; border-radius: 8px; display: flex; gap: 14px; align-items: center; border: 1px solid transparent; cursor: pointer; }
         .case-row:active { border-color: var(--blue); background: #151b26; }
         .case-badge { background: #1b222d; color: var(--gray); font-size: 10px; padding: 5px 10px; border-radius: 5px; font-weight: bold; }
         .case-info h4 { font-size: 14px; color: #fff; }
@@ -78,7 +79,7 @@
         .kusp-form { background: var(--bg-card); padding: 20px; border-radius: 14px; border: 1px solid var(--border); margin: 15px 0; }
         .kusp-form h3 { font-size: 15px; margin-bottom: 12px; color: var(--blue); }
         .kusp-form input { width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px; color:#fff; font-size:14px; margin-bottom: 12px; }
-        .btn-primary { width: 100%; background: var(--blue); color: #fff; padding: 14px; border-radius: 8px; font-weight: bold; border: none; font-size: 14px; box-shadow: 0 4px 14px rgba(0,122,255,0.3); }
+        .btn-primary { width: 100%; background: var(--blue); color: #fff; padding: 14px; border-radius: 8px; font-weight: bold; border: none; font-size: 14px; box-shadow: 0 4px 14px rgba(0,122,255,0.3); cursor: pointer; }
         .btn-primary:active { background: #0051a8; transform: scale(0.98); }
 
         .table-scroll { overflow-x: auto; background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); }
@@ -156,4 +157,3 @@
             <h2 class="section-header">2. Закрепленный транспортный парк</h2>
             <p class="section-desc">Нажмите для просмотра полных ТТХ автомобилей.</p>
             <div class="grid-layout">
-                <div class="data-card" onclick="openFleet('mercedes')">
