@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ОМВД БАРВИХА-СЕВЕРНОЕ</title>
+    <style>
+        :root {
+            --bg: #06080c;
+            --card: #0f131a;
+            --border: #1b222d;
+            --blue: #007aff;
+            --text: #ffffff;
+            --gray: #8e8e93;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
+        .hero { height: 35vh; display: flex; align-items: center; padding: 20px; background: linear-gradient(180deg, rgba(0,0,0,0), var(--bg)), url('https://kinorium.com') no-repeat center/cover; }
+        .hero h1 { font-size: 24px; font-weight: 900; }
+        .nav { position: sticky; top: 0; background: rgba(6,8,12,0.95); display: flex; border-bottom: 1px solid var(--border); z-index: 10; }
+        .nav a { flex: 1; text-align: center; color: var(--gray); text-decoration: none; padding: 15px 5px; font-size: 13px; font-weight: 600; }
+        .container { padding: 0 16px; }
+        .h2 { font-size: 18px; margin: 30px 0 10px; border-left: 4px solid var(--blue); padding-left: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; }
+        .card:active { border-color: var(--blue); background: #151b26; }
+        .img { height: 250px; background-size: cover; background-position: center top; }
+        .info { padding: 15px; }
+        .info h3 { font-size: 16px; }
+        .info p { font-size: 12px; color: var(--gray); margin-top: 2px; }
+        .tag { font-size: 10px; color: var(--blue); text-transform: uppercase; font-weight: bold; }
+        
+        /* Модалка */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal-box { background: var(--card); border: 1px solid var(--border); width: 100%; max-width: 360px; border-radius: 14px; padding: 20px; position: relative; }
+        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 24px; color: var(--gray); cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div>
+            <span style="color:var(--blue); font-size:10px; font-weight:bold; letter-spacing:1px;">МВД РОССИИ</span>
+            <h1>ОМВД БАРВИХА-СЕВЕРНОЕ</h1>
+            <p style="color:var(--gray); font-size:12px;">Официальный цифровой реестр ведомства</p>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <a href="#registry">Сотрудники</a>
+        <a href="#fleet">Автопарк</a>
+        <a href="#cases">Архив</a>
+    </nav>
+
+    <main class="container">
+        <!-- СОТРУДНИКИ -->
+        <h2 id="registry" class="h2">1. Личный состав</h2>
+        <div class="grid">
+            <div class="card" onclick="openBox('Гриша Измайлов', '<b>Звание:</b> Капитан полиции.<br><b>Должность:</b> Старший оперуполномоченный ОУР.<br><br>Показывает самый высокий процент раскрываемости. Финансово независим.')">
+                <div class="img" style="background-image: url('https://yandex.net');"></div>
+                <div class="info">
+                    <span class="tag">Личное дело</span>
+                    <h3>Измайлов Г. А.</h3>
+                    <p>Капитан полиции (Кликабельно)</p>
+                </div>
+            </div>
+            <div class="card" onclick="openBox('Володя Яковлев', '<b>Звание:</b> Полковник полиции.<br><b>Должность:</b> Начальник ОМВД «Барвиха-Северное».<br><br>Опыт службы в органах внутренних дел более 20 лет. Строго следует уставу.')">
+                <div class="img" style="background-image: url('https://yandex.net');"></div>
+                <div class="info">
+                    <span class="tag" style="color:#ff3b30;">Руководство</span>
+                    <h3>Яковлев В. С.</h3>
+                    <p>Полковник полиции (Кликабельно)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- АВТОПАРК -->
+        <h2 id="fleet" class="h2">2. Служебный автопарк</h2>
+        <div class="grid">
+            <div class="card" onclick="openBox('Mercedes-Benz E-Class', '<b>Модификация:</b> E400 AMG 4MATIC.<br><b>Госномер:</b> О001ОО 77.<br><br>Используется при проведении оперативно-розыскных мероприятий в VIP-секторе.')">
+                <div class="img" style="background-image: url('https://kinorium.com');"></div>
+                <div class="info">
+                    <span class="tag">Спецтранспорт</span>
+                    <h3>Mercedes-Benz E-Class</h3>
+                    <p>Оперативный автомобиль (Кликабельно)</p>
+                </div>
+            </div>
+            <div class="card" onclick="openBox('Патрульный транспорт', '<b>Состав:</b> Внедорожники УАЗ Патриот и седаны LADA.<br><br>Оснащены СГУ, ведомственной радиосвязью и отсеками для конвоирования задержанных.')">
+                <div class="img" style="background-image: url('https://kinorium.com');"></div>
+                <div class="info">
+                    <span class="tag" style="color:#5ac8fa;">Дежурная часть</span>
+                    <h3>Патрульные ТС</h3>
+                    <p>Служебный транспорт (Кликабельно)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- АРХИВ ДЕЛ -->
+        <h2 id="cases" class="h2">3. Архив уголовных дел</h2>
+        <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
+            <div class="card" style="padding:15px;" onclick="openBox('Дело №1024', '<b>Статья:</b> ст. 158 УК РФ (Кража).<br><b>Фабула:</b> Похищение ценного швейцарского хронографа на территории поселка Жуковка. Дело закрыто, имущество возвращено.')">
+                <span class="tag">Архивное производство</span>
+                <h4 style="margin-top:2px;">УД-2026-1024: Дело по району Барвиха</h4>
+                <p style="font-size:12px; color:var(--gray);">Статья 158 УК РФ (Кликабельно)</p>
+            </div>
+            <div class="card" style="padding:15px;" onclick="openBox('Дело №1025', '<b>Статья:</b> ст. 166 УК РФ (Угон ТС).<br><b>Фабула:</b> Неправомерное завладение элитным спорткаром со стоянки ТЦ Luxury Village. Фигуранты задержаны оперативной группой.')">
+                <span class="tag">Архивное производство</span>
+                <h4 style="margin-top:2px;">УД-2026-1025: Угон спорткара</h4>
+                <p style="font-size:12px; color:var(--gray);">Статья 166 УК РФ (Кликабельно)</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ЕДИНАЯ МОДАЛКА -->
+    <div id="box" class="modal" onclick="closeBox()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeBox()">&times;</span>
+            <h3 id="box-title" style="margin-bottom:10px; color:var(--blue);"></h3>
+            <p id="box-text" style="font-size:14px; line-height:1.4; color:#d1d1d6;"></p>
+        </div>
+    </div>
+
+    <script>
+        function openBox(title, text) {
+            document.getElementById('box-title').innerHTML = title;
+            document.getElementById('box-text').innerHTML = text;
+            document.getElementById('box').style.display = 'flex';
+        }
+        function closeBox() {
+            document.getElementById('box').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
 
