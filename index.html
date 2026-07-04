@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ОМВД Барвиха-Северное</title>
+    <title>ОМВД Барвиха-Северное | Полицейский с Рублёвки</title>
     <style>
         * {
             margin: 0;
@@ -109,6 +109,20 @@
             justify-content: center;
             font-weight: 700;
             font-size: 13px;
+        }
+        .login-btn {
+            background: #0071e3;
+            color: #fff;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .login-btn:hover {
+            background: #005bb5;
         }
 
         .nav {
@@ -293,10 +307,6 @@
         .tag-purple {
             background: rgba(155, 89, 182, 0.15);
             color: #9b59b6;
-        }
-        .tag-pink {
-            background: rgba(255, 105, 180, 0.15);
-            color: #ff69b4;
         }
         .tag-orange {
             background: rgba(255, 165, 0, 0.15);
@@ -766,9 +776,9 @@
 <body>
 
     <!-- ============================================================
-    ЛОГИН
+    ЛОГИН (только для админа)
     ============================================================ -->
-    <div class="login-overlay active" id="loginOverlay">
+    <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <div class="logo">🚔</div>
             <h2>ОМВД Барвиха-Северное</h2>
@@ -776,16 +786,16 @@
             <form onsubmit="login(event)">
                 <div class="form-group">
                     <label>Логин</label>
-                    <input type="text" id="loginUser" value="admin" placeholder="admin">
+                    <input type="text" id="loginUser" placeholder="admin">
                 </div>
                 <div class="form-group">
                     <label>Пароль</label>
-                    <input type="password" id="loginPass" value="admin123" placeholder="••••••••">
+                    <input type="password" id="loginPass" placeholder="••••••••">
                 </div>
                 <button type="submit" class="btn" style="width:100%;justify-content:center;">Войти</button>
                 <div class="login-error" id="loginError">❌ Неверный логин или пароль</div>
             </form>
-            <div style="margin-top:10px;font-size:12px;color:#5d6a7a;">admin / admin123</div>
+            <div style="margin-top:10px;font-size:12px;color:#5d6a7a;">Для входа нужны права администратора</div>
         </div>
     </div>
 
@@ -805,7 +815,8 @@
                         <div class="avatar">👮</div>
                         <span id="userName">Админ</span>
                     </div>
-                    <button class="btn btn-sm btn-outline" onclick="logout()" id="logoutBtn" style="display:none;">🚪 Выход</button>
+                    <button class="login-btn" id="loginBtn" onclick="document.getElementById('loginOverlay').classList.add('active')">🔑 Вход</button>
+                    <button class="login-btn" onclick="logout()" id="logoutBtn" style="display:none;background:#e74c3c;">🚪 Выход</button>
                 </div>
             </div>
         </div>
@@ -840,7 +851,7 @@
             <div class="section-title">
                 Персонажи сериала
                 <span class="count" id="staffCount">0</span>
-                <span class="right admin-only show">
+                <span class="right admin-only">
                     <button class="btn btn-sm btn-success" onclick="openStaffForm()">➕ Добавить</button>
                 </span>
             </div>
@@ -861,7 +872,7 @@
             <div class="section-title">
                 Уголовные дела
                 <span class="count" id="casesCount">0</span>
-                <span class="right admin-only show">
+                <span class="right admin-only">
                     <button class="btn btn-sm btn-success" onclick="openCaseForm()">➕ Добавить</button>
                 </span>
             </div>
@@ -921,6 +932,10 @@
                     <div class="label">Сброс</div>
                     <div class="actions"><button class="btn btn-sm btn-danger" onclick="resetData()">Сбросить</button></div>
                 </div>
+            </div>
+            <div style="background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px;margin-top:12px;">
+                <p style="color:#8896a8;font-size:13px;">🔑 <b style="color:#eaeef3;">admin</b> / <b style="color:#eaeef3;">admin123</b> — для входа в админку</p>
+                <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">Обычные пользователи могут смотреть сайт без входа</p>
             </div>
         </div>
 
@@ -1017,20 +1032,20 @@
         // ============================================================
         function getDefaultStaff() {
             return [
-                { id: 1, name: 'Владимир Яковлев', rank: 'Генерал-майор', position: 'Начальник ОМВД', photo: 'https://picsum.photos/seed/yakovlev/400/300', desc: 'Начальник ОМВД. Строгий, принципиальный. Водит Nissan Teana.', solved: 45, exp: 25, car: 'Nissan Teana (J32)', type: 'Руководство' },
-                { id: 2, name: 'Григорий Измайлов', rank: 'Майор', position: 'Старший оперуполномоченный', photo: 'https://picsum.photos/seed/izmailov/400/300', desc: 'Главный герой. Циничный, дерзкий, справедливый. Водит Mercedes E-Class.', solved: 47, exp: 14, car: 'Mercedes E-Class (W212)', type: 'Оперуполномоченный' },
-                { id: 3, name: 'Алиса Рыбкина', rank: 'Капитан', position: 'Старший оперуполномоченный', photo: 'https://picsum.photos/seed/rybkina/400/300', desc: 'Старший оперуполномоченный. Водит Hyundai Getz.', solved: 28, exp: 10, car: 'Hyundai Getz', type: 'Оперуполномоченный' },
-                { id: 4, name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://picsum.photos/seed/eliseev/400/300', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus II', type: 'Оперуполномоченный' },
-                { id: 5, name: 'Александр Савельев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://picsum.photos/seed/saveliev/400/300', desc: 'Оперуполномоченный. Использует ВАЗ-2109 для скрытого наблюдения.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
-                { id: 6, name: 'Дмитрий Котельников', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', photo: 'https://picsum.photos/seed/kotelnikov/400/300', desc: 'Молодой оперуполномоченный. Водит УАЗ Патриот.', solved: 15, exp: 5, car: 'УАЗ Патриот', type: 'Оперуполномоченный' },
-                { id: 7, name: 'Вячеслав Котельников', rank: 'Лейтенант', position: 'Оперативник (5-й сезон)', photo: 'https://picsum.photos/seed/volodya/400/300', desc: 'Новый оперативник отдела. Водит Skoda Octavia.', solved: 8, exp: 2, car: 'Skoda Octavia', type: 'Оперуполномоченный' },
-                { id: 8, name: 'Игорь Мухич', rank: 'Майор юстиции', position: 'Начальник следственного отдела', photo: 'https://picsum.photos/seed/muhich/400/300', desc: 'Следователь. Водит редкий Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
-                { id: 9, name: 'Алёна Измайлова', rank: '—', position: 'Бизнес-леди, совладелица кофейни', photo: 'https://picsum.photos/seed/alena/400/300', desc: 'Главная любовь Гриши. Водит Porsche Macan.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
-                { id: 10, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кофейни', photo: 'https://picsum.photos/seed/kristina/400/300', desc: 'Бывшая эскортница, теперь сексолог. Водит BMW 4-Series.', solved: 0, exp: 0, car: 'BMW 4-Series (F32)', type: 'Гражданские' },
-                { id: 11, name: 'Вероника Измайлова (Ника)', rank: '—', position: 'Автомеханик, владелица автосервиса', photo: 'https://picsum.photos/seed/nika/400/300', desc: 'Сестра Гриши. Водит кастомный чоппер и ВАЗ-2105.', solved: 0, exp: 0, car: 'Чоппер / ВАЗ-2105', type: 'Гражданские' },
-                { id: 12, name: 'Наталья Яковлева', rank: '—', position: 'Домохозяйка, жена Яковлева', photo: 'https://picsum.photos/seed/natalya/400/300', desc: 'Супруга начальника ОМВД.', solved: 0, exp: 0, car: 'Nissan Teana / Такси', type: 'Гражданские' },
-                { id: 13, name: 'Вера Ершова', rank: '—', position: 'Учительница-дефектолог, жена Мухича', photo: 'https://picsum.photos/seed/vera/400/300', desc: 'Возлюбленная Мухича. Ездит пассажиром в его Chrysler.', solved: 0, exp: 0, car: 'Пассажир в Chrysler', type: 'Гражданские' },
-                { id: 14, name: 'ДПС Барвихи', rank: '—', position: 'Патрулирование Рублёвки', photo: 'https://picsum.photos/seed/dps/400/300', desc: 'Патрульная служба. Водит Mercedes E-Class и BMW 5-Series.', solved: 0, exp: 0, car: 'Mercedes E-Class / BMW 5-Series', type: 'ДПС' }
+                { id: 1, name: 'Владимир Яковлев', rank: 'Генерал-майор', position: 'Начальник ОМВД', photo: 'https://i.pravatar.cc/400?img=1', desc: 'Начальник ОМВД. Строгий, принципиальный. Водит Nissan Teana.', solved: 45, exp: 25, car: 'Nissan Teana (J32)', type: 'Руководство' },
+                { id: 2, name: 'Григорий Измайлов', rank: 'Майор', position: 'Старший оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=2', desc: 'Главный герой. Циничный, дерзкий, справедливый. Водит Mercedes E-Class.', solved: 47, exp: 14, car: 'Mercedes E-Class (W212)', type: 'Оперуполномоченный' },
+                { id: 3, name: 'Алиса Рыбкина', rank: 'Капитан', position: 'Старший оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=3', desc: 'Старший оперуполномоченный. Водит Hyundai Getz.', solved: 28, exp: 10, car: 'Hyundai Getz', type: 'Оперуполномоченный' },
+                { id: 4, name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=4', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus II', type: 'Оперуполномоченный' },
+                { id: 5, name: 'Александр Савельев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=5', desc: 'Оперуполномоченный. Использует ВАЗ-2109 для скрытого наблюдения.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
+                { id: 6, name: 'Дмитрий Котельников', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=6', desc: 'Молодой оперуполномоченный. Водит УАЗ Патриот.', solved: 15, exp: 5, car: 'УАЗ Патриот', type: 'Оперуполномоченный' },
+                { id: 7, name: 'Вячеслав Котельников', rank: 'Лейтенант', position: 'Оперативник (5-й сезон)', photo: 'https://i.pravatar.cc/400?img=7', desc: 'Новый оперативник отдела. Водит Skoda Octavia.', solved: 8, exp: 2, car: 'Skoda Octavia', type: 'Оперуполномоченный' },
+                { id: 8, name: 'Игорь Мухич', rank: 'Майор юстиции', position: 'Начальник следственного отдела', photo: 'https://i.pravatar.cc/400?img=8', desc: 'Следователь. Водит редкий Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
+                { id: 9, name: 'Алёна Измайлова', rank: '—', position: 'Бизнес-леди, совладелица кофейни', photo: 'https://i.pravatar.cc/400?img=9', desc: 'Главная любовь Гриши. Водит Porsche Macan.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
+                { id: 10, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кофейни', photo: 'https://i.pravatar.cc/400?img=10', desc: 'Бывшая эскортница, теперь сексолог. Водит BMW 4-Series.', solved: 0, exp: 0, car: 'BMW 4-Series (F32)', type: 'Гражданские' },
+                { id: 11, name: 'Вероника Измайлова (Ника)', rank: '—', position: 'Автомеханик, владелица автосервиса', photo: 'https://i.pravatar.cc/400?img=11', desc: 'Сестра Гриши. Водит кастомный чоппер и ВАЗ-2105.', solved: 0, exp: 0, car: 'Чоппер / ВАЗ-2105', type: 'Гражданские' },
+                { id: 12, name: 'Наталья Яковлева', rank: '—', position: 'Домохозяйка, жена Яковлева', photo: 'https://i.pravatar.cc/400?img=12', desc: 'Супруга начальника ОМВД.', solved: 0, exp: 0, car: 'Nissan Teana / Такси', type: 'Гражданские' },
+                { id: 13, name: 'Вера Ершова', rank: '—', position: 'Учительница-дефектолог, жена Мухича', photo: 'https://i.pravatar.cc/400?img=13', desc: 'Возлюбленная Мухича. Ездит пассажиром в его Chrysler.', solved: 0, exp: 0, car: 'Пассажир в Chrysler', type: 'Гражданские' },
+                { id: 14, name: 'ДПС Барвихи', rank: '—', position: 'Патрулирование Рублёвки', photo: 'https://i.pravatar.cc/400?img=14', desc: 'Патрульная служба. Водит Mercedes E-Class и BMW 5-Series.', solved: 0, exp: 0, car: 'Mercedes E-Class / BMW 5-Series', type: 'ДПС' }
             ];
         }
 
@@ -1077,9 +1092,7 @@
         function genId() { return Date.now() + Math.floor(Math.random() * 1000); }
 
         function getStaff() { return DB.getStaff(); }
-
         function getCases() { return DB.getCases(); }
-
         function getFleet() { return JSON.parse(localStorage.getItem('psr_fleet')) || getDefaultFleet(); }
 
         // ============================================================
@@ -1107,7 +1120,7 @@
                 'Гражданские': 'tag-purple', 'ДПС': 'tag-orange' };
             grid.innerHTML = staff.map(c => `
                 <div class="card" onclick="viewStaff(${c.id})">
-                    <img class="card-img" src="${c.photo || 'https://picsum.photos/seed/staff_'+c.id+'/400/300'}" alt="${c.name}" onerror="this.src='https://picsum.photos/seed/staff_${c.id}/400/300'">
+                    <img class="card-img" src="${c.photo || 'https://i.pravatar.cc/400?img='+c.id}" alt="${c.name}" onerror="this.src='https://i.pravatar.cc/400?img=${c.id}'">
                     <div class="card-body">
                         <span class="tag ${colors[c.type] || 'tag-blue'}">${c.type || 'Персонаж'}</span>
                         <h3>${c.name}</h3>
@@ -1213,6 +1226,7 @@
             if (u === 'admin' && p === 'admin123') {
                 document.getElementById('loginOverlay').classList.remove('active');
                 document.getElementById('userBadge').classList.add('show');
+                document.getElementById('loginBtn').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'inline-flex';
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
                 document.getElementById('userName').textContent = 'Администратор';
@@ -1222,8 +1236,9 @@
         }
 
         function logout() {
-            document.getElementById('loginOverlay').classList.add('active');
+            document.getElementById('loginOverlay').classList.remove('active');
             document.getElementById('userBadge').classList.remove('show');
+            document.getElementById('loginBtn').style.display = 'inline-flex';
             document.getElementById('logoutBtn').style.display = 'none';
             document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
         }
@@ -1251,7 +1266,7 @@
             const actions =
                 `<button class="btn btn-sm" onclick="closeDetail();editStaff(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteStaff(${c.id})">🗑️ Удалить</button>`;
             openDetail(c.name, `${c.rank} • ${c.position}`,
-                `<img src="${c.photo || 'https://picsum.photos/seed/staff_'+c.id+'/400/300'}" alt="${c.name}" onerror="this.style.display='none'"><p>${c.desc || 'Нет описания'}</p><hr><b>📌 Раскрыто:</b> ${c.solved || 0}<br><b>⭐ Стаж:</b> ${c.exp || 0} лет<br><b>🚗 Автомобиль:</b> ${c.car || '—'}<br><b>🏷️ Категория:</b> ${c.type || '—'}`,
+                `<img src="${c.photo || 'https://i.pravatar.cc/400?img='+c.id}" alt="${c.name}" onerror="this.style.display='none'"><p>${c.desc || 'Нет описания'}</p><hr><b>📌 Раскрыто:</b> ${c.solved || 0}<br><b>⭐ Стаж:</b> ${c.exp || 0} лет<br><b>🚗 Автомобиль:</b> ${c.car || '—'}<br><b>🏷️ Категория:</b> ${c.type || '—'}`,
                 actions);
         }
 
@@ -1429,6 +1444,16 @@
                 closeForm('caseForm');
             }
         });
+
+        // Автоматически показываем админку если уже залогинены
+        if (localStorage.getItem('psr_logged') === 'true') {
+            document.getElementById('loginOverlay').classList.remove('active');
+            document.getElementById('userBadge').classList.add('show');
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'inline-flex';
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
+            document.getElementById('userName').textContent = 'Администратор';
+        }
 
         initDB();
         renderAll();
