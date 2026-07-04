@@ -65,6 +65,10 @@
             padding: 5px 12px;
             font-size: 11px;
         }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
 
         .hero {
             background: linear-gradient(145deg, #0a0f17, #141c28);
@@ -110,6 +114,13 @@
             font-weight: 700;
             font-size: 13px;
         }
+        .user-badge .role {
+            font-size: 10px;
+            color: #8896a8;
+            background: #1c2533;
+            padding: 1px 8px;
+            border-radius: 10px;
+        }
         .login-btn {
             background: #0071e3;
             color: #fff;
@@ -123,6 +134,15 @@
         }
         .login-btn:hover {
             background: #005bb5;
+        }
+        .login-btn-outline {
+            background: transparent;
+            border: 2px solid #1c2533;
+            color: #eaeef3;
+        }
+        .login-btn-outline:hover {
+            border-color: #0071e3;
+            background: rgba(0, 113, 227, 0.1);
         }
 
         .nav {
@@ -653,22 +673,24 @@
         .login-box {
             background: #0e141c;
             border: 1px solid #1c2533;
-            max-width: 340px;
+            max-width: 360px;
             width: 100%;
             border-radius: 14px;
             padding: 30px 24px;
-            text-align: center;
         }
         .login-box .logo {
             font-size: 44px;
+            text-align: center;
             margin-bottom: 4px;
         }
         .login-box h2 {
             font-size: 22px;
+            text-align: center;
         }
         .login-box .sub {
             color: #8896a8;
             font-size: 14px;
+            text-align: center;
             margin-bottom: 16px;
         }
         .login-box .form-group {
@@ -681,9 +703,53 @@
             color: #e74c3c;
             font-size: 13px;
             margin-top: 8px;
+            text-align: center;
             display: none;
         }
         .login-error.show {
+            display: block;
+        }
+        .login-success {
+            color: #2ecc71;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+        .login-success.show {
+            display: block;
+        }
+        .login-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+            background: #080b10;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        .login-tabs button {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #8896a8;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .login-tabs button.active {
+            background: #0071e3;
+            color: #fff;
+        }
+        .login-tabs button:hover:not(.active) {
+            color: #eaeef3;
+        }
+        .login-form {
+            display: none;
+        }
+        .login-form.active {
             display: block;
         }
 
@@ -762,6 +828,9 @@
             .admin-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .login-box {
+                padding: 20px 16px;
+            }
         }
         @media (max-width: 400px) {
             .grid-3 {
@@ -776,26 +845,59 @@
 <body>
 
     <!-- ============================================================
-    ЛОГИН (только для админа)
+    ЛОГИН / РЕГИСТРАЦИЯ
     ============================================================ -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <div class="logo">🚔</div>
             <h2>ОМВД Барвиха-Северное</h2>
-            <div class="sub">Вход в административную панель</div>
-            <form onsubmit="login(event)">
-                <div class="form-group">
-                    <label>Логин</label>
-                    <input type="text" id="loginUser" placeholder="admin">
+            <div class="sub">Вход в систему</div>
+
+            <div class="login-tabs">
+                <button class="active" onclick="switchLoginTab('login')">Вход</button>
+                <button onclick="switchLoginTab('register')">Регистрация</button>
+            </div>
+
+            <!-- ВХОД -->
+            <div class="login-form active" id="loginForm">
+                <form onsubmit="loginUser(event)">
+                    <div class="form-group">
+                        <label>Логин или Email</label>
+                        <input type="text" id="loginUsername" placeholder="admin или user@mail.ru">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-block">Войти</button>
+                    <div class="login-error" id="loginError">❌ Неверный логин или пароль</div>
+                </form>
+                <div style="margin-top:10px;font-size:12px;color:#5d6a7a;text-align:center;">
+                    Админ: admin / admin123<br>
+                    Или зарегистрируйся как обычный пользователь
                 </div>
-                <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="loginPass" placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn" style="width:100%;justify-content:center;">Войти</button>
-                <div class="login-error" id="loginError">❌ Неверный логин или пароль</div>
-            </form>
-            <div style="margin-top:10px;font-size:12px;color:#5d6a7a;">Для входа нужны права администратора</div>
+            </div>
+
+            <!-- РЕГИСТРАЦИЯ -->
+            <div class="login-form" id="registerForm">
+                <form onsubmit="registerUser(event)">
+                    <div class="form-group">
+                        <label>Имя пользователя *</label>
+                        <input type="text" id="regUsername" placeholder="Введите логин" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="regEmail" placeholder="user@mail.ru" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль *</label>
+                        <input type="password" id="regPassword" placeholder="Минимум 6 символов" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-block">Зарегистрироваться</button>
+                    <div class="login-success" id="regSuccess">✅ Регистрация успешна! Теперь войдите.</div>
+                    <div class="login-error" id="regError">❌ Ошибка регистрации</div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -813,10 +915,11 @@
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                     <div class="user-badge" id="userBadge">
                         <div class="avatar">👮</div>
-                        <span id="userName">Админ</span>
+                        <span id="userName">Гость</span>
+                        <span class="role" id="userRole">user</span>
                     </div>
                     <button class="login-btn" id="loginBtn" onclick="document.getElementById('loginOverlay').classList.add('active')">🔑 Вход</button>
-                    <button class="login-btn" onclick="logout()" id="logoutBtn" style="display:none;background:#e74c3c;">🚪 Выход</button>
+                    <button class="login-btn" onclick="logoutUser()" id="logoutBtn" style="display:none;background:#e74c3c;">🚪 Выход</button>
                 </div>
             </div>
         </div>
@@ -935,7 +1038,7 @@
             </div>
             <div style="background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px;margin-top:12px;">
                 <p style="color:#8896a8;font-size:13px;">🔑 <b style="color:#eaeef3;">admin</b> / <b style="color:#eaeef3;">admin123</b> — для входа в админку</p>
-                <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">Обычные пользователи могут смотреть сайт без входа</p>
+                <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">Обычные пользователи могут смотреть сайт, но не редактировать</p>
             </div>
         </div>
 
@@ -966,7 +1069,7 @@
             <div class="form-group"><label>ФИО *</label><input type="text" id="sName" placeholder="Измайлов Григорий"></div>
             <div class="form-group"><label>Звание *</label><input type="text" id="sRank" placeholder="Капитан полиции"></div>
             <div class="form-group"><label>Должность *</label><input type="text" id="sPosition" placeholder="Старший оперуполномоченный"></div>
-            <div class="form-group"><label>Фото (URL)</label><input type="text" id="sPhoto" placeholder="https://picsum.photos/seed/name/400/300"></div>
+            <div class="form-group"><label>Фото (URL)</label><input type="text" id="sPhoto" placeholder="https://i.pravatar.cc/400?img=1"></div>
             <div class="form-group"><label>Описание</label><textarea id="sDesc" rows="3"></textarea></div>
             <div class="form-group"><label>Раскрыто дел</label><input type="number" id="sSolved" value="0"></div>
             <div class="form-group"><label>Стаж (лет)</label><input type="number" id="sExp" value="0"></div>
@@ -1024,11 +1127,13 @@
             getStaff() { return JSON.parse(localStorage.getItem('psr_staff')) || []; },
             setStaff(d) { localStorage.setItem('psr_staff', JSON.stringify(d)); },
             getCases() { return JSON.parse(localStorage.getItem('psr_cases')) || []; },
-            setCases(d) { localStorage.setItem('psr_cases', JSON.stringify(d)); }
+            setCases(d) { localStorage.setItem('psr_cases', JSON.stringify(d)); },
+            getUsers() { return JSON.parse(localStorage.getItem('psr_users')) || []; },
+            setUsers(d) { localStorage.setItem('psr_users', JSON.stringify(d)); }
         };
 
         // ============================================================
-        // ДЕФОЛТНЫЕ ДАННЫЕ (КАНОН)
+        // ДЕФОЛТНЫЕ ДАННЫЕ (РЕАЛЬНЫЕ ИМЕНА ИЗ СЕРИАЛА)
         // ============================================================
         function getDefaultStaff() {
             return [
@@ -1081,6 +1186,12 @@
             ];
         }
 
+        function getDefaultUsers() {
+            return [
+                { id: 1, username: 'admin', email: 'admin@omvd.ru', password: 'admin123', role: 'admin' }
+            ];
+        }
+
         // ============================================================
         // ИНИЦИАЛИЗАЦИЯ
         // ============================================================
@@ -1088,12 +1199,154 @@
             if (!localStorage.getItem('psr_staff')) DB.setStaff(getDefaultStaff());
             if (!localStorage.getItem('psr_cases')) DB.setCases(getDefaultCases());
             if (!localStorage.getItem('psr_fleet')) localStorage.setItem('psr_fleet', JSON.stringify(getDefaultFleet()));
+            if (!localStorage.getItem('psr_users')) DB.setUsers(getDefaultUsers());
         }
+
         function genId() { return Date.now() + Math.floor(Math.random() * 1000); }
 
         function getStaff() { return DB.getStaff(); }
+
         function getCases() { return DB.getCases(); }
+
         function getFleet() { return JSON.parse(localStorage.getItem('psr_fleet')) || getDefaultFleet(); }
+
+        function getUsers() { return DB.getUsers(); }
+
+        // ============================================================
+        // АВТОРИЗАЦИЯ
+        // ============================================================
+        let currentUser = null;
+
+        function switchLoginTab(tab) {
+            document.querySelectorAll('.login-tabs button').forEach(b => b.classList.remove('active'));
+            if (tab === 'login') {
+                document.querySelector('.login-tabs button:first-child').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('registerForm').classList.remove('active');
+            } else {
+                document.querySelector('.login-tabs button:last-child').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+                document.getElementById('loginForm').classList.remove('active');
+            }
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('regError').classList.remove('show');
+            document.getElementById('regSuccess').classList.remove('show');
+        }
+
+        function registerUser(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            if (!username || !email || !password) {
+                document.getElementById('regError').textContent = '❌ Заполните все поля!';
+                document.getElementById('regError').classList.add('show');
+                return;
+            }
+            if (password.length < 6) {
+                document.getElementById('regError').textContent = '❌ Пароль должен быть минимум 6 символов!';
+                document.getElementById('regError').classList.add('show');
+                return;
+            }
+
+            const users = getUsers();
+            if (users.find(u => u.username === username || u.email === email)) {
+                document.getElementById('regError').textContent = '❌ Пользователь с таким логином или email уже существует!';
+                document.getElementById('regError').classList.add('show');
+                return;
+            }
+
+            users.push({ id: genId(), username, email, password, role: 'user' });
+            DB.setUsers(users);
+
+            document.getElementById('regSuccess').textContent = '✅ Регистрация успешна! Теперь войдите.';
+            document.getElementById('regSuccess').classList.add('show');
+            document.getElementById('regError').classList.remove('show');
+
+            // Очистка формы
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+
+            // Переключение на вкладку входа через секунду
+            setTimeout(() => {
+                switchLoginTab('login');
+            }, 1500);
+        }
+
+        function loginUser(e) {
+            e.preventDefault();
+            const login = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            const users = getUsers();
+            const user = users.find(u => (u.username === login || u.email === login) && u.password === password);
+
+            if (!user) {
+                document.getElementById('loginError').textContent = '❌ Неверный логин или пароль!';
+                document.getElementById('loginError').classList.add('show');
+                return;
+            }
+
+            currentUser = user;
+            document.getElementById('loginOverlay').classList.remove('active');
+            document.getElementById('userBadge').classList.add('show');
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'inline-flex';
+            document.getElementById('userName').textContent = user.username;
+
+            if (user.role === 'admin') {
+                document.getElementById('userRole').textContent = 'админ';
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
+                document.getElementById('userRole').style.background = '#0071e3';
+                document.getElementById('userRole').style.color = '#fff';
+            } else {
+                document.getElementById('userRole').textContent = 'пользователь';
+                document.getElementById('userRole').style.background = '#1c2533';
+                document.getElementById('userRole').style.color = '#8896a8';
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
+            }
+
+            localStorage.setItem('psr_logged', 'true');
+            localStorage.setItem('psr_user', JSON.stringify(user));
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            document.getElementById('userBadge').classList.remove('show');
+            document.getElementById('loginBtn').style.display = 'inline-flex';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
+            localStorage.removeItem('psr_logged');
+            localStorage.removeItem('psr_user');
+            document.getElementById('loginOverlay').classList.add('active');
+        }
+
+        function checkAuth() {
+            if (localStorage.getItem('psr_logged') === 'true') {
+                try {
+                    const user = JSON.parse(localStorage.getItem('psr_user'));
+                    if (user) {
+                        currentUser = user;
+                        document.getElementById('userBadge').classList.add('show');
+                        document.getElementById('loginBtn').style.display = 'none';
+                        document.getElementById('logoutBtn').style.display = 'inline-flex';
+                        document.getElementById('userName').textContent = user.username;
+                        if (user.role === 'admin') {
+                            document.getElementById('userRole').textContent = 'админ';
+                            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
+                            document.getElementById('userRole').style.background = '#0071e3';
+                            document.getElementById('userRole').style.color = '#fff';
+                        } else {
+                            document.getElementById('userRole').textContent = 'пользователь';
+                            document.getElementById('userRole').style.background = '#1c2533';
+                            document.getElementById('userRole').style.color = '#8896a8';
+                        }
+                    }
+                } catch (e) {}
+            }
+        }
 
         // ============================================================
         // РЕНДЕРИНГ
@@ -1118,6 +1371,7 @@
             }
             const colors = { 'Руководство': 'tag-red', 'Оперуполномоченный': 'tag-blue', 'Следственный отдел': 'tag-gold',
                 'Гражданские': 'tag-purple', 'ДПС': 'tag-orange' };
+            const isAdmin = currentUser && currentUser.role === 'admin';
             grid.innerHTML = staff.map(c => `
                 <div class="card" onclick="viewStaff(${c.id})">
                     <img class="card-img" src="${c.photo || 'https://i.pravatar.cc/400?img='+c.id}" alt="${c.name}" onerror="this.src='https://i.pravatar.cc/400?img=${c.id}'">
@@ -1132,10 +1386,11 @@
                             <span>🚗 ${c.car || '—'}</span>
                         </div>
                     </div>
+                    ${isAdmin ? `
                     <div class="card-actions">
                         <button onclick="event.stopPropagation();editStaff(${c.id})">✏️</button>
                         <button class="del" onclick="event.stopPropagation();deleteStaff(${c.id})">🗑️</button>
-                    </div>
+                    </div>` : ''}
                 </div>
             `).join('');
         }
@@ -1170,6 +1425,7 @@
                     `<div style="text-align:center;padding:30px;color:#8896a8;border:2px dashed #1c2533;border-radius:12px;">Нет дел. Добавьте первое!</div>`;
                 return;
             }
+            const isAdmin = currentUser && currentUser.role === 'admin';
             list.innerHTML = cases.map(c => {
                 const st = smap[c.status] || smap.active;
                 return `
@@ -1178,10 +1434,11 @@
                         <div class="title">${c.title}</div>
                         <div style="font-size:13px;color:#8896a8;">${c.article || '—'}</div>
                         <div class="preview">${c.desc || 'Нет описания'}</div>
+                        ${isAdmin ? `
                         <div class="case-actions">
                             <button onclick="event.stopPropagation();editCase(${c.id})">✏️</button>
                             <button class="del" onclick="event.stopPropagation();deleteCase(${c.id})">🗑️</button>
-                        </div>
+                        </div>` : ''}
                     </div>
                 `;
             }).join('');
@@ -1217,33 +1474,6 @@
         });
 
         // ============================================================
-        // ЛОГИН
-        // ============================================================
-        function login(e) {
-            e.preventDefault();
-            const u = document.getElementById('loginUser').value;
-            const p = document.getElementById('loginPass').value;
-            if (u === 'admin' && p === 'admin123') {
-                document.getElementById('loginOverlay').classList.remove('active');
-                document.getElementById('userBadge').classList.add('show');
-                document.getElementById('loginBtn').style.display = 'none';
-                document.getElementById('logoutBtn').style.display = 'inline-flex';
-                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
-                document.getElementById('userName').textContent = 'Администратор';
-            } else {
-                document.getElementById('loginError').classList.add('show');
-            }
-        }
-
-        function logout() {
-            document.getElementById('loginOverlay').classList.remove('active');
-            document.getElementById('userBadge').classList.remove('show');
-            document.getElementById('loginBtn').style.display = 'inline-flex';
-            document.getElementById('logoutBtn').style.display = 'none';
-            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
-        }
-
-        // ============================================================
         // МОДАЛКИ
         // ============================================================
         function openDetail(title, sub, content, actions = '') {
@@ -1263,8 +1493,10 @@
         function viewStaff(id) {
             const c = getStaff().find(p => p.id === id);
             if (!c) return;
-            const actions =
-                `<button class="btn btn-sm" onclick="closeDetail();editStaff(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteStaff(${c.id})">🗑️ Удалить</button>`;
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            const actions = isAdmin ?
+                `<button class="btn btn-sm" onclick="closeDetail();editStaff(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteStaff(${c.id})">🗑️ Удалить</button>` :
+                '';
             openDetail(c.name, `${c.rank} • ${c.position}`,
                 `<img src="${c.photo || 'https://i.pravatar.cc/400?img='+c.id}" alt="${c.name}" onerror="this.style.display='none'"><p>${c.desc || 'Нет описания'}</p><hr><b>📌 Раскрыто:</b> ${c.solved || 0}<br><b>⭐ Стаж:</b> ${c.exp || 0} лет<br><b>🚗 Автомобиль:</b> ${c.car || '—'}<br><b>🏷️ Категория:</b> ${c.type || '—'}`,
                 actions);
@@ -1282,8 +1514,10 @@
             const c = getCases().find(p => p.id === id);
             if (!c) return;
             const smap = { solved: '✅ Раскрыто', active: '🔄 В работе', closed: '❌ Закрыто' };
-            const actions =
-                `<button class="btn btn-sm" onclick="closeDetail();editCase(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteCase(${c.id})">🗑️ Удалить</button>`;
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            const actions = isAdmin ?
+                `<button class="btn btn-sm" onclick="closeDetail();editCase(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteCase(${c.id})">🗑️ Удалить</button>` :
+                '';
             openDetail(c.number, c.title,
                 `<b>Статья:</b> ${c.article || '—'}<br><b>Статус:</b> ${smap[c.status] || 'Неизвестно'}<hr>${c.desc || 'Нет описания'}`,
                 actions);
@@ -1295,6 +1529,7 @@
         function closeForm(id) { document.getElementById(id).classList.remove('active'); }
 
         function openStaffForm(data) {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
             const f = document.getElementById('staffForm');
             document.getElementById('staffFormTitle').textContent = data ? '✏️ Редактировать персонажа' :
                 '➕ Добавить персонажа';
@@ -1314,6 +1549,7 @@
         function editStaff(id) { const c = getStaff().find(p => p.id === id); if (c) openStaffForm(c); }
 
         function saveStaff() {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
             const id = document.getElementById('editStaffId').value;
             const name = document.getElementById('sName').value.trim();
             const rank = document.getElementById('sRank').value.trim();
@@ -1338,11 +1574,15 @@
             renderAll();
         }
 
-        function deleteStaff(id) { if (!confirm('Удалить персонажа?')) return;
+        function deleteStaff(id) {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!confirm('Удалить персонажа?')) return;
             DB.setStaff(getStaff().filter(s => s.id !== id));
-            renderAll(); }
+            renderAll();
+        }
 
         function openCaseForm(data) {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
             const f = document.getElementById('caseForm');
             document.getElementById('caseFormTitle').textContent = data ? '✏️ Редактировать дело' : '📋 Добавить дело';
             document.getElementById('editCaseId').value = data ? data.id : '';
@@ -1357,6 +1597,7 @@
         function editCase(id) { const c = getCases().find(p => p.id === id); if (c) openCaseForm(c); }
 
         function saveCase() {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
             const id = document.getElementById('editCaseId').value;
             const number = document.getElementById('cNumber').value.trim();
             const title = document.getElementById('cTitle').value.trim();
@@ -1376,9 +1617,12 @@
             renderAll();
         }
 
-        function deleteCase(id) { if (!confirm('Удалить дело?')) return;
+        function deleteCase(id) {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!confirm('Удалить дело?')) return;
             DB.setCases(getCases().filter(c => c.id !== id));
-            renderAll(); }
+            renderAll();
+        }
 
         // ============================================================
         // ЭКСПОРТ/ИМПОРТ/СБРОС
@@ -1418,6 +1662,7 @@
         }
 
         function resetData() {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
             if (!confirm('⚠️ ВСЕ ДАННЫЕ БУДУТ УДАЛЕНЫ!')) return;
             if (!confirm('Точно?')) return;
             localStorage.removeItem('psr_staff');
@@ -1429,6 +1674,7 @@
         }
 
         function resetFleet() {
+            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
             if (!confirm('Сбросить автопарк?')) return;
             localStorage.setItem('psr_fleet', JSON.stringify(getDefaultFleet()));
             renderAll();
@@ -1445,17 +1691,15 @@
             }
         });
 
-        // Автоматически показываем админку если уже залогинены
-        if (localStorage.getItem('psr_logged') === 'true') {
-            document.getElementById('loginOverlay').classList.remove('active');
-            document.getElementById('userBadge').classList.add('show');
-            document.getElementById('loginBtn').style.display = 'none';
-            document.getElementById('logoutBtn').style.display = 'inline-flex';
-            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
-            document.getElementById('userName').textContent = 'Администратор';
-        }
+        // Закрываем логин при клике вне окна
+        document.getElementById('loginOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                // Не закрываем, чтобы пользователь не потерял окно
+            }
+        });
 
         initDB();
+        checkAuth();
         renderAll();
 
         console.log('🚔 ОМВД Барвиха-Северное загружен!');
@@ -1463,6 +1707,7 @@
         console.log(`🚗 Автомобилей: ${getFleet().length}`);
         console.log(`📋 Дел: ${getCases().length}`);
         console.log('🔑 admin / admin123');
+        console.log('📝 Обычные пользователи могут регистрироваться и смотреть сайт');
     </script>
 </body>
 </html>
