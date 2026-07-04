@@ -26,8 +26,6 @@
         .user-badge .role{font-size:10px;color:#8896a8;background:#1c2533;padding:1px 8px;border-radius:10px}
         .login-btn{background:#0071e3;color:#fff;border:none;padding:6px 18px;border-radius:30px;font-weight:600;font-size:13px;cursor:pointer;transition:.2s}
         .login-btn:hover{background:#005bb5}
-        .login-btn-outline{background:transparent;border:2px solid #1c2533;color:#eaeef3}
-        .login-btn-outline:hover{border-color:#0071e3;background:rgba(0,113,227,0.1)}
         .nav{display:flex;gap:2px;background:#0e141c;border-bottom:1px solid #1c2533;padding:0 12px;overflow-x:auto;position:sticky;top:0;z-index:50}
         .nav button{background:none;border:none;color:#8896a8;padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap}
         .nav button:hover{color:#eaeef3}
@@ -172,8 +170,8 @@
                     <div class="login-error" id="loginError">❌ Неверный логин или пароль</div>
                 </form>
                 <div style="margin-top:10px;font-size:12px;color:#5d6a7a;text-align:center;">
-                    Админ: admin / admin123<br>
-                    Или зарегистрируйся как обычный пользователь
+                    👑 Основатель: admin / admin123<br>
+                    Обычные пользователи — только просмотр
                 </div>
             </div>
 
@@ -251,7 +249,7 @@
         <!-- ========== ПЕРСОНАЖИ ========== -->
         <div class="section active" id="section-staff">
             <div class="section-title">
-                Персонажи сериала
+                👮 Персонажи сериала
                 <span class="count" id="staffCount">0</span>
                 <span class="right admin-only">
                     <button class="btn btn-sm btn-success" onclick="openStaffForm()">➕ Добавить</button>
@@ -263,7 +261,7 @@
         <!-- ========== АВТОПАРК ========== -->
         <div class="section" id="section-fleet">
             <div class="section-title">
-                Автомобили
+                🚗 Автомобили
                 <span class="count" id="fleetCount">0</span>
             </div>
             <div class="grid-3" id="fleetGrid"></div>
@@ -272,7 +270,7 @@
         <!-- ========== ДЕЛА ========== -->
         <div class="section" id="section-cases">
             <div class="section-title">
-                Уголовные дела
+                📋 Уголовные дела
                 <span class="count" id="casesCount">0</span>
                 <span class="right admin-only">
                     <button class="btn btn-sm btn-success" onclick="openCaseForm()">➕ Добавить</button>
@@ -283,12 +281,12 @@
 
         <!-- ========== КАРТА ========== -->
         <div class="section" id="section-map">
-            <div class="section-title">Карта Рублёвки <span class="count">📍 места действия</span></div>
+            <div class="section-title">🗺️ Карта Рублёвки <span class="count">📍 места действия</span></div>
             <div class="map-container">
                 <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A8e3f5a1b2c9d4e7f8a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f&amp;source=constructor" frameborder="0"></iframe>
                 <div class="map-points">
                     <div class="map-point"><div class="pt">📍 ОМВД Барвиха-Северное</div><div class="pd">ул. Центральная, 12</div></div>
-                    <div class="map-point"><div class="pt">🏠 Жуковка</div><div class="pd">Кража часов (УД-2026-1024)</div></div>
+                    <div class="map-point"><div class="pt">🏠 Жуковка</div><div class="pd">Кража часов</div></div>
                     <div class="map-point"><div class="pt">🛍️ Luxury Village</div><div class="pd">Угон Porsche</div></div>
                     <div class="map-point"><div class="pt">🏘️ Барвиха-3</div><div class="pd">«Барвихинский стрелок»</div></div>
                     <div class="map-point"><div class="pt">🔧 Автосервис Ники</div><div class="pd">Вероника Измайлова</div></div>
@@ -299,7 +297,7 @@
 
         <!-- ========== АДМИН-ПАНЕЛЬ ========== -->
         <div class="section" id="section-admin">
-            <div class="section-title">⚙️ Админ-панель <span class="count">управление</span></div>
+            <div class="section-title">⚙️ Админ-панель <span class="count">👑 только основатель</span></div>
             <div class="admin-grid">
                 <div class="admin-card">
                     <div class="icon">👮</div>
@@ -336,15 +334,15 @@
                 </div>
             </div>
             <div style="background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px;margin-top:12px;">
-                <p style="color:#8896a8;font-size:13px;">🔑 <b style="color:#eaeef3;">admin</b> / <b style="color:#eaeef3;">admin123</b> — для входа в админку</p>
-                <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">Обычные пользователи могут смотреть сайт, но не редактировать</p>
+                <p style="color:#8896a8;font-size:13px;">👑 <b style="color:#eaeef3;">Основатель:</b> admin / admin123</p>
+                <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">📌 Обычные пользователи — только просмотр</p>
             </div>
         </div>
 
     </main>
 
     <!-- ============================================================
-    МОДАЛКА ДЕТАЛЕЙ
+    МОДАЛКА
     ============================================================ -->
     <div class="modal" id="detailModal">
         <div class="modal-box">
@@ -358,7 +356,7 @@
     </div>
 
     <!-- ============================================================
-    ФОРМА ПЕРСОНАЖА
+    ФОРМЫ (ТОЛЬКО ДЛЯ АДМИНА)
     ============================================================ -->
     <div class="form-modal" id="staffForm">
         <div class="form-box">
@@ -389,9 +387,6 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    ФОРМА ДЕЛА
-    ============================================================ -->
     <div class="form-modal" id="caseForm">
         <div class="form-box">
             <button class="close" onclick="closeForm('caseForm')">&times;</button>
@@ -432,7 +427,7 @@
         };
 
         // ============================================================
-        // ДЕФОЛТНЫЕ ДАННЫЕ - ТОЛЬКО РЕАЛЬНЫЕ ПЕРСОНАЖИ
+        // ВСЕ ПЕРСОНАЖИ ИЗ ПСР (12 ШТУК)
         // ============================================================
         function getDefaultStaff() {
             return [
@@ -591,10 +586,10 @@
             document.getElementById('userName').textContent = user.username;
 
             if (user.role === 'admin') {
-                document.getElementById('userRole').textContent = 'админ';
+                document.getElementById('userRole').textContent = '👑 основатель';
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
-                document.getElementById('userRole').style.background = '#0071e3';
-                document.getElementById('userRole').style.color = '#fff';
+                document.getElementById('userRole').style.background = '#d4af37';
+                document.getElementById('userRole').style.color = '#080b10';
             } else {
                 document.getElementById('userRole').textContent = 'пользователь';
                 document.getElementById('userRole').style.background = '#1c2533';
@@ -628,10 +623,10 @@
                         document.getElementById('logoutBtn').style.display = 'inline-flex';
                         document.getElementById('userName').textContent = user.username;
                         if (user.role === 'admin') {
-                            document.getElementById('userRole').textContent = 'админ';
+                            document.getElementById('userRole').textContent = '👑 основатель';
                             document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
-                            document.getElementById('userRole').style.background = '#0071e3';
-                            document.getElementById('userRole').style.color = '#fff';
+                            document.getElementById('userRole').style.background = '#d4af37';
+                            document.getElementById('userRole').style.color = '#080b10';
                         } else {
                             document.getElementById('userRole').textContent = 'пользователь';
                             document.getElementById('userRole').style.background = '#1c2533';
@@ -819,12 +814,15 @@
         }
 
         // ============================================================
-        // ФОРМЫ (ТОЛЬКО ДЛЯ АДМИНА)
+        // ФОРМЫ (ТОЛЬКО ДЛЯ ОСНОВАТЕЛЯ)
         // ============================================================
         function closeForm(id) { document.getElementById(id).classList.remove('active'); }
 
         function openStaffForm(data) {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             const f = document.getElementById('staffForm');
             document.getElementById('staffFormTitle').textContent = data ? '✏️ Редактировать персонажа' :
                 '➕ Добавить персонажа';
@@ -844,7 +842,10 @@
         function editStaff(id) { const c = getStaff().find(p => p.id === id); if (c) openStaffForm(c); }
 
         function saveStaff() {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             const id = document.getElementById('editStaffId').value;
             const name = document.getElementById('sName').value.trim();
             const rank = document.getElementById('sRank').value.trim();
@@ -870,14 +871,20 @@
         }
 
         function deleteStaff(id) {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             if (!confirm('Удалить персонажа?')) return;
             DB.setStaff(getStaff().filter(s => s.id !== id));
             renderAll();
         }
 
         function openCaseForm(data) {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             const f = document.getElementById('caseForm');
             document.getElementById('caseFormTitle').textContent = data ? '✏️ Редактировать дело' : '📋 Добавить дело';
             document.getElementById('editCaseId').value = data ? data.id : '';
@@ -892,7 +899,10 @@
         function editCase(id) { const c = getCases().find(p => p.id === id); if (c) openCaseForm(c); }
 
         function saveCase() {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             const id = document.getElementById('editCaseId').value;
             const number = document.getElementById('cNumber').value.trim();
             const title = document.getElementById('cTitle').value.trim();
@@ -913,7 +923,10 @@
         }
 
         function deleteCase(id) {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             if (!confirm('Удалить дело?')) return;
             DB.setCases(getCases().filter(c => c.id !== id));
             renderAll();
@@ -957,7 +970,10 @@
         }
 
         function resetData() {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             if (!confirm('⚠️ ВСЕ ДАННЫЕ БУДУТ УДАЛЕНЫ!')) return;
             if (!confirm('Точно?')) return;
             localStorage.removeItem('psr_staff');
@@ -969,7 +985,10 @@
         }
 
         function resetFleet() {
-            if (!currentUser || currentUser.role !== 'admin') { alert('Доступ только для администратора!'); return; }
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⛔ Доступ только для основателя!');
+                return;
+            }
             if (!confirm('Сбросить автопарк?')) return;
             localStorage.setItem('psr_fleet', JSON.stringify(getDefaultFleet()));
             renderAll();
@@ -990,13 +1009,13 @@
         checkAuth();
         renderAll();
 
-        console.log('🚔 ОМВД Барвиха-Северное загружен!');
+        console.log('👑 ОМВД Барвиха-Северное загружен!');
         console.log(`👮 Персонажей: ${getStaff().length}`);
         console.log(`🚗 Автомобилей: ${getFleet().length}`);
         console.log(`📋 Дел: ${getCases().length}`);
-        console.log('🔑 admin / admin123');
-        console.log('📝 Обычные пользователи могут регистрироваться и смотреть сайт');
-        console.log('❌ Крюковых, Фёдоровых, Ольг — НЕТ!');
+        console.log('👑 Основатель: admin / admin123');
+        console.log('📝 Обычные пользователи — только просмотр');
+        console.log('❌ Никаких Крюковых, Фёдоровых, Ольг!');
     </script>
 </body>
 </html>
