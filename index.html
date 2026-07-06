@@ -1,578 +1,98 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Рублёвка Life | Симулятор ОМВД</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>ОМВД | Система Оперативного Управления</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #080c16;
-            color: #e2e8f0;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .game-app {
-            width: 100%;
-            max-width: 1200px;
-            background: #0f172a;
-            border-radius: 24px;
-            border: 1px solid #1e293b;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* ----- ВЕРХНЯЯ ПАНЕЛЬ И ВЫБОР РОЛИ ----- */
-        .top-header {
-            background: #1e293b;
-            padding: 20px 30px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .char-selector { display: flex; gap: 10px; align-items: center; }
-        .char-btn {
-            background: #0f172a; border: 1px solid #334155; color: #94a3b8;
-            padding: 10px 18px; border-radius: 12px; font-weight: 700; font-size: 13px;
-            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px;
-        }
-        .char-btn:hover { border-color: #64748b; color: #f8fafc; }
-        .char-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56,189,248,0.3); }
-
-        .balances-area { display: flex; gap: 20px; }
-        .bal-box { background: #0f172a; padding: 10px 18px; border-radius: 12px; border: 1px solid #334155; text-align: right; }
-        .bal-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
-        .bal-val { font-size: 18px; font-weight: 900; margin-top: 2px; font-family: monospace; }
-        .bal-personal { color: #10b981; }
-        .bal-budget { color: #f59e0b; }
-
-        /* ----- НАВИГАЦИЯ ----- */
-        .nav-bar {
-            display: flex; background: #0b1120; padding: 10px 20px; gap: 10px; border-bottom: 1px solid #1e293b; overflow-x: auto;
-        }
-        .tab-btn {
-            background: #1e293b; border: 1px solid #334155; color: #94a3b8;
-            padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 14px;
-            cursor: pointer; transition: 0.2s; white-space: nowrap;
-        }
-        .tab-btn:hover { background: #334155; color: #f8fafc; }
-        .tab-btn.active { background: #38bdf8; color: #0f172a; }
-
-        /* ----- КОНТЕНТНАЯ ЧАСТЬ ----- */
-        .content { padding: 30px; flex: 1; overflow-y: auto; }
-        .tab-pane { display: none; animation: fadeIn 0.2s; }
-        .tab-pane.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .sec-title { font-size: 22px; font-weight: 800; color: #f8fafc; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-        .sec-desc { color: #94a3b8; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
-
-        /* ----- СЕТКА ВЫЗОВОВ И КАРТОЧКИ ----- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
-        .card {
-            background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 22px;
-            display: flex; flex-direction: column; justify-content: space-between; gap: 15px;
-            position: relative; transition: 0.2s;
-        }
-        .card:hover { border-color: #38bdf8; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        .card h4 { font-size: 16px; font-weight: 700; color: #f8fafc; line-height: 1.3; }
-        .card p { font-size: 13px; color: #94a3b8; line-height: 1.4; }
-        
-        .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; background: #0f172a; padding: 10px 14px; border-radius: 10px; }
-        .meta-reward { color: #10b981; }
-        .meta-budget { color: #f59e0b; }
-
-        .btn {
-            width: 100%; padding: 14px; border-radius: 12px; border: none; font-weight: 700;
-            font-size: 13px; cursor: pointer; transition: 0.2s; text-align: center;
-        }
-        .btn-blue { background: #38bdf8; color: #0f172a; }
-        .btn-blue:hover { background: #0ea5e9; }
-        .btn-green { background: #10b981; color: #000; }
-        .btn-green:hover { background: #059669; }
-        .btn-gold { background: #f59e0b; color: #000; }
-        .btn-gold:hover { background: #d97706; }
-        .btn-red { background: #ef4444; color: #fff; }
-        .btn-red:hover { background: #dc2626; }
-
-        /* ----- КАБИНЕТ НАЧАЛЬНИКА (БЮДЖЕТ) ----- */
-        .budget-panel {
-            background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid #f59e0b;
-            border-radius: 20px; padding: 25px; margin-bottom: 25px;
-        }
-        .budget-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; }
-
-        /* ----- ЛЕНТА СОБЫТИЙ (ЛОГ) ----- */
-        .log-box {
-            background: #0b1120; border-top: 1px solid #1e293b; padding: 20px 30px;
-            max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
-        }
-        .log-title { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; }
-        .log-item { font-size: 13px; padding: 10px 14px; border-radius: 8px; background: #1e293b; border-left: 3px solid #38bdf8; line-height: 1.4; animation: fadeIn 0.2s; }
-        .log-item.win { border-color: #10b981; background: rgba(16,185,129,0.1); }
-        .log-item.loss { border-color: #ef4444; background: rgba(239,68,68,0.1); }
-        .log-item.gold { border-color: #f59e0b; background: rgba(245,158,11,0.1); }
+        body { background: #0c0f16; color: #cfd8dc; font-family: 'Courier New', monospace; padding: 20px; }
+        .container { max-width: 900px; margin: auto; border: 1px solid #455a64; padding: 20px; background: #131720; }
+        .header { border-bottom: 2px solid #546e7a; padding-bottom: 10px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 150px; background: #000; color: #00ff00; border: 1px solid #333; padding: 10px; }
+        .btn-group { margin: 20px 0; }
+        button { background: #263238; color: white; border: 1px solid #546e7a; padding: 10px 20px; cursor: pointer; margin-right: 10px; }
+        button:hover { background: #37474f; }
+        .log { border: 1px solid #333; padding: 15px; background: #000; min-height: 200px; color: #fff; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-    <div class="game-app">
-        
-        <!-- ВЕРХНЯЯ ПАНЕЛЬ: ВЫБОР РОЛИ И БАЛАНСЫ -->
-        <div class="top-header">
-            <div>
-                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 6px;">Активный персонаж:</div>
-                <div class="char-selector">
-                    <button class="char-btn active" id="btn-char-grisha" onclick="selectChar('grisha')">🚨 Гриша (Опер)</button>
-                    <button class="char-btn" id="btn-char-mukhich" onclick="selectChar('mukhich')">🔍 Мухич (Следователь)</button>
-                    <button class="char-btn" id="btn-char-volodya" onclick="selectChar('volodya')">👑 Володя (Начальник)</button>
-                </div>
-            </div>
-
-            <div class="balances-area">
-                <div class="bal-box">
-                    <div class="bal-label">Личный кошелек (<span id="ui-char-name">Гриша</span>)</div>
-                    <div class="bal-val bal-personal" id="ui-money">350 000 ₽</div>
-                </div>
-                <div class="bal-box">
-                    <div class="bal-label">Бюджет ОМВД «Барвиха»</div>
-                    <div class="bal-val bal-budget" id="ui-budget">5 000 000 ₽</div>
-                </div>
-                <div class="bal-box" style="text-align: left; min-width: 180px;">
-                    <div class="bal-label">Твой транспорт</div>
-                    <div style="font-size: 13px; font-weight: 700; color: #38bdf8; margin-top: 4px;" id="ui-car">Mercedes E-Class</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- НАВИГАЦИЯ -->
-        <div class="nav-bar">
-            <button class="tab-btn active" onclick="switchTab('calls')">📞 Оперативные вызовы и Дела</button>
-            <button class="tab-btn" onclick="switchTab('budget')">🏛️ Кабинет Яковлева (Бюджет и ЗП)</button>
-            <button class="tab-btn" onclick="switchTab('cars')">🚗 Автосалон и Тюнинг</button>
-            <button class="tab-btn" onclick="switchTab('casino')">🎰 Казино «Golden Palace»</button>
-        </div>
-
-        <!-- КОНТЕНТ -->
-        <div class="content">
-            
-            <!-- ВКЛАДКА 1: ВЫЗОВЫ -->
-            <div class="tab-pane active" id="tab-calls">
-                <div class="sec-title" id="calls-title">🚨 Оперативная работа УГРО</div>
-                <div class="sec-desc" id="calls-desc">Выезжай на происшествия, проводи задержания и раскрывай преступления. Успешные дела приносят премию тебе в карман и пополняют общий бюджет отдела!</div>
-                
-                <div class="grid" id="calls-grid">
-                    <!-- Генерируется через JS в зависимости от персонажа -->
-                </div>
-            </div>
-
-            <!-- ВКЛАДКА 2: БЮДЖЕТ И УПРАВЛЕНИЕ -->
-            <div class="tab-pane" id="tab-budget">
-                <div class="sec-title">🏛️ Финансовый контроль ОМВД</div>
-                <div class="sec-desc">Управление государственной казной отдела. Только Володя Яковлев имеет право подписи, но зарплату получают все сотрудники!</div>
-
-                <div class="budget-panel">
-                    <h3 style="color: #f59e0b; font-size: 18px; margin-bottom: 5px;">Состояние казны: <span id="ui-budget-big">5 000 000 ₽</span></h3>
-                    <p style="font-size: 13px; color: #94a3b8;">Бюджет расходуется на выплату жалования, премии и оперативные расходы. Пополняется за раскрытие громких дел и запросы в министерство.</p>
-
-                    <div class="budget-actions">
-                        <button class="btn btn-green" onclick="paySalaries()">
-                            💵 Выдать всем зарплату<br><span style="font-size:11px; font-weight:400;">(-600 000 ₽ из казны → всем по 200к)</span>
-                        </button>
-                        <button class="btn btn-gold" onclick="giveBonus()">
-                            🏆 Выписать премию себе<br><span style="font-size:11px; font-weight:400;">(-250 000 ₽ из казны → на личный счет)</span>
-                        </button>
-                        <button class="btn btn-blue" onclick="requestFunding()">
-                            📞 Запросить субсидию в МВД<br><span style="font-size:11px; font-weight:400;">(+1 000 000 ₽ в казну, шанс 60%)</span>
-                        </button>
-                        <button class="btn btn-red" onclick="corruptSpend()">
-                            🤫 «Ремонт кабинета» (Распил)<br><span style="font-size:11px; font-weight:400;">(-500 000 ₽ из казны → Володе в карман)</span>
-                        </button>
-                    </div>
-                </div>
-
-                <h4 style="color: #f8fafc; margin-bottom: 12px; font-size: 16px;">Личные счета сотрудников отдела:</h4>
-                <div class="grid" id="staff-balances-grid"></div>
-            </div>
-
-            <!-- ВКЛАДКА 3: АВТОСАЛОН -->
-            <div class="tab-pane" id="tab-cars">
-                <div class="sec-title">🚗 Элитный автосалон «Барвиха-Авто»</div>
-                <div class="sec-desc">Покупай машины для текущего активного персонажа. Чем дороже и круче твоя тачка, тем выше процент престижа — он увеличивает все твои денежные бонусы за дела!</div>
-                
-                <div class="grid" id="cars-grid"></div>
-            </div>
-
-            <!-- ВКЛАДКА 4: КАЗИНО -->
-            <div class="tab-pane" id="tab-casino">
-                <div class="sec-title">🎰 VIP-Казино «Golden Palace»</div>
-                <div class="sec-desc">Здесь нет стресса — только азарт! Ставь личные деньги текущего персонажа на красное или черное с шансом удвоения.</div>
-
-                <div style="max-width: 500px; margin: 0 auto; background: #162032; border: 2px solid #f59e0b; border-radius: 20px; padding: 30px; text-align: center;">
-                    <div style="font-size: 64px; margin-bottom: 15px;" id="roulette-wheel">🎲</div>
-                    <h3 style="color: #fff; margin-bottom: 20px;">Сумма ставки (Личный счет):</h3>
-                    
-                    <input type="number" id="bet-val" value="50000" step="10000" min="5000" style="background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 10px; color: #fff; font-size: 18px; width: 200px; text-align: center; font-weight: 700; outline: none; margin-bottom: 25px;" />
-                    
-                    <div style="display: flex; gap: 15px; justify-content: center;">
-                        <button class="btn btn-red" style="padding: 15px;" onclick="playCasino('red')">🔴 КРАСНОЕ (2x)</button>
-                        <button class="btn" style="padding: 15px; background: #0f172a; color: #fff; border: 2px solid #64748b;" onclick="playCasino('black')">⚫ ЧЕРНОЕ (2x)</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- ЛЕНТА СОБЫТИЙ -->
-        <div class="log-box">
-            <div class="log-title">📢 Оперативная сводка и рация:</div>
-            <div id="log-list">
-                <div class="log-item">Единая система ОМВД «Барвиха-Северное» загружена. Выберите персонажа и приступайте к работе!</div>
-            </div>
-        </div>
-
+<div class="container">
+    <div class="header">
+        <h2>ОМВД «Барвиха-Северное» | Электронный журнал</h2>
+        <p>Статус: <span id="status">Ожидание вызова</span> | Бюджет: <span id="budget">5,000,000</span> ₽</p>
     </div>
 
-    <script>
-        /* ============================================================
-           1. БАЗА ДАННЫХ И СОСТОЯНИЕ (GAME STATE)
-        ============================================================ */
-        let state = {
-            activeChar: 'grisha',
-            deptBudget: 5000000,
-            chars: {
-                grisha: { name: 'Гриша Измайлов', title: 'Опер УГРО (Капитан)', money: 350000, carIdx: 1 },
-                mukhich: { name: 'Игорь Мухич', title: 'Следователь (Капитан)', money: 120000, carIdx: 0 },
-                volodya: { name: 'Володя Яковлев', title: 'Начальник (Полковник)', money: 1500000, carIdx: 2 }
-            },
-            cars: [
-                { name: 'Chrysler PT Cruiser', price: 0, prestige: 5, owned: true, tuned: false, tunePrice: 50000, tunePrestige: 15 },
-                { name: 'Mercedes-Benz E-Class', price: 1500000, prestige: 30, owned: true, tuned: false, tunePrice: 300000, tunePrestige: 25 },
-                { name: 'Nissan Teana (Служебная)', price: 1200000, prestige: 25, owned: true, tuned: false, tunePrice: 250000, tunePrestige: 20 },
-                { name: 'Porsche Macan GTS', price: 7500000, prestige: 100, owned: false, tuned: false, tunePrice: 1000000, tunePrestige: 60 },
-                { name: 'Mercedes G63 AMG (Гелик)', price: 20000000, prestige: 250, owned: false, tuned: false, tunePrice: 3000000, tunePrestige: 120 },
-                { name: 'Ferrari F8 Tributo', price: 45000000, prestige: 600, owned: false, tuned: false, tunePrice: 5000000, tunePrestige: 250 }
-            ],
-            calls: {
-                grisha: [
-                    { title: 'Угон золотого Lamborghini из ЦУМа', desc: 'Мажоры устроили ночные гонки. Нужна жесткая погоня с перехватом на Рублёво-Успенском.', reward: 120000, budget: 350000 },
-                    { title: 'Захват заложников в элитном фитнесе', desc: 'Обезумевший клиент требует вернуть ему деньги за персональные тренировки. Выезжаем группой!', reward: 180000, budget: 500000 },
-                    { title: 'Облава на подпольное казино в Жуковке', desc: 'Секретный покерный клуб для элиты. Можно конфисковать столы и сорвать приличный куш для ОМВД.', reward: 250000, budget: 800000 },
-                    { title: 'Разборка со стрельбой на Житной', desc: 'Охранники двух олигархов не поделили парковочное место. Требуется силовое вмешательство.', reward: 150000, budget: 400000 }
-                ],
-                mukhich: [
-                    { title: 'Пропажа чихуахуа жены министра', desc: 'Под подозрением личный шеф-повар и садовник. Нужно провести допрос с пристрастием и съесть их обед.', reward: 80000, budget: 200000 },
-                    { title: 'Кража 50 кг черной икры со склада', desc: 'Загадочное исчезновение деликатесов. Мухич предлагает провести следственный эксперимент с дегустацией.', reward: 110000, budget: 300000 },
-                    { title: 'Допрос астролога, украдавшей «ауру»', desc: 'Светская львица жалуется, что после сеанса таро у нее пропали бриллианты и карма. Нужно разобраться.', reward: 95000, budget: 250000 },
-                    { title: 'Засада в ресторане «Марио»', desc: 'Проверка информации о взятке. Главная задача следователя — не спалиться и заказать три пиццы за счет заведения.', reward: 130000, budget: 350000 }
-                ],
-                volodya: [
-                    { title: 'Внезапная проверка из Главка (МВД)', desc: 'Генералы приехали с инспекцией! Нужно срочно накрыть роскошную поляну в сауне и спрятать косяки Гриши.', reward: 300000, budget: -400000 },
-                    { title: 'Звонок от влиятельного Депутата', desc: 'Его сыночка задержали в клубе. Нужно красиво замять дело, чтобы не слететь с должности полковника.', reward: 400000, budget: 600000 },
-                    { title: 'Обеспечение охраны свадьбы олигарха', desc: 'Отправить весь отдел в оцепление виллы. Олигарх щедро платит в казну отдела за спокойствие гостей.', reward: 350000, budget: 1200000 },
-                    { title: 'Профилактическая беседа с Измайловым', desc: 'Гриша опять устроил беспредел. Нужно выпить успокоительного, наорать на него и заставить писать объяснительную.', reward: 100000, budget: 150000 }
-                ]
-            }
-        };
+    <div id="game-area">
+        <button onclick="startMission('patrol')">Патруль Рублевки</button>
+        <button onclick="startMission('raid')">Облава на казино</button>
+    </div>
 
-        /* ============================================================
-           2. ОБНОВЛЕНИЕ ИНТЕРФЕЙСА (UI)
-        ============================================================ */
-        function updateUI() {
-            const char = state.chars[state.activeChar];
-            const car = state.cars[char.carIdx];
-            
-            document.getElementById('ui-char-name').textContent = char.name.split(' ')[0];
-            document.getElementById('ui-money').textContent = char.money.toLocaleString() + ' ₽';
-            document.getElementById('ui-budget').textContent = state.deptBudget.toLocaleString() + ' ₽';
-            document.getElementById('ui-budget-big').textContent = state.deptBudget.toLocaleString() + ' ₽';
-            
-            const tuneStr = car.tuned ? ' [Stage 2]' : '';
-            document.getElementById('ui-car').textContent = car.name + tuneStr;
+    <div style="margin-top: 20px;">
+        <p>Оперативный рапорт (редактируй для подачи начальнику):</p>
+        <textarea id="report">Дата: 06.07.2026
+Сотрудник: Измайлов Г.А.
+Дело: 
+Описание: </textarea>
+        <button onclick="submitReport()" style="background: #1b5e20;">ПОДАТЬ РАПОРТ НА СТОЛ</button>
+    </div>
 
-            renderCalls();
-            renderCars();
-            renderStaffBalances();
+    <div class="log" id="log">Система активна. Жду указаний...</div>
+</div>
+
+<script>
+    let budget = 5000000;
+    let currentMission = null;
+
+    function log(text) {
+        document.getElementById('log').innerHTML += `<br>> ${text}`;
+    }
+
+    function startMission(type) {
+        currentMission = type;
+        if (type === 'patrol') {
+            log("Вы завели двигатель служебной машины (о001оо77). Едете по Рублевке.");
+            log("Видите странный автомобиль, совершающий опасные маневры. Ваши действия?");
+            document.getElementById('game-area').innerHTML = `
+                <button onclick="choice('patrol_stop')">Остановить и проверить документы</button>
+                <button onclick="choice('patrol_ignore')">Игнорировать и ехать дальше</button>
+            `;
+        } else if (type === 'raid') {
+            log("Вы стоите у входа в подпольное казино. Внутри шум, музыка и запах денег.");
+            document.getElementById('game-area').innerHTML = `
+                <button onclick="choice('raid_force')">Ворваться с оружием</button>
+                <button onclick="choice('raid_doc')">Предъявить ордер через черный ход</button>
+            `;
         }
+    }
 
-        function addLog(text, type = '') {
-            const list = document.getElementById('log-list');
-            const item = document.createElement('div');
-            item.className = `log-item ${type}`;
-            item.textContent = text;
-            list.prepend(item);
+    function choice(c) {
+        if (c === 'patrol_stop') {
+            log("Вы прижали авто к обочине. Внутри пьяный мажор. Он предлагает 'решить вопрос' за 50 000 рублей.");
+            log("Что делаем? [Взятка / Задержание]");
+            document.getElementById('game-area').innerHTML = `
+                <button onclick="finish('bribe')">Взять деньги</button>
+                <button onclick="finish('arrest')">Задержать по всей строгости</button>
+            `;
+        } else if (c === 'raid_force') {
+            log("Ворвались! Началась суматоха, кто-то пытается сбежать через окно. Вы задержали организатора.");
+            finish('success');
         }
+    }
 
-        /* ============================================================
-           3. ПЕРЕКЛЮЧЕНИЕ ПЕРСОНАЖЕЙ И ВКЛАДОК
-        ============================================================ */
-        function selectChar(charKey) {
-            state.activeChar = charKey;
-            document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-char-${charKey}`).classList.add('active');
-            
-            const char = state.chars[charKey];
-            addLog(`🔄 Вы переключились на персонажа: ${char.name} (${char.title}).`, 'gold');
-            
-            // Настройка заголовков под роль
-            const titles = {
-                grisha: ['🚨 Оперативная работа УГРО', 'Выезжай на силовые задержания, погони и облавы.'],
-                mukhich: ['🔍 Следственный отдел Мухича', 'Раскрывай самые странные, кулинарные и абсурдные преступления Барвихи.'],
-                volodya: ['👑 Решение вопросов Полковника Яковлева', 'Управляй отделом, решай проблемы с депутатами и спасай ОМВД от проверок Главка.']
-            };
-            document.getElementById('calls-title').textContent = titles[charKey][0];
-            document.getElementById('calls-desc').textContent = titles[charKey][1];
+    function finish(result) {
+        let reward = 0;
+        if (result === 'bribe') { reward = 50000; log("Деньги в кармане. Рапорт писать не придется. Преступник уехал."); }
+        else if (result === 'arrest') { reward = 10000; budget += 200000; log("Мажор в камере, рапорт готов. В бюджет ОМВД зачислено 200к."); }
+        else if (result === 'success') { reward = 50000; budget += 500000; log("Казино закрыто. Рапорт о задержании принят."); }
+        
+        document.getElementById('budget').innerText = budget.toLocaleString();
+        document.getElementById('game-area').innerHTML = `<button onclick="location.reload()">Вернуться в штаб</button>`;
+        document.getElementById('report').value += `\nРезультат: ${result}. Награда: ${reward} руб.`;
+    }
 
-            updateUI();
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-            
-            event.currentTarget.classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-        }
-
-        /* ============================================================
-           4. ОПЕРАТИВНЫЕ ВЫЗОВЫ
-        ============================================================ */
-        function renderCalls() {
-            const grid = document.getElementById('calls-grid');
-            const calls = state.calls[state.activeChar];
-            const char = state.chars[state.activeChar];
-            const car = state.cars[char.carIdx];
-            
-            const totalPrestige = car.prestige + (car.tuned ? car.tunePrestige : 0);
-            const mult = 1 + (totalPrestige / 100);
-
-            grid.innerHTML = calls.map((c, idx) => {
-                const finalReward = Math.round(c.reward * mult);
-                return `
-                    <div class="card">
-                        <div>
-                            <h4>${c.title}</h4>
-                            <p style="margin-top: 8px;">${c.desc}</p>
-                        </div>
-                        <div>
-                            <div class="card-meta" style="margin-bottom: 12px;">
-                                <span class="meta-reward">+${finalReward.toLocaleString()} ₽ (Тебе)</span>
-                                <span class="meta-budget">${c.budget > 0 ? '+' : ''}${c.budget.toLocaleString()} ₽ (В казну)</span>
-                            </div>
-                            <button class="btn btn-blue" onclick="dispatchCall(${idx})">🚓 Выехать на дело</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function dispatchCall(idx) {
-            const call = state.calls[state.activeChar][idx];
-            const char = state.chars[state.activeChar];
-            const car = state.cars[char.carIdx];
-            
-            const totalPrestige = car.prestige + (car.tuned ? car.tunePrestige : 0);
-            const mult = 1 + (totalPrestige / 100);
-            const finalReward = Math.round(call.reward * mult);
-
-            char.money += finalReward;
-            state.deptBudget += call.budget;
-
-            let msg = `🚓 [${char.name}] Успешно закрыл дело: «${call.title}» на авто ${car.name}! Личная премия: +${finalReward.toLocaleString()} ₽ (Бонус авто +${totalPrestige}%).`;
-            if (call.budget !== 0) {
-                msg += ` В бюджет ОМВД: ${call.budget > 0 ? '+' : ''}${call.budget.toLocaleString()} ₽.`;
-            }
-
-            addLog(msg, 'win');
-            updateUI();
-        }
-
-        /* ============================================================
-           5. КАБИНЕТ ЯКОВЛЕВА (БЮДЖЕТ И ЗАРПЛАТЫ)
-        ============================================================ */
-        function renderStaffBalances() {
-            const grid = document.getElementById('staff-balances-grid');
-            grid.innerHTML = Object.keys(state.chars).map(k => {
-                const c = state.chars[k];
-                return `
-                    <div class="card" style="padding: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h4 style="font-size: 15px;">${c.name}</h4>
-                                <span style="font-size: 11px; color: #64748b;">${c.title}</span>
-                            </div>
-                            <div style="font-size: 18px; font-weight: 900; color: #10b981;">${c.money.toLocaleString()} ₽</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function paySalaries() {
-            if (state.deptBudget < 600000) {
-                return addLog('❌ В бюджете отдела недостаточно средств для выплаты зарплат! Раскройте пару дел.', 'loss');
-            }
-            state.deptBudget -= 600000;
-            state.chars.grisha.money += 200000;
-            state.chars.mukhich.money += 200000;
-            state.chars.volodya.money += 200000;
-            
-            addLog('💵 Полковник Яковлев выдал плановое жалованье! Каждый сотрудник получил по 200 000 ₽ из казны отдела.', 'win');
-            updateUI();
-        }
-
-        function giveBonus() {
-            if (state.deptBudget < 250000) {
-                return addLog('❌ Казна пуста! Не из чего выписывать премию.', 'loss');
-            }
-            state.deptBudget -= 250000;
-            state.chars[state.activeChar].money += 250000;
-            
-            addLog(`🏆 Из бюджета ОМВД выписана особая премия сотруднику [${state.chars[state.activeChar].name}]: +250 000 ₽!`, 'gold');
-            updateUI();
-        }
-
-        function requestFunding() {
-            addLog('📞 Яковлев звонит генералу в Министерство и жалуется на тяжелую обстановку в Барвихе...', 'gold');
-            setTimeout(() => {
-                if (Math.random() >= 0.4) {
-                    state.deptBudget += 1000000;
-                    addLog('✅ Министерство выделило дополнительную субсидию! Казна ОМВД пополнилась на +1 000 000 ₽.', 'win');
-                } else {
-                    addLog('🤬 Генерал наорал на Володю и сказал справляться своими силами! В субсидии отказано.', 'loss');
-                }
-                updateUI();
-            }, 600);
-        }
-
-        function corruptSpend() {
-            if (state.deptBudget < 500000) {
-                return addLog('❌ В бюджете нет 500к для «ремонта»!', 'loss');
-            }
-            state.deptBudget -= 500000;
-            state.chars.volodya.money += 500000;
-            
-            addLog('🤫 Володя списал 500 000 ₽ из бюджета на «элитные кожаные диваны для кабинета». Деньги тихо осели на личном счете Яковлева.', 'gold');
-            updateUI();
-        }
-
-        /* ============================================================
-           6. АВТОСАЛОН И ТЮНИНГ
-        ============================================================ */
-        function renderCars() {
-            const grid = document.getElementById('cars-grid');
-            const char = state.chars[state.activeChar];
-
-            grid.innerHTML = state.cars.map((car, idx) => {
-                const isCurrent = char.carIdx === idx;
-                const totalPrestige = car.prestige + (car.tuned ? car.tunePrestige : 0);
-                
-                let btnHtml = `<button class="btn btn-blue" onclick="buyCar(${idx})">Купить за ${car.price.toLocaleString()} ₽</button>`;
-                if (car.owned && isCurrent) {
-                    btnHtml = `<button class="btn btn-green" disabled>✓ Твой текущий автомобиль</button>`;
-                } else if (car.owned && !isCurrent) {
-                    btnHtml = `<button class="btn btn-gold" onclick="selectCar(${idx})">Сесть за руль</button>`;
-                }
-
-                let tuneHtml = '';
-                if (car.owned && !car.tuned) {
-                    tuneHtml = `<button class="btn" style="margin-top:8px; background:#334155; color:#fff;" onclick="tuneCar(${idx})">🔧 Тюнинг Stage 2 (+${car.tunePrestige}%) — ${car.tunePrice.toLocaleString()} ₽</button>`;
-                } else if (car.owned && car.tuned) {
-                    tuneHtml = `<div style="text-align:center; font-size:12px; color:#10b981; margin-top:8px; font-weight:700;">✨ Установлен VIP Тюнинг</div>`;
-                }
-
-                return `
-                    <div class="card" style="${isCurrent ? 'border-color: #38bdf8; box-shadow: 0 0 15px rgba(56,189,248,0.2);' : ''}">
-                        <div>
-                            <h4>🚗 ${car.name}</h4>
-                            <p style="margin-top:5px; font-size: 14px;">Бонус к премиям: <strong style="color:#38bdf8;">+${totalPrestige}%</strong></p>
-                            <p style="font-size:12px; color:#64748b; margin-top:3px;">Владелец: ${car.owned ? 'В гараже ОМВД' : 'Автосалон'}</p>
-                        </div>
-                        <div>
-                            ${btnHtml}
-                            ${tuneHtml}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function buyCar(idx) {
-            const car = state.cars[idx];
-            const char = state.chars[state.activeChar];
-            
-            if (char.money < car.price) {
-                return addLog(`❌ У персонажа ${char.name} не хватает личных денег для покупки!`, 'loss');
-            }
-            
-            char.money -= car.price;
-            car.owned = true;
-            char.carIdx = idx;
-            addLog(`🎉 [${char.name}] Приобрел роскошный автомобиль: ${car.name}! Бонусы за дела выросли.`, 'win');
-            updateUI();
-        }
-
-        function selectCar(idx) {
-            state.chars[state.activeChar].carIdx = idx;
-            addLog(`🔑 [${state.chars[state.activeChar].name}] Пересел за руль: ${state.cars[idx].name}.`, 'gold');
-            updateUI();
-        }
-
-        function tuneCar(idx) {
-            const car = state.cars[idx];
-            const char = state.chars[state.activeChar];
-            
-            if (char.money < car.tunePrice) {
-                return addLog('❌ Не хватает личных денег на тюнинг!', 'loss');
-            }
-            
-            char.money -= car.tunePrice;
-            car.tuned = true;
-            addLog(`🔧 Автомобиль ${car.name} прокачан до Stage 2! Процент престижа увеличен.`, 'win');
-            updateUI();
-        }
-
-        /* ============================================================
-           7. КАЗИНО
-        ============================================================ */
-        function playCasino(color) {
-            const betInput = document.getElementById('bet-val');
-            const bet = parseInt(betInput.value, 10);
-            const char = state.chars[state.activeChar];
-
-            if (isNaN(bet) || bet <= 0) return addLog('❌ Введи корректную ставку!', 'loss');
-            if (char.money < bet) return addLog(`❌ У персонажа ${char.name} нет столько денег!`, 'loss');
-
-            const wheel = document.getElementById('roulette-wheel');
-            wheel.textContent = '🔄';
-            
-            setTimeout(() => {
-                const isWin = Math.random() >= 0.5;
-                if (isWin) {
-                    char.money += bet;
-                    wheel.textContent = color === 'red' ? '🔴 WIN!' : '⚫ WIN!';
-                    addLog(`🎰 Победа в казино! Выпало ${color === 'red' ? 'Красное' : 'Черное'}. [${char.name}] выиграл +${bet.toLocaleString()} ₽!`, 'win');
-                } else {
-                    char.money -= bet;
-                    wheel.textContent = color === 'red' ? '⚫ LOSS' : '🔴 LOSS';
-                    addLog(`💸 Проигрыш... Ставка ${bet.toLocaleString()} ₽ сгорела на рулетке.`, 'loss');
-                }
-                updateUI();
-            }, 400);
-        }
-
-        // Запуск
-        updateUI();
-    </script>
+    function submitReport() {
+        alert("Рапорт подан на стол начальнику. Ожидайте начисления зарплаты!");
+    }
+</script>
 </body>
 </html>
