@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Полицейский с Рублёвки | Барвиха RP</title>
+    <title>Барвиха RP — Полицейский с Рублёвки</title>
     <style>
-        /* ============================================================
-           БАЗОВЫЕ СТИЛИ
-           ============================================================ */
+        /* ===== СБРОС ===== */
         * {
             margin: 0;
             padding: 0;
@@ -16,7 +14,7 @@
 
         body {
             background: #070b12;
-            color: #e8ecf1;
+            color: #eef2f6;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
             padding: 12px;
@@ -25,64 +23,84 @@
             align-items: center;
         }
 
-        /* ============================================================
-           ОСНОВНОЙ КОНТЕЙНЕР
-           ============================================================ */
-        #game {
+        /* ===== ГЛАВНАЯ ОБОЛОЧКА ===== */
+        #app {
             max-width: 1100px;
             width: 100%;
             background: #0e1622;
-            border-radius: 24px;
-            padding: 20px 18px 28px;
+            border-radius: 28px;
+            padding: 24px 22px 30px;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            position: relative;
         }
 
-        /* ============================================================
-           ХЕДЕР
-           ============================================================ */
+        /* ===== ХЕДЕР ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
-            padding-bottom: 14px;
+            gap: 12px;
+            padding-bottom: 16px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             margin-bottom: 18px;
         }
 
         .header h1 {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #5b9aff 100%);
+            background: linear-gradient(135deg, #ffffff, #5b9aff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
         }
 
-        .header .badge {
+        .header .meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header .meta .badge {
             background: #1a2636;
             color: #7aa9ff;
-            padding: 4px 14px;
+            padding: 4px 16px;
             border-radius: 30px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             border: 1px solid rgba(122, 169, 255, 0.12);
         }
 
-        /* ============================================================
-           СТАТУС-БАР (HUD)
-           ============================================================ */
+        .header .meta .btn-outline {
+            background: none;
+            border: 1px solid #2a3d57;
+            color: #8896b0;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .header .meta .btn-outline:hover {
+            background: #1a2636;
+            color: #eef2f6;
+            border-color: #5b9aff;
+        }
+
+        /* ===== HUD ===== */
         .hud {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
             background: #0b121d;
-            border-radius: 16px;
-            padding: 12px 14px;
-            margin-bottom: 16px;
+            border-radius: 18px;
+            padding: 14px 16px;
+            margin-bottom: 18px;
             border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
@@ -91,16 +109,17 @@
         }
 
         .hud-item .value {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #5b9aff;
             line-height: 1.2;
+            transition: 0.2s;
         }
 
         .hud-item .label {
             font-size: 10px;
-            color: #7a8aa3;
             text-transform: uppercase;
+            color: #6a7a93;
             letter-spacing: 0.5px;
         }
 
@@ -114,46 +133,47 @@
             color: #4caf84;
         }
 
-        /* ============================================================
-           ВКЛАДКИ
-           ============================================================ */
+        /* ===== НАВИГАЦИЯ ===== */
         .tabs {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
+            background: #0b121d;
+            border-radius: 16px;
+            padding: 4px;
         }
 
-        .tab-btn {
+        .tabs button {
             background: none;
             border: none;
             color: #7a8aa3;
             font-family: inherit;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 30px;
+            padding: 10px 20px;
+            border-radius: 12px;
             cursor: pointer;
             transition: 0.2s;
+            flex: 1;
+            min-width: 80px;
         }
 
-        .tab-btn:hover {
-            color: #e8ecf1;
+        .tabs button:hover {
+            color: #eef2f6;
             background: #1a2636;
         }
 
-        .tab-btn.active {
+        .tabs button.active {
             color: #fff;
             background: #1f2d42;
             box-shadow: inset 0 0 0 1px rgba(91, 154, 255, 0.15);
         }
 
-        /* ============================================================
-           КОНТЕНТ ВКЛАДОК
-           ============================================================ */
+        /* ===== КОНТЕНТ ===== */
         .tab-content {
             display: none;
-            animation: fadeUp 0.25s ease;
+            animation: fadeUp 0.3s ease;
         }
 
         .tab-content.active {
@@ -163,7 +183,7 @@
         @keyframes fadeUp {
             0% {
                 opacity: 0;
-                transform: translateY(6px);
+                transform: translateY(8px);
             }
             100% {
                 opacity: 1;
@@ -171,13 +191,11 @@
             }
         }
 
-        /* ============================================================
-           КАРТОЧКИ
-           ============================================================ */
+        /* ===== КАРТОЧКИ ===== */
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
         }
 
         .grid-1 {
@@ -188,60 +206,63 @@
 
         .card {
             background: #0b121d;
-            border-radius: 14px;
-            padding: 14px 16px 16px;
+            border-radius: 16px;
+            padding: 16px 18px 18px;
             border: 1px solid rgba(255, 255, 255, 0.03);
             transition: 0.2s;
-            cursor: default;
         }
 
         .card:hover {
             background: #111c2b;
-            border-color: rgba(91, 154, 255, 0.1);
+            border-color: rgba(91, 154, 255, 0.08);
         }
 
         .card .title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
         }
 
         .card .sub {
-            font-size: 12px;
+            font-size: 13px;
             color: #7a8aa3;
             margin-top: 2px;
+        }
+
+        .card .desc {
+            font-size: 13px;
+            color: #a0b0c8;
+            margin: 4px 0 8px;
         }
 
         .card .meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
+            gap: 12px;
             font-size: 12px;
             color: #7a8aa3;
+            margin-top: 6px;
         }
 
         .card .meta b {
-            color: #e8ecf1;
+            color: #eef2f6;
         }
 
         .card .actions {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
-        /* ============================================================
-           КНОПКИ
-           ============================================================ */
+        /* ===== КНОПКИ ===== */
         .btn {
             background: #1f2d42;
             border: none;
-            color: #e8ecf1;
+            color: #eef2f6;
             font-family: inherit;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 30px;
             cursor: pointer;
             transition: 0.2s;
@@ -281,19 +302,17 @@
         }
 
         .btn-sm {
-            padding: 4px 12px;
-            font-size: 11px;
+            padding: 5px 14px;
+            font-size: 12px;
         }
 
-        /* ============================================================
-           ДИАЛОГИ (Мухич)
-           ============================================================ */
+        /* ===== ДИАЛОГИ ===== */
         .dialog-box {
             background: #0b121d;
             border-radius: 14px;
-            padding: 16px 18px;
+            padding: 14px 18px;
             border-left: 4px solid #5b9aff;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .dialog-box .who {
@@ -304,49 +323,57 @@
 
         .dialog-box .text {
             font-size: 14px;
-            margin-top: 4px;
+            margin-top: 3px;
             line-height: 1.5;
+            color: #c8d2e0;
         }
 
-        /* ============================================================
-           АДАПТИВ
-           ============================================================ */
-        @media (max-width: 600px) {
-            #game {
-                padding: 14px 12px 20px;
+        .dialog-box .time {
+            font-size: 11px;
+            color: #6a7a93;
+            margin-top: 4px;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 700px) {
+            #app {
+                padding: 16px 14px 22px;
             }
             .header h1 {
-                font-size: 18px;
+                font-size: 20px;
             }
             .hud {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 4px;
                 padding: 10px;
             }
             .hud-item .value {
-                font-size: 18px;
+                font-size: 17px;
             }
             .grid-2 {
                 grid-template-columns: 1fr 1fr;
             }
-            .tab-btn {
+            .tabs button {
                 font-size: 12px;
-                padding: 5px 12px;
+                padding: 8px 12px;
+                min-width: 60px;
             }
         }
 
-        @media (max-width: 400px) {
+        @media (max-width: 450px) {
             .grid-2 {
                 grid-template-columns: 1fr;
             }
             .hud {
                 grid-template-columns: 1fr 1fr;
             }
+            .tabs button {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
         }
 
-        /* ============================================================
-           СКРОЛЛ
-           ============================================================ */
+        /* ===== СКРОЛЛ ===== */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -361,26 +388,25 @@
 </head>
 <body>
 
-    <div id="game">
+    <div id="app">
 
-        <!-- ============================================================
-        ХЕДЕР
-        ============================================================ -->
+        <!-- ===== ХЕДЕР ===== -->
         <div class="header">
             <h1>🚔 ОМВД «Барвиха-Северное»</h1>
-            <span class="badge">Барвиха RP v1.0</span>
+            <div class="meta">
+                <span class="badge">Барвиха RP v2.0</span>
+                <button class="btn-outline" onclick="resetGame()">🔄 Сброс</button>
+            </div>
         </div>
 
-        <!-- ============================================================
-        HUD (СТАТУС-БАР)
-        ============================================================ -->
+        <!-- ===== HUD ===== -->
         <div class="hud" id="hud">
             <div class="hud-item">
                 <div class="value" id="hudMoney">0</div>
                 <div class="label">💰 Деньги</div>
             </div>
             <div class="hud-item">
-                <div class="value" id="hudRank">0</div>
+                <div class="value" id="hudRank">Стажёр</div>
                 <div class="label">⭐ Ранг</div>
             </div>
             <div class="hud-item">
@@ -388,12 +414,12 @@
                 <div class="label">😰 Стресс</div>
             </div>
             <div class="hud-item">
-                <div class="value" id="hudReputation">0%</div>
+                <div class="value" id="hudRep">0%</div>
                 <div class="label">📊 Репутация</div>
             </div>
             <div class="hud-item">
-                <div class="value" id="hudCarHealth">100%</div>
-                <div class="label">🚗 Состояние авто</div>
+                <div class="value" id="hudCar">100%</div>
+                <div class="label">🚗 Авто</div>
             </div>
             <div class="hud-item">
                 <div class="value" id="hudFuel">100%</div>
@@ -401,66 +427,236 @@
             </div>
         </div>
 
-        <!-- ============================================================
-        ВКЛАДКИ
-        ============================================================ -->
+        <!-- ===== ВКЛАДКИ ===== -->
         <div class="tabs">
-            <button class="tab-btn active" data-tab="main">📋 Дела</button>
-            <button class="tab-btn" data-tab="garage">🚗 Гараж</button>
-            <button class="tab-btn" data-tab="dialogs">💬 Диалоги</button>
-            <button class="tab-btn" data-tab="stats">📊 Статистика</button>
+            <button class="active" data-tab="main">📋 Дела</button>
+            <button data-tab="garage">🚗 Гараж</button>
+            <button data-tab="dialogs">💬 Диалоги</button>
+            <button data-tab="stats">📊 Статистика</button>
         </div>
 
-        <!-- ============================================================
-        ВКЛАДКА: ДЕЛА
-        ============================================================ -->
+        <!-- ===== ВКЛАДКА: ДЕЛА ===== -->
         <div class="tab-content active" id="tab-main">
-            <div class="grid-1" id="crimesList">
-                <!-- Заполняется из JS -->
-            </div>
+            <div id="crimesContainer"></div>
         </div>
 
-        <!-- ============================================================
-        ВКЛАДКА: ГАРАЖ
-        ============================================================ -->
+        <!-- ===== ВКЛАДКА: ГАРАЖ ===== -->
         <div class="tab-content" id="tab-garage">
-            <div class="grid-2" id="garageList">
-                <!-- Заполняется из JS -->
-            </div>
+            <div id="garageContainer"></div>
         </div>
 
-        <!-- ============================================================
-        ВКЛАДКА: ДИАЛОГИ
-        ============================================================ -->
+        <!-- ===== ВКЛАДКА: ДИАЛОГИ ===== -->
         <div class="tab-content" id="tab-dialogs">
-            <div id="dialogsList">
-                <!-- Заполняется из JS -->
-            </div>
+            <div id="dialogsContainer"></div>
         </div>
 
-        <!-- ============================================================
-        ВКЛАДКА: СТАТИСТИКА
-        ============================================================ -->
+        <!-- ===== ВКЛАДКА: СТАТИСТИКА ===== -->
         <div class="tab-content" id="tab-stats">
-            <div id="statsContent">
-                <!-- Заполняется из JS -->
-            </div>
+            <div id="statsContainer"></div>
         </div>
 
     </div>
 
-    <!-- ============================================================
-    СКРИПТ — ПОЛНЫЙ ИГРОВОЙ ДВИЖОК
-    ============================================================ -->
     <script>
-        // ============================================================
-        //  1. CORE (ЯДРО) — 400 строк
-        // ============================================================
+        // ================================================================
+        // 1.  БАЗА ДАННЫХ
+        // ================================================================
 
-        // ----- СОСТОЯНИЕ ИГРЫ -----
-        const GameState = {
+        // ----- ПРЕСТУПЛЕНИЯ (50) -----
+        const CRIMES = [
+            { id: 1, title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', diff: 3, reward: 8000, risk: 30,
+                type: 'Угон' },
+            { id: 2, title: 'Угон Mercedes в Барвихе', article: 'ст. 166 УК РФ', diff: 2, reward: 5000, risk: 20,
+                type: 'Угон' },
+            { id: 3, title: 'Угон мотоцикла в Жуковке', article: 'ст. 166 УК РФ', diff: 1, reward: 3000, risk: 15,
+                type: 'Угон' },
+            { id: 4, title: 'Угон Lamborghini Urus', article: 'ст. 166 УК РФ', diff: 4, reward: 12000, risk: 40,
+                type: 'Угон' },
+            { id: 5, title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', diff: 4, reward: 15000, risk: 45,
+                type: 'Кража' },
+            { id: 6, title: 'Кража драгоценностей', article: 'ст. 158 УК РФ', diff: 3, reward: 10000, risk: 35,
+                type: 'Кража' },
+            { id: 7, title: 'Кража элитного вина', article: 'ст. 158 УК РФ', diff: 2, reward: 6000, risk: 20, type: 'Кража' },
+            { id: 8, title: 'Кража картины', article: 'ст. 158 УК РФ', diff: 5, reward: 20000, risk: 50, type: 'Кража' },
+            { id: 9, title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', diff: 5, reward: 25000, risk: 55,
+                type: 'Мошенничество' },
+            { id: 10, title: 'Финансовая пирамида', article: 'ст. 159 УК РФ', diff: 4, reward: 18000, risk: 40,
+                type: 'Мошенничество' },
+            { id: 11, title: 'Мошенничество с недвижимостью', article: 'ст. 159 УК РФ', diff: 3, reward: 12000, risk: 30,
+                type: 'Мошенничество' },
+            { id: 12, title: 'Барвихинский стрелок', article: 'ст. 105 УК РФ', diff: 6, reward: 30000, risk: 70,
+                type: 'Убийство' },
+            { id: 13, title: 'Убийство в Жуковке', article: 'ст. 105 УК РФ', diff: 5, reward: 22000, risk: 60,
+                type: 'Убийство' },
+            { id: 14, title: 'Убийство в ресторане', article: 'ст. 105 УК РФ', diff: 4, reward: 18000, risk: 50,
+                type: 'Убийство' },
+            { id: 15, title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', diff: 4, reward: 14000, risk: 40,
+                type: 'Оружие' },
+            { id: 16, title: 'Сбыт оружия в Барвихе', article: 'ст. 222 УК РФ', diff: 3, reward: 10000, risk: 35,
+                type: 'Оружие' },
+            { id: 17, title: 'Хранение взрывчатки', article: 'ст. 222.1 УК РФ', diff: 5, reward: 20000, risk: 60,
+                type: 'Оружие' },
+            { id: 18, title: 'Сбыт наркотиков', article: 'ст. 228.1 УК РФ', diff: 4, reward: 16000, risk: 50,
+                type: 'Наркотики' },
+            { id: 19, title: 'Хранение наркотиков', article: 'ст. 228 УК РФ', diff: 3, reward: 10000, risk: 35,
+                type: 'Наркотики' },
+            { id: 20, title: 'Наркопритон', article: 'ст. 232 УК РФ', diff: 5, reward: 22000, risk: 55, type: 'Наркотики' },
+            { id: 21, title: 'Фальшивые деньги', article: 'ст. 186 УК РФ', diff: 3, reward: 9000, risk: 30,
+                type: 'Экономическое' },
+            { id: 22, title: 'Уклонение от налогов', article: 'ст. 198 УК РФ', diff: 3, reward: 8000, risk: 25,
+                type: 'Экономическое' },
+            { id: 23, title: 'Легализация доходов', article: 'ст. 174 УК РФ', diff: 4, reward: 14000, risk: 35,
+                type: 'Экономическое' },
+            { id: 24, title: 'ДТП на Рублёвке', article: 'ст. 264 УК РФ', diff: 2, reward: 6000, risk: 20, type: 'ДТП' },
+            { id: 25, title: 'Наезд на пешехода', article: 'ст. 264 УК РФ', diff: 3, reward: 8000, risk: 30, type: 'ДТП' },
+            { id: 26, title: 'Пьяная езда', article: 'ст. 264.1 УК РФ', diff: 1, reward: 3000, risk: 10, type: 'ДТП' },
+            { id: 27, title: 'Побои в клубе', article: 'ст. 116 УК РФ', diff: 1, reward: 3000, risk: 10,
+                type: 'Хулиганство' },
+            { id: 28, title: 'Вандализм в Барвихе', article: 'ст. 214 УК РФ', diff: 1, reward: 2000, risk: 10,
+                type: 'Хулиганство' },
+            { id: 29, title: 'Вымогательство', article: 'ст. 163 УК РФ', diff: 4, reward: 12000, risk: 40,
+                type: 'Эксторшн' },
+            { id: 30, title: 'Рэкет на Рублёвке', article: 'ст. 163 УК РФ', diff: 5, reward: 18000, risk: 50,
+                type: 'Эксторшн' },
+            { id: 31, title: 'Взлом банка', article: 'ст. 272 УК РФ', diff: 5, reward: 20000, risk: 45, type: 'Кибер' },
+            { id: 32, title: 'Кража данных', article: 'ст. 137 УК РФ', diff: 3, reward: 8000, risk: 25, type: 'Кибер' },
+            { id: 33, title: 'Коррупция в ОМВД', article: 'ст. 290 УК РФ', diff: 6, reward: 25000, risk: 70,
+                type: 'Коррупция' },
+            { id: 34, title: 'Получение взятки', article: 'ст. 290 УК РФ', diff: 4, reward: 12000, risk: 40,
+                type: 'Коррупция' },
+            { id: 35, title: 'Злоупотребление полномочиями', article: 'ст. 285 УК РФ', diff: 3, reward: 10000, risk: 35,
+                type: 'Коррупция' },
+            { id: 36, title: 'Вырубка леса', article: 'ст. 260 УК РФ', diff: 2, reward: 5000, risk: 15, type: 'Экология' },
+            { id: 37, title: 'Загрязнение реки', article: 'ст. 250 УК РФ', diff: 2, reward: 4000, risk: 15,
+                type: 'Экология' },
+            { id: 38, title: 'Побег из ОМВД', article: 'ст. 313 УК РФ', diff: 5, reward: 18000, risk: 60, type: 'Прочее' },
+            { id: 39, title: 'Лжесвидетельство', article: 'ст. 307 УК РФ', diff: 2, reward: 4000, risk: 15,
+                type: 'Прочее' },
+            { id: 40, title: 'Уклонение от призыва', article: 'ст. 328 УК РФ', diff: 1, reward: 2000, risk: 5,
+                type: 'Прочее' },
+            { id: 41, title: 'Браконьерство', article: 'ст. 258 УК РФ', diff: 2, reward: 3500, risk: 10, type: 'Прочее' },
+            { id: 42, title: 'Угон BMW X5 M', article: 'ст. 166 УК РФ', diff: 3, reward: 9000, risk: 35, type: 'Угон' },
+            { id: 43, title: 'Угон мотоцикла в Барвихе', article: 'ст. 166 УК РФ', diff: 2, reward: 4000, risk: 18,
+                type: 'Угон' },
+            { id: 44, title: 'Кража сейфа в офисе', article: 'ст. 158 УК РФ', diff: 3, reward: 8000, risk: 30,
+                type: 'Кража' },
+            { id: 45, title: 'Интернет-мошенничество', article: 'ст. 159 УК РФ', diff: 2, reward: 7000, risk: 20,
+                type: 'Мошенничество' },
+            { id: 46, title: 'Убийство таксиста', article: 'ст. 105 УК РФ', diff: 3, reward: 10000, risk: 40,
+                type: 'Убийство' },
+            { id: 47, title: 'Незаконное ношение оружия', article: 'ст. 222 УК РФ', diff: 2, reward: 5000, risk: 20,
+                type: 'Оружие' },
+            { id: 48, title: 'Хулиганство в ресторане', article: 'ст. 213 УК РФ', diff: 2, reward: 4000, risk: 15,
+                type: 'Хулиганство' },
+            { id: 49, title: 'Взлом сайта ОМВД', article: 'ст. 272 УК РФ', diff: 4, reward: 15000, risk: 60,
+                type: 'Кибер' },
+            { id: 50, title: 'Вымогательство в Барвихе', article: 'ст. 163 УК РФ', diff: 5, reward: 18000, risk: 50,
+                type: 'Эксторшн' }
+        ];
+
+        // ----- ДИАЛОГИ -----
+        const MUHICH = [
+            'Ты не видел мои очки? Без них я как слепой крот!',
+            'Срочно! Кто-то украл у меня носки с Рублёвки!',
+            'Я хочу купить попугая. Ты не знаешь, где их продают?',
+            'Слышал, у тебя есть кот? Я хочу с ним познакомиться!',
+            'Я нашёл в архиве дело о пропавшем кексе. Надо расследовать!',
+            'Скажи честно, моя новая причёска похожа на Элвиса?',
+            'Ты не знаешь, сколько стоит козёл? Мне нужен козёл для экспериментов!',
+            'Я подозреваю соседа — у него слишком много кактусов!',
+            'У меня в кабинете завёлся призрак. Он переставляет папки!',
+            'Какую шляпу выбрать на свадьбу? Срочно!',
+            'Ты не видел мои очки? Я их везде ищу!',
+            'Срочно нужна твоя помощь! Я потерял любимый карандаш!',
+            'Я решил стать веганом. Но это так сложно!',
+            'Ты не знаешь, какую музыку слушают в Bentley?',
+            'Вчера встретил твоего двойника. Он был очень вежливый!',
+            'Помнишь, я просил хлеб? Я передумал — мне нужен багет!',
+            'Я купил себе йо-йо. Тренируюсь. Пока не очень...',
+            'Ты веришь в НЛО? Я видел тарелку над Барвихой!',
+            'Помоги выбрать подарок для Веры. У нас юбилей!',
+            'Слушай, а ты мог бы притвориться моим свидетелем на суде?'
+        ];
+
+        const YAKOVLEV = [
+            'Ты опять опоздал на планерку. Объяснись.',
+            'Отличная работа по "Барвихинскому стрелку". Горжусь.',
+            'Ты снова нарушил устав. Оформлю выговор.',
+            'Начальство довольно твоими показателями. Продолжай.',
+            'Твой отчёт по делу №1024 — полный бардак. Переделай.',
+            'За тобой замечена связь с сомнительными личностями.',
+            'Отличный результат. Ты получаешь повышение!',
+            'Ты слишком много времени проводишь с Измайловым.',
+            'Завтра проверка документов. Приведи всё в порядок.',
+            'Твои методы не всегда этичны, но они работают.',
+            'Ты слишком много берёшь на себя. Делегируй.',
+            'Я получил жалобу на тебя. Разберись.',
+            'Ты — лучший сыщик в моём отделе. Не подведи.',
+            'Я перевожу тебя в отдел по особо важным делам.',
+            'Ты слишком эмоционален. Держи себя в руках.',
+            'Отличный результат по итогам месяца. Ты заслужил премию.'
+        ];
+
+        const GRISHA = [
+            'Брат, я в деле. Ты тоже в деле? Погнали!',
+            'Это просто бизнес, ничего личного.',
+            'Слушай, я ценю твой подход к работе. Ты как я.',
+            'Помнишь дело на Рублёвке? Мы круто их развели!',
+            'Ты знаешь, что такое настоящая свобода? Деньги и пофиг.',
+            'У меня есть предложение. Бизнес, деньги, риск. Ты за?',
+            'Я не верю в систему. Но я верю в тебя.',
+            'Давай замутим одно дельце. Чисто, без свидетелей.',
+            'Брат, ты слишком осторожен. Надо прыгать в омут.',
+            'Эта работа нас съест, если не получать кайф. Я получаю.',
+            'Слышал, ты опять поцапался с Яковлевым. Я на твоей стороне.',
+            'Деньги любят смелых. Ты смелый?'
+        ];
+
+        // ----- ГАРАЖ -----
+        const CARS = [
+            { model: 'Porsche 911 Turbo S', price: 22000000, desc: 'V8 битурбо, 650 л.с. 2.6 сек до 100' },
+            { model: 'Mercedes-Benz S-Class', price: 15000000, desc: 'V8 битурбо. Символ статуса' },
+            { model: 'Lamborghini Urus', price: 25000000, desc: 'V8 битурбо, 650 л.с. Спортивный внедорожник' },
+            { model: 'BMW X5 M', price: 12000000, desc: 'V8, 600 л.с. Для бизнес-поездок' },
+            { model: 'Audi A4', price: 5000000, desc: 'Турбодизель. Надёжный и комфортный' },
+            { model: 'Ford Focus II', price: 2500000, desc: 'Служебная машина. Простая и надёжная' },
+            { model: 'УАЗ Патриот', price: 1500000, desc: 'Служебный внедорожник. Проходимый' },
+            { model: 'Chrysler PT Cruiser', price: 800000, desc: 'Ретро-хэтчбек. Для Мухича' },
+            { model: 'Porsche Cayenne', price: 18000000, desc: 'V6, 340 л.с. Люксовый кроссовер' },
+            { model: 'BMW 4-Series', price: 8000000, desc: 'V6, 350 л.с. Спортивное купе' },
+            { model: 'Кастомный чоппер', price: 3000000, desc: 'Чёрный мощный байк' },
+            { model: 'Skoda Octavia', price: 3500000, desc: 'Серая, скромная, надёжная' },
+            { model: 'Toyota Camry', price: 4500000, desc: 'Белый седан. Для начальства' },
+            { model: 'Nissan Teana', price: 4000000, desc: 'Бордовый → черный. Для Яковлева' },
+            { model: 'Hyundai Solaris', price: 1500000, desc: 'Надёжный седан для Гудковой' },
+            { model: 'Mercedes E-Class (W212)', price: 10000000, desc: 'Чёрный седан Измайлова' },
+            { model: 'Hyundai Getz', price: 800000, desc: 'Красный хэтчбек для дрифта' },
+            { model: 'BMW 5-Series', price: 9000000, desc: 'Патрульный с ливреей и мигалками' },
+            { model: 'Lada Vesta', price: 1200000, desc: 'Вечно ломается, но своя' },
+            { model: 'ВАЗ-2109', price: 200000, desc: 'Для скрытого наблюдения. Неприметная' }
+        ];
+
+        // ----- РАНГИ -----
+        const RANKS = [
+            { level: 0, title: 'Стажёр', salary: 30000, need: 0 },
+            { level: 1, title: 'Мл. лейтенант', salary: 50000, need: 3 },
+            { level: 2, title: 'Лейтенант', salary: 70000, need: 8 },
+            { level: 3, title: 'Ст. лейтенант', salary: 90000, need: 15 },
+            { level: 4, title: 'Капитан', salary: 110000, need: 25 },
+            { level: 5, title: 'Майор', salary: 140000, need: 40 },
+            { level: 6, title: 'Подполковник', salary: 170000, need: 60 },
+            { level: 7, title: 'Полковник', salary: 200000, need: 80 },
+            { level: 8, title: 'Генерал-майор', salary: 250000, need: 100 },
+            { level: 9, title: 'Начальник ОМВД', salary: 350000, need: 150 }
+        ];
+
+        // ================================================================
+        // 2.  СОСТОЯНИЕ ИГРЫ
+        // ================================================================
+
+        const state = {
             money: 5000,
-            rank: 1,
+            rank: 0,
             stress: 0,
             reputation: 50,
             carHealth: 100,
@@ -471,450 +667,294 @@
             bribeCount: 0,
             lawCount: 0,
             car: 'Porsche 911 Turbo S',
-            availableCars: [],
-            dialogs: [],
-            completedCrimes: [],
-            log: []
+            completed: [],
+            dialogs: []
         };
 
-        // ----- СОХРАНЕНИЕ -----
-        function saveGame() {
+        // ================================================================
+        // 3.  СОХРАНЕНИЕ
+        // ================================================================
+
+        function save() {
             try {
-                localStorage.setItem('barviha_rp_save', JSON.stringify(GameState));
-            } catch (e) {
-                console.warn('Ошибка сохранения:', e);
-            }
+                localStorage.setItem('barviha_rp', JSON.stringify(state));
+            } catch (e) {}
         }
 
-        function loadGame() {
+        function load() {
             try {
-                const raw = localStorage.getItem('barviha_rp_save');
+                const raw = localStorage.getItem('barviha_rp');
                 if (!raw) return false;
                 const data = JSON.parse(raw);
-                Object.assign(GameState, data);
+                Object.assign(state, data);
                 return true;
-            } catch (e) {
-                console.warn('Ошибка загрузки:', e);
-                return false;
-            }
+            } catch (e) { return false; }
         }
 
-        // ----- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ -----
+        // ================================================================
+        // 4.  УТИЛИТЫ
+        // ================================================================
+
         function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
         function pick(arr) { return arr[rand(0, arr.length - 1)]; }
 
         function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
-        function formatMoney(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
-
-        // ============================================================
-        //  2. CRIMES (ПРЕСТУПЛЕНИЯ) — 50 шт → 500 строк
-        // ============================================================
-
-        const CRIMES_DB = [
-            // --- УГОНЫ ---
-            { id: 1, title: 'Угон Porsche в Luxury Village', desc: 'Угнан спорткар с парковки ТЦ.', article: 'ст. 166 УК РФ',
-                difficulty: 3, reward: 8000, risk: 30, type: 'Угон' },
-            { id: 2, title: 'Угон Mercedes в Барвихе', desc: 'Угнан чёрный седан у бизнес-центра.',
-                article: 'ст. 166 УК РФ', difficulty: 2, reward: 5000, risk: 20, type: 'Угон' },
-            { id: 3, title: 'Угон мотоцикла в Жуковке', desc: 'Угнан кастомный чоппер.', article: 'ст. 166 УК РФ',
-                difficulty: 1, reward: 3000, risk: 15, type: 'Угон' },
-            { id: 4, title: 'Угон Lamborghini Urus', desc: 'Угнан жёлтый внедорожник у кофейни.',
-                article: 'ст. 166 УК РФ', difficulty: 4, reward: 12000, risk: 40, type: 'Угон' },
-            { id: 5, title: 'Угон BMW X5 M', desc: 'Угнан чёрный тонированный внедорожник.', article: 'ст. 166 УК РФ',
-                difficulty: 3, reward: 9000, risk: 35, type: 'Угон' },
-
-            // --- КРАЖИ ---
-            { id: 6, title: 'Кража часов в Жуковке', desc: 'Похищена коллекция часов на 15 млн руб.',
-                article: 'ст. 158 УК РФ', difficulty: 4, reward: 15000, risk: 45, type: 'Кража' },
-            { id: 7, title: 'Кража драгоценностей в Барвихе', desc: 'Ограбление ювелирного магазина.',
-                article: 'ст. 158 УК РФ', difficulty: 3, reward: 10000, risk: 35, type: 'Кража' },
-            { id: 8, title: 'Кража элитного вина', desc: 'Из частного погреба похищена коллекция вин.',
-                article: 'ст. 158 УК РФ', difficulty: 2, reward: 6000, risk: 20, type: 'Кража' },
-            { id: 9, title: 'Кража картины из особняка', desc: 'Похищена картина известного художника.',
-                article: 'ст. 158 УК РФ', difficulty: 5, reward: 20000, risk: 50, type: 'Кража' },
-            { id: 10, title: 'Кража сейфа в офисе', desc: 'Взломан сейф с деньгами.', article: 'ст. 158 УК РФ',
-                difficulty: 3, reward: 8000, risk: 30, type: 'Кража' },
-
-            // --- МОШЕННИЧЕСТВО ---
-            { id: 11, title: 'Мошенничество в Рублёвке', desc: 'Хищение 50 млн руб. у инвесторов.',
-                article: 'ст. 159 УК РФ', difficulty: 5, reward: 25000, risk: 55, type: 'Мошенничество' },
-            { id: 12, title: 'Финансовая пирамида в Барвихе', desc: 'Организация финансовой пирамиды.',
-                article: 'ст. 159 УК РФ', difficulty: 4, reward: 18000, risk: 40, type: 'Мошенничество' },
-            { id: 13, title: 'Мошенничество с недвижимостью', desc: 'Продажа чужой квартиры.', article: 'ст. 159 УК РФ',
-                difficulty: 3, reward: 12000, risk: 30, type: 'Мошенничество' },
-            { id: 14, title: 'Интернет-мошенничество', desc: 'Обман через фишинговый сайт.', article: 'ст. 159 УК РФ',
-                difficulty: 2, reward: 7000, risk: 20, type: 'Мошенничество' },
-            { id: 15, title: 'Мошенничество с автостраховкой', desc: 'Инсценировка ДТП.', article: 'ст. 159 УК РФ',
-                difficulty: 2, reward: 5000, risk: 15, type: 'Мошенничество' },
-
-            // --- УБИЙСТВА ---
-            { id: 16, title: 'Барвихинский стрелок', desc: 'Убийство предпринимателя в Барвихе-3.',
-                article: 'ст. 105 УК РФ', difficulty: 6, reward: 30000, risk: 70, type: 'Убийство' },
-            { id: 17, title: 'Убийство в Жуковке', desc: 'Труп обнаружен в частном доме.', article: 'ст. 105 УК РФ',
-                difficulty: 5, reward: 22000, risk: 60, type: 'Убийство' },
-            { id: 18, title: 'Убийство в ресторане', desc: 'Застрелен бизнесмен в элитном ресторане.',
-                article: 'ст. 105 УК РФ', difficulty: 4, reward: 18000, risk: 50, type: 'Убийство' },
-            { id: 19, title: 'Убийство таксиста', desc: 'Труп водителя найдён в лесополосе.', article: 'ст. 105 УК РФ',
-                difficulty: 3, reward: 10000, risk: 40, type: 'Убийство' },
-            { id: 20, title: 'Убийство охранника', desc: 'Охрана ТЦ застрелена при нападении.', article: 'ст. 105 УК РФ',
-                difficulty: 4, reward: 15000, risk: 45, type: 'Убийство' },
-
-            // --- ОРУЖИЕ ---
-            { id: 21, title: 'Незаконный оборот оружия', desc: 'Обнаружен схрон с оружием.', article: 'ст. 222 УК РФ',
-                difficulty: 4, reward: 14000, risk: 40, type: 'Оружие' },
-            { id: 22, title: 'Сбыт оружия в Барвихе', desc: 'Продажа оружия в элитном посёлке.', article: 'ст. 222 УК РФ',
-                difficulty: 3, reward: 10000, risk: 35, type: 'Оружие' },
-            { id: 23, title: 'Хранение взрывчатки', desc: 'Найден склад взрывчатых веществ.', article: 'ст. 222.1 УК РФ',
-                difficulty: 5, reward: 20000, risk: 60, type: 'Оружие' },
-            { id: 24, title: 'Незаконное ношение оружия', desc: 'Задержан с пистолетом в машине.',
-                article: 'ст. 222 УК РФ', difficulty: 2, reward: 5000, risk: 20, type: 'Оружие' },
-
-            // --- НАРКОТИКИ ---
-            { id: 25, title: 'Сбыт наркотиков на Рублёвке', desc: 'Торговля наркотиками в элитном районе.',
-                article: 'ст. 228.1 УК РФ', difficulty: 4, reward: 16000, risk: 50, type: 'Наркотики' },
-            { id: 26, title: 'Хранение наркотиков', desc: 'Обнаружена крупная партия наркотиков.',
-                article: 'ст. 228 УК РФ', difficulty: 3, reward: 10000, risk: 35, type: 'Наркотики' },
-            { id: 27, title: 'Организация наркопритона', desc: 'В доме обнаружена нарколаборатория.',
-                article: 'ст. 232 УК РФ', difficulty: 5, reward: 22000, risk: 55, type: 'Наркотики' },
-
-            // --- ЭКОНОМИЧЕСКИЕ ---
-            { id: 28, title: 'Оборот фальшивых денег', desc: 'Сбыт поддельных купюр в Барвихе.',
-                article: 'ст. 186 УК РФ', difficulty: 3, reward: 9000, risk: 30, type: 'Экономическое' },
-            { id: 29, title: 'Уклонение от налогов', desc: 'Крупная компания скрывает доходы.',
-                article: 'ст. 198 УК РФ', difficulty: 3, reward: 8000, risk: 25, type: 'Экономическое' },
-            { id: 30, title: 'Легализация доходов', desc: 'Отмывание денег через бизнес.', article: 'ст. 174 УК РФ',
-                difficulty: 4, reward: 14000, risk: 35, type: 'Экономическое' },
-
-            // --- ДТП ---
-            { id: 31, title: 'ДТП на Рублёвке', desc: 'Серьёзное ДТП с участием Lamborghini Urus.',
-                article: 'ст. 264 УК РФ', difficulty: 2, reward: 6000, risk: 20, type: 'ДТП' },
-            { id: 32, title: 'Наезд на пешехода', desc: 'Водитель сбил человека и скрылся.', article: 'ст. 264 УК РФ',
-                difficulty: 3, reward: 8000, risk: 30, type: 'ДТП' },
-            { id: 33, title: 'Пьяная езда', desc: 'Задержан водитель в состоянии алкогольного опьянения.',
-                article: 'ст. 264.1 УК РФ', difficulty: 1, reward: 3000, risk: 10, type: 'ДТП' },
-
-            // --- ПОБОИ И ХУЛИГАНСТВО ---
-            { id: 34, title: 'Побои в клубе', desc: 'Драка в элитном ночном клубе.', article: 'ст. 116 УК РФ',
-                difficulty: 1, reward: 3000, risk: 10, type: 'Хулиганство' },
-            { id: 35, title: 'Вандализм в Барвихе', desc: 'Разбиты витрины элитных магазинов.',
-                article: 'ст. 214 УК РФ', difficulty: 1, reward: 2000, risk: 10, type: 'Хулиганство' },
-            { id: 36, title: 'Хулиганство в ресторане', desc: 'Погром в элитном заведении.', article: 'ст. 213 УК РФ',
-                difficulty: 2, reward: 4000, risk: 15, type: 'Хулиганство' },
-
-            // --- ЭКСТОРШН ---
-            { id: 37, title: 'Вымогательство в Барвихе', desc: 'Требование денег у бизнесмена.',
-                article: 'ст. 163 УК РФ', difficulty: 4, reward: 12000, risk: 40, type: 'Эксторшн' },
-            { id: 38, title: 'Рэкет на Рублёвке', desc: 'Банда вымогает деньги у предпринимателей.',
-                article: 'ст. 163 УК РФ', difficulty: 5, reward: 18000, risk: 50, type: 'Эксторшн' },
-
-            // --- КИБЕРПРЕСТУПЛЕНИЯ ---
-            { id: 39, title: 'Взлом банковской системы', desc: 'Кибератака на банк Рублёвки.',
-                article: 'ст. 272 УК РФ', difficulty: 5, reward: 20000, risk: 45, type: 'Кибер' },
-            { id: 40, title: 'Кража персональных данных', desc: 'Похищены данные клиентов элитного клуба.',
-                article: 'ст. 137 УК РФ', difficulty: 3, reward: 8000, risk: 25, type: 'Кибер' },
-            { id: 41, title: 'Взлом сайта ОМВД', desc: 'Атака на официальный сайт полиции.',
-                article: 'ст. 272 УК РФ', difficulty: 4, reward: 15000, risk: 60, type: 'Кибер' },
-
-            // --- КОРРУПЦИЯ ---
-            { id: 42, title: 'Коррупция в ОМВД', desc: 'Взятка сотруднику полиции.', article: 'ст. 290 УК РФ',
-                difficulty: 6, reward: 25000, risk: 70, type: 'Коррупция' },
-            { id: 43, title: 'Получение взятки', desc: 'Чиновник берёт взятку за решение вопроса.',
-                article: 'ст. 290 УК РФ', difficulty: 4, reward: 12000, risk: 40, type: 'Коррупция' },
-            { id: 44, title: 'Злоупотребление полномочиями', desc: 'Использование должности в личных целях.',
-                article: 'ст. 285 УК РФ', difficulty: 3, reward: 10000, risk: 35, type: 'Коррупция' },
-
-            // --- ЭКОЛОГИЯ ---
-            { id: 45, title: 'Незаконная вырубка леса', desc: 'Вырубка деревьев в Рублёвском лесу.',
-                article: 'ст. 260 УК РФ', difficulty: 2, reward: 5000, risk: 15, type: 'Экология' },
-            { id: 46, title: 'Загрязнение реки', desc: 'Слив отходов в реку на Рублёвке.', article: 'ст. 250 УК РФ',
-                difficulty: 2, reward: 4000, risk: 15, type: 'Экология' },
-
-            // --- ПРОЧИЕ ---
-            { id: 47, title: 'Побег из-под стражи', desc: 'Задержанный сбежал из ОМВД.', article: 'ст. 313 УК РФ',
-                difficulty: 5, reward: 18000, risk: 60, type: 'Прочее' },
-            { id: 48, title: 'Лжесвидетельство', desc: 'Дача ложных показаний.', article: 'ст. 307 УК РФ',
-                difficulty: 2, reward: 4000, risk: 15, type: 'Прочее' },
-            { id: 49, title: 'Уклонение от призыва', desc: 'Уклонение от военной службы.', article: 'ст. 328 УК РФ',
-                difficulty: 1, reward: 2000, risk: 5, type: 'Прочее' },
-            { id: 50, title: 'Незаконная охота', desc: 'Браконьерство на территории Рублёвки.',
-                article: 'ст. 258 УК РФ', difficulty: 2, reward: 3500, risk: 10, type: 'Прочее' }
-        ];
-
-        // ============================================================
-        //  3. DIALOGS (NPC) — 300 реплик → 600 строк
-        // ============================================================
-
-        const DIALOGS_DB = {
-
-            // ----- МУХИЧ (абсурдные звонки) -----
-            muhich: [
-                { who: '📞 Мухич', text: 'Ты не видел мою коллекцию фантиков от конфет? Я вчера её здесь оставил!' },
-                { who: '📞 Мухич', text: 'Срочно! Кто-то украл у меня носки с Рублёвки! Это преступление века!' },
-                { who: '📞 Мухич', text: 'Слышал, у тебя есть кот? Я хочу с ним познакомиться, он мне снился...' },
-                { who: '📞 Мухич', text: 'Ты не знаешь, какую музыку слушают в Bentley? Мне надо! Срочно!' },
-                { who: '📞 Мухич', text: 'Я нашёл в архиве дело о пропавшем кексе. Надо срочно расследовать!' },
-                { who: '📞 Мухич', text: 'Скажи честно, моя новая причёска похожа на Элвиса Пресли?' },
-                { who: '📞 Мухич', text: 'Вчера я попытался открыть банку с тушёнкой — чуть не сломал руку. Это повод для заявления?' },
-                { who: '📞 Мухич', text: 'Ты знаешь, сколько стоит козёл? Мне нужен козёл для экспериментов!' },
-                { who: '📞 Мухич', text: 'Я подозреваю своего соседа — у него слишком много кактусов!' },
-                { who: '📞 Мухич', text: 'Помнишь, я просил тебя купить мне хлеб? Я передумал — мне нужен багет!' },
-                { who: '📞 Мухич', text: 'У меня в кабинете завёлся призрак. Он переставляет мои папки!' },
-                { who: '📞 Мухич', text: 'Срочно! Мне нужен твой совет: какую шляпу выбрать на свадьбу?' },
-                { who: '📞 Мухич', text: 'Я решил начать новую жизнь — стану веганом. Но это так сложно!' },
-                { who: '📞 Мухич', text: 'Ты не видел мои очки? Без них я выгляжу как другой человек!' },
-                { who: '📞 Мухич', text: 'Вчера встретил твоего двойника. Он был очень вежливый, в отличие от тебя!' },
-                { who: '📞 Мухич', text: 'Срочно нужна твоя помощь! Я потерял свой любимый карандаш!' },
-                { who: '📞 Мухич', text: 'Как думаешь, я похож на агента 007? Мне кажется, да!' },
-                { who: '📞 Мухич', text: 'Я хочу купить попугая. Ты не знаешь, где их продают?' },
-                { who: '📞 Мухич', text: 'Слушай, а ты мог бы притвориться моим свидетелем на суде? Шучу... Или нет?' },
-                { who: '📞 Мухич', text: 'Ты не знаешь, почему у меня постоянно взламывают Instagram?' },
-                { who: '📞 Мухич', text: 'Мне снился сон, где ты стал президентом. Это был ужас!' },
-                { who: '📞 Мухич', text: 'Срочно! Соседи жалуются на громкую музыку — а я просто вязал!' },
-                { who: '📞 Мухич', text: 'Ты веришь в НЛО? Потому что я видел тарелку над Барвихой!' },
-                { who: '📞 Мухич', text: 'Помоги мне выбрать подарок для Веры. У нас юбилей — 3 года вместе!' },
-                { who: '📞 Мухич', text: 'Я купил себе йо-йо. Тренируюсь. Пока получается не очень...' },
-                { who: '📞 Мухич', text: 'Скажи честно: я плохо выгляжу в этом пиджаке?' },
-                { who: '📞 Мухич', text: 'Ты не знаешь, какую книгу мне стоит прочитать? Я прочитал все учебники!' },
-                { who: '📞 Мухич', text: 'Я хочу устроить вечеринку в отделе. Только никому не говори!' },
-                { who: '📞 Мухич', text: 'Ты когда-нибудь думал о смысле жизни? Я вот думаю, и всё время о еде!' },
-                { who: '📞 Мухич', text: 'Срочно! Помоги — я потерял свой галстук!' },
-                { who: '📞 Мухич', text: 'Слушай, а что, если мы все живём в симуляции? Я бы хотел перезагрузиться!' },
-                { who: '📞 Мухич', text: 'У меня есть идея для нового дела — надо проверить все рестораны Барвихи!' },
-                { who: '📞 Мухич', text: 'Ты не знаешь, как завязать галстук-бабочку? Я хочу научиться!' },
-                { who: '📞 Мухич', text: 'Мне кажется, за мной следят. Прямо сейчас!' },
-                { who: '📞 Мухич', text: 'Я купил себе новый телефон, но он постоянно звонит сам! Я не справляюсь!' },
-                { who: '📞 Мухич', text: 'Ты не знаешь, что подарить начальнику на день рождения? Может, пылесос?' },
-                { who: '📞 Мухич', text: 'У меня кризис среднего возраста. Мне нужна машина или собака!' },
-                { who: '📞 Мухич', text: 'Я недавно научился жонглировать. Хочешь посмотреть?' },
-                { who: '📞 Мухич', text: 'Слышал, ты разбираешься в кофе? Какой сорт самый лучший?' },
-                { who: '📞 Мухич', text: 'У меня вчера был странный день: я дважды попал в одни и те же пробки!' }
-            ],
-
-            // ----- ЯКОВЛЕВ (дисциплина) -----
-            yakovlev: [
-                { who: '👮 Яковлев', text: 'Ты опять опоздал на планерку. У тебя есть объяснения?' },
-                { who: '👮 Яковлев', text: 'Отличная работа по делу "Барвихинский стрелок". Я горжусь тобой.' },
-                { who: '👮 Яковлев', text: 'Ты снова нарушил устав. Оформлю выговор.' },
-                { who: '👮 Яковлев', text: 'Начальство довольно твоими показателями. Продолжай в том же духе.' },
-                { who: '👮 Яковлев', text: 'Твой отчёт по делу №1024 — полный бардак. Переделай.' },
-                { who: '👮 Яковлев', text: 'За тобой замечена связь с сомнительными личностями. Будь осторожен.' },
-                { who: '👮 Яковлев', text: 'Отличный результат раскрываемости. Ты получаешь повышение!' },
-                { who: '👮 Яковлев', text: 'Ты слишком много времени проводишь с этим Измайловым. Не поддавайся его влиянию.' },
-                { who: '👮 Яковлев', text: 'Завтра проверка документов. Приведи всё в порядок.' },
-                { who: '👮 Яковлев', text: 'Твои методы не всегда этичны, но они работают. Я закрываю на это глаза.' },
-                { who: '👮 Яковлев', text: 'Ты слишком много берёшь на себя. Делегируй!' },
-                { who: '👮 Яковлев', text: 'Я получил жалобу на тебя от граждан. Разберись.' },
-                { who: '👮 Яковлев', text: 'Ты — лучший сыщик в моём отделе. Не подведи.' },
-                { who: '👮 Яковлев', text: 'Я перевожу тебя в отдел по особо важным делам. Не подведи!' },
-                { who: '👮 Яковлев', text: 'Ты слишком эмоционален. Держи себя в руках.' },
-                { who: '👮 Яковлев', text: 'Отличный результат по итогам месяца. Ты заслужил премию.' },
-                { who: '👮 Яковлев', text: 'Я знаю про твою связь с Кристиной. Это плохо сказывается на твоей репутации.' },
-                { who: '👮 Яковлев', text: 'Ты должен быть примером для молодых сотрудников. Не забывай об этом.' }
-            ],
-
-            // ----- ГРИША ИЗМАЙЛОВ -----
-            grisha: [
-                { who: '🎯 Гриша', text: 'Брат, я в деле. Ты тоже в деле? Погнали!' },
-                { who: '🎯 Гриша', text: 'Это просто бизнес, ничего личного. Ты должен это понять.' },
-                { who: '🎯 Гриша', text: 'Слушай, я ценю твой подход к работе. Ты как я — не боишься рисковать.' },
-                { who: '🎯 Гриша', text: 'Помнишь дело на Рублёвке? Мы тогда круто их развели, а?' },
-                { who: '🎯 Гриша', text: 'Ты знаешь, что такое настоящая свобода? Это когда у тебя есть деньги и пофиг.' },
-                { who: '🎯 Гриша', text: 'У меня есть предложение. Бизнес, деньги, риск. Ты за?' },
-                { who: '🎯 Гриша', text: 'Я не верю в систему. Но я верю в тебя.' },
-                { who: '🎯 Гриша', text: 'Давай замутим одно дельце. Очень чисто, без свидетелей.' },
-                { who: '🎯 Гриша', text: 'Брат, ты слишком осторожен. Иногда надо просто прыгать в омут.' },
-                { who: '🎯 Гриша', text: 'Эта работа нас съест, если мы не будем получать кайф. Я получаю кайф.' },
-                { who: '🎯 Гриша', text: 'Слышал, ты опять поцапался с Яковлевым. Я на твоей стороне.' },
-                { who: '🎯 Гриша', text: 'Деньги любят смелых. Ты смелый?' }
-            ]
-        };
-
-        // ============================================================
-        //  4. GARAGE (ТРАНСПОРТ) — 20+ машин → 300 строк
-        // ============================================================
-
-        const GARAGE_DB = [
-            { id: 1, model: 'Porsche 911 Turbo S', year: 2023, price: 22000000, fuel: 100, health: 100,
-                desc: 'Чёрный, V8 битурбо, 650 л.с. Разгон до 100 км/ч — 2.6 сек.' },
-            { id: 2, model: 'Mercedes-Benz S-Class', year: 2022, price: 15000000, fuel: 100, health: 100,
-                desc: 'Чёрный, V8 битурбо. Символ статуса и солидности.' },
-            { id: 3, model: 'Lamborghini Urus', year: 2023, price: 25000000, fuel: 100, health: 100,
-                desc: 'Жёлтый, V8 битурбо, 650 л.с. Спортивный внедорожник.' },
-            { id: 4, model: 'BMW X5 M', year: 2022, price: 12000000, fuel: 100, health: 100,
-                desc: 'Чёрный, тонированный. V8, 600 л.с. Для бизнес-поездок.' },
-            { id: 5, model: 'Audi A4', year: 2021, price: 5000000, fuel: 100, health: 100,
-                desc: 'Белый, турбодизель. Надёжный и комфортный.' },
-            { id: 6, model: 'Ford Focus II', year: 2019, price: 2500000, fuel: 100, health: 100,
-                desc: 'Служебная машина оперативников. Простая и надёжная.' },
-            { id: 7, model: 'ВАЗ-2109', year: 1998, price: 200000, fuel: 100, health: 100,
-                desc: 'Гражданская машина для скрытого наблюдения. Неприметная.' },
-            { id: 8, model: 'УАЗ Патриот', year: 2020, price: 1500000, fuel: 100, health: 100,
-                desc: 'Служебный внедорожник. Проходимый, надёжный.' },
-            { id: 9, model: 'Chrysler PT Cruiser', year: 2005, price: 800000, fuel: 100, health: 100,
-                desc: 'Ретро-хэтчбек. Редкий автомобиль для Мухича.' },
-            { id: 10, model: 'Porsche Cayenne', year: 2022, price: 18000000, fuel: 100, health: 100,
-                desc: 'Белый люксовый кроссовер Алёны. V6, 340 л.с.' },
-            { id: 11, model: 'BMW 4-Series', year: 2022, price: 8000000, fuel: 100, health: 100,
-                desc: 'Красное спортивное купе Кристины. V6, 350 л.с.' },
-            { id: 12, model: 'Кастомный чоппер', year: 2021, price: 3000000, fuel: 100, health: 100,
-                desc: 'Чёрный мощный байк Вероники. Для гонок и адреналина.' },
-            { id: 13, model: 'ВАЗ-2105 (тюнинг)', year: 1999, price: 500000, fuel: 100, health: 100,
-                desc: 'Боевой классик для автосервиса. Тюнингованный двигатель.' },
-            { id: 14, model: 'Skoda Octavia', year: 2021, price: 3500000, fuel: 100, health: 100,
-                desc: 'Служебная машина. Серая, скромная, надёжная.' },
-            { id: 15, model: 'Toyota Camry', year: 2022, price: 4500000, fuel: 100, health: 100,
-                desc: 'Белый седан. Надёжный и комфортный для начальства.' },
-            { id: 16, model: 'Nissan Teana', year: 2020, price: 4000000, fuel: 100, health: 100,
-                desc: 'Бордовый → черный. Семейный автомобиль Яковлева.' },
-            { id: 17, model: 'Hyundai Solaris', year: 2019, price: 1500000, fuel: 100, health: 100,
-                desc: 'Надёжный седан следователя Гудковой.' },
-            { id: 18, model: 'Mercedes E-Class (W212)', year: 2020, price: 10000000, fuel: 100, health: 100,
-                desc: 'Чёрный седан Измайлова. Рестайлинг, статусная машина.' },
-            { id: 19, model: 'Hyundai Getz', year: 2018, price: 800000, fuel: 100, health: 100,
-                desc: 'Красный хэтчбек Рыбкиной. Лихая машина для дрифта.' },
-            { id: 20, model: 'BMW 5-Series', year: 2022, price: 9000000, fuel: 100, health: 100,
-                desc: 'Патрульный автомобиль ДПС. С ливреей и мигалками.' }
-        ];
-
-        // ============================================================
-        //  5. ECONOMY (ЭКОНОМИКА) — 300 строк
-        // ============================================================
-
-        const RANKS = [
-            { level: 1, title: 'Стажёр', salary: 30000, requiredSolved: 0 },
-            { level: 2, title: 'Младший лейтенант', salary: 50000, requiredSolved: 3 },
-            { level: 3, title: 'Лейтенант', salary: 70000, requiredSolved: 8 },
-            { level: 4, title: 'Старший лейтенант', salary: 90000, requiredSolved: 15 },
-            { level: 5, title: 'Капитан', salary: 110000, requiredSolved: 25 },
-            { level: 6, title: 'Майор', salary: 140000, requiredSolved: 40 },
-            { level: 7, title: 'Подполковник', salary: 170000, requiredSolved: 60 },
-            { level: 8, title: 'Полковник', salary: 200000, requiredSolved: 80 },
-            { level: 9, title: 'Генерал-майор', salary: 250000, requiredSolved: 100 },
-            { level: 10, title: 'Начальник ОМВД', salary: 350000, requiredSolved: 150 }
-        ];
+        function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
 
         function getRank() {
-            const solved = GameState.crimesSolved;
             let result = RANKS[0];
-            for (const rank of RANKS) {
-                if (solved >= rank.requiredSolved) result = rank;
+            for (const r of RANKS) {
+                if (state.crimesSolved >= r.need) result = r;
             }
             return result;
         }
 
-        function getSalary() {
-            return getRank().salary;
+        // ================================================================
+        // 5.  ДИАЛОГИ
+        // ================================================================
+
+        function addDialog(who, text) {
+            state.dialogs.push({ who, text, time: new Date().toLocaleTimeString() });
+            if (state.dialogs.length > 80) state.dialogs.shift();
         }
 
-        // ============================================================
-        //  6. UI (ИНТЕРФЕЙС) — 200 строк
-        // ============================================================
-
-        // ----- ОБНОВЛЕНИЕ HUD -----
-        function updateHUD() {
-            document.getElementById('hudMoney').textContent = formatMoney(GameState.money);
-            document.getElementById('hudRank').textContent = getRank().title;
-            document.getElementById('hudStress').textContent = GameState.stress + '%';
-            document.getElementById('hudReputation').textContent = GameState.reputation + '%';
-            document.getElementById('hudCarHealth').textContent = GameState.carHealth + '%';
-            document.getElementById('hudFuel').textContent = GameState.fuel + '%';
-
-            // Цвета
-            const stressEl = document.getElementById('hudStress');
-            stressEl.className = 'value' + (GameState.stress > 70 ? ' danger' : GameState.stress > 40 ? ' warning' : '');
-
-            const repEl = document.getElementById('hudReputation');
-            repEl.className = 'value' + (GameState.reputation > 70 ? ' success' : GameState.reputation > 40 ? '' : ' danger');
-
-            const healthEl = document.getElementById('hudCarHealth');
-            healthEl.className = 'value' + (GameState.carHealth > 70 ? ' success' : GameState.carHealth > 40 ? ' warning' :
-                ' danger');
-
-            const fuelEl = document.getElementById('hudFuel');
-            fuelEl.className = 'value' + (GameState.fuel > 30 ? ' success' : ' danger');
+        function randomDialog() {
+            const r = rand(1, 100);
+            if (r < 40) {
+                const msg = pick(MUHICH);
+                addDialog('📞 Мухич', msg);
+                state.stress = clamp(state.stress + rand(2, 6), 0, 100);
+            } else if (r < 70) {
+                const msg = pick(YAKOVLEV);
+                addDialog('👮 Яковлев', msg);
+            } else if (r < 90) {
+                const msg = pick(GRISHA);
+                addDialog('🎯 Гриша', msg);
+            } else {
+                addDialog('📢 ОМВД', 'Ничего особенного. Скучный день в Барвихе.');
+            }
         }
 
-        // ----- РЕНДЕРИНГ ДЕЛ -----
-        function renderCrimes() {
-            const container = document.getElementById('crimesList');
-            // Показываем только 15 доступных дел (не все 50)
-            const available = CRIMES_DB.filter(c => !GameState.completedCrimes.includes(c.id)).slice(0, 15);
-            if (available.length === 0) {
-                container.innerHTML =
-                    `<div class="card"><div class="title">🎉 Все дела раскрыты!</div><div class="sub">Ты — легенда Барвихи!</div></div>`;
+        // ================================================================
+        // 6.  ИГРОВЫЕ МЕХАНИКИ
+        // ================================================================
+
+        function solveCrime(id, method) {
+            const crime = CRIMES.find(c => c.id === id);
+            if (!crime) return;
+
+            if (state.fuel < 5) {
+                alert('⛽ Нет бензина! Заправь машину в гараже.');
                 return;
             }
+
+            // Расход ресурсов
+            state.fuel = clamp(state.fuel - rand(5, 15), 0, 100);
+            state.carHealth = clamp(state.carHealth - rand(2, 8), 0, 100);
+
+            // Шанс успеха
+            const base = 100 - crime.risk;
+            const mod = state.reputation / 100 * 15 - state.stress / 100 * 20;
+            const chance = clamp(base + mod, 15, 95);
+
+            const success = Math.random() * 100 < chance;
+
+            if (success) {
+                let reward = crime.reward;
+                let repDelta = 5;
+                let stressDelta = -5;
+
+                if (method === 'bribe') {
+                    reward = Math.round(reward * 1.6);
+                    repDelta = -12;
+                    stressDelta = 10;
+                    state.bribeCount++;
+                    if (Math.random() * 100 < 12) {
+                        alert('🚨 Тебя поймали на взятке! ССБ начала расследование.');
+                        state.reputation = clamp(state.reputation - 25, 0, 100);
+                        state.money = Math.round(state.money * 0.7);
+                    }
+                } else {
+                    state.lawCount++;
+                    repDelta = 12;
+                    stressDelta = -12;
+                }
+
+                state.money += reward;
+                state.reputation = clamp(state.reputation + repDelta, 0, 100);
+                state.stress = clamp(state.stress + stressDelta, 0, 100);
+                state.crimesSolved++;
+                state.completed.push(id);
+
+                addDialog('✅ Успех!', `Дело "${crime.title}" раскрыто! +${fmt(reward)}`);
+
+                const newRank = getRank();
+                if (newRank.level > state.rank) {
+                    state.rank = newRank.level;
+                    addDialog('🎉 Повышение!', `Поздравляю! Ты теперь ${newRank.title}!`);
+                }
+            } else {
+                state.crimesFailed++;
+                state.stress = clamp(state.stress + 18, 0, 100);
+                state.reputation = clamp(state.reputation - 12, 0, 100);
+                addDialog('❌ Провал', `Дело "${crime.title}" провалено! Репутация упала.`);
+            }
+
+            state.day++;
+            randomDialog();
+            save();
+            renderAll();
+        }
+
+        function skipCrime(id) {
+            if (!confirm('Пропустить дело? Репутация упадёт.')) return;
+            state.reputation = clamp(state.reputation - 5, 0, 100);
+            state.completed.push(id);
+            addDialog('📋 Пропуск', 'Ты проигнорировал дело. Репутация упала.');
+            save();
+            renderAll();
+        }
+
+        function selectCar(model) {
+            state.car = model;
+            addDialog('🚗 Гараж', `Ты пересел на ${model}`);
+            save();
+            renderAll();
+        }
+
+        function repairCar() {
+            if (state.money < 5000) { alert('Нужно 5000 ₽!'); return; }
+            state.money -= 5000;
+            state.carHealth = clamp(state.carHealth + 25, 0, 100);
+            addDialog('🔧 Ремонт', 'Машина отремонтирована. Здоровье +25%');
+            save();
+            renderAll();
+        }
+
+        function refuelCar() {
+            if (state.money < 2000) { alert('Нужно 2000 ₽!'); return; }
+            state.money -= 2000;
+            state.fuel = clamp(state.fuel + 30, 0, 100);
+            addDialog('⛽ Заправка', 'Бак заправлен. Бензин +30%');
+            save();
+            renderAll();
+        }
+
+        function resetGame() {
+            if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
+            localStorage.removeItem('barviha_rp');
+            location.reload();
+        }
+
+        // ================================================================
+        // 7.  РЕНДЕРИНГ
+        // ================================================================
+
+        function renderHUD() {
+            document.getElementById('hudMoney').textContent = fmt(state.money);
+            document.getElementById('hudRank').textContent = getRank().title;
+            document.getElementById('hudStress').textContent = state.stress + '%';
+            document.getElementById('hudRep').textContent = state.reputation + '%';
+            document.getElementById('hudCar').textContent = state.carHealth + '%';
+            document.getElementById('hudFuel').textContent = state.fuel + '%';
+
+            // Цвета
+            const s = document.getElementById('hudStress');
+            s.className = 'value' + (state.stress > 70 ? ' danger' : state.stress > 40 ? ' warning' : '');
+
+            const r = document.getElementById('hudRep');
+            r.className = 'value' + (state.reputation > 70 ? ' success' : state.reputation > 40 ? '' : ' danger');
+
+            const c = document.getElementById('hudCar');
+            c.className = 'value' + (state.carHealth > 70 ? ' success' : state.carHealth > 40 ? ' warning' : ' danger');
+
+            const f = document.getElementById('hudFuel');
+            f.className = 'value' + (state.fuel > 30 ? ' success' : ' danger');
+        }
+
+        function renderCrimes() {
+            const container = document.getElementById('crimesContainer');
+            const available = CRIMES.filter(c => !state.completed.includes(c.id)).slice(0, 20);
+
+            if (available.length === 0) {
+                container.innerHTML =
+                    `<div class="card"><div class="title">🎉 ВСЕ ДЕЛА РАСКРЫТЫ!</div><div class="sub">Ты — легенда Барвихи! Можешь уходить на пенсию.</div></div>`;
+                return;
+            }
+
             container.innerHTML = available.map(c => `
                         <div class="card">
                             <div class="title">${c.title}</div>
-                            <div class="sub">${c.desc}</div>
-                            <div class="sub" style="color:#5b9aff;">${c.article}</div>
+                            <div class="sub">${c.article} • ${c.type}</div>
+                            <div class="desc">Сложность: ${'⭐'.repeat(c.diff)}</div>
                             <div class="meta">
-                                <span>📌 Сложность: ${'⭐'.repeat(c.difficulty)}</span>
-                                <span>💰 ${formatMoney(c.reward)}</span>
+                                <span>💰 ${fmt(c.reward)}</span>
                                 <span>⚠️ Риск: ${c.risk}%</span>
-                                <span>🏷️ ${c.type}</span>
                             </div>
                             <div class="actions">
                                 <button class="btn btn-success btn-sm" onclick="solveCrime(${c.id}, 'law')">⚖️ Закон</button>
                                 <button class="btn btn-gold btn-sm" onclick="solveCrime(${c.id}, 'bribe')">💵 Взятка</button>
-                                <button class="btn btn-danger btn-sm" onclick="skipCrime(${c.id})">❌ Игнорировать</button>
+                                <button class="btn btn-danger btn-sm" onclick="skipCrime(${c.id})">❌ Игнор</button>
                             </div>
                         </div>
                     `).join('');
         }
 
-        // ----- РЕНДЕРИНГ ГАРАЖА -----
         function renderGarage() {
-            const container = document.getElementById('garageList');
-            const cars = GARAGE_DB.slice(0, 12);
-            container.innerHTML = cars.map(c => `
-                        <div class="card">
-                            <div class="title">${c.model}</div>
-                            <div class="sub">${c.year} • ${c.desc}</div>
-                            <div class="meta">
-                                <span>💰 ${formatMoney(c.price)}</span>
-                                <span>🔧 Здоровье: ${c.health}%</span>
-                                <span>⛽ Бензин: ${c.fuel}%</span>
-                            </div>
-                            ${GameState.car === c.model ? '<div class="meta"><b>✅ Текущее авто</b></div>' : ''}
-                            <div class="actions">
-                                <button class="btn btn-primary btn-sm" onclick="selectCar('${c.model}')">🚗 Выбрать</button>
-                                <button class="btn btn-sm btn-outline" onclick="repairCar('${c.model}')">🔧 Ремонт (5000₽)</button>
-                            </div>
+            const container = document.getElementById('garageContainer');
+            container.innerHTML = `
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+                            <button class="btn btn-primary" onclick="repairCar()">🔧 Ремонт (5000₽)</button>
+                            <button class="btn btn-primary" onclick="refuelCar()">⛽ Заправить (2000₽)</button>
                         </div>
-                    `).join('');
+                        <div class="grid-2">
+                            ${CARS.map(c => `
+                                <div class="card">
+                                    <div class="title">${c.model}</div>
+                                    <div class="sub">${c.desc}</div>
+                                    <div class="meta">
+                                        <span>💰 ${fmt(c.price)}</span>
+                                        ${state.car === c.model ? '<span><b>✅ Текущее авто</b></span>' : ''}
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn btn-primary btn-sm" onclick="selectCar('${c.model}')">🚗 Выбрать</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
         }
 
-        // ----- РЕНДЕРИНГ ДИАЛОГОВ -----
         function renderDialogs() {
-            const container = document.getElementById('dialogsList');
-            // Показываем последние 10 диалогов
-            const dialogs = GameState.dialogs.slice(-10).reverse();
+            const container = document.getElementById('dialogsContainer');
+            const dialogs = state.dialogs.slice(-15).reverse();
+
             if (dialogs.length === 0) {
                 container.innerHTML =
-                    `<div class="dialog-box"><div class="who">📢 Пока нет диалогов</div><div class="text">Раскрывай дела, чтобы получать звонки</div></div>`;
+                    `<div class="dialog-box"><div class="who">📢 Нет диалогов</div><div class="text">Раскрывай дела, чтобы получать звонки</div></div>`;
                 return;
             }
+
             container.innerHTML = dialogs.map(d => `
                         <div class="dialog-box">
                             <div class="who">${d.who}</div>
                             <div class="text">${d.text}</div>
+                            <div class="time">${d.time || ''}</div>
                         </div>
                     `).join('');
         }
 
-        // ----- РЕНДЕРИНГ СТАТИСТИКИ -----
         function renderStats() {
-            const container = document.getElementById('statsContent');
-            const total = CRIMES_DB.length;
-            const solved = GameState.crimesSolved;
-            const failed = GameState.crimesFailed;
-            const bribe = GameState.bribeCount;
-            const law = GameState.lawCount;
+            const container = document.getElementById('statsContainer');
+            const total = CRIMES.length;
+            const solved = state.crimesSolved;
+            const failed = state.crimesFailed;
             const rate = total > 0 ? Math.round((solved / total) * 100) : 0;
+            const law = state.lawCount;
+            const bribe = state.bribeCount;
+            const ratio = law + bribe > 0 ? Math.round((law / (law + bribe)) * 100) : 0;
 
             container.innerHTML = `
                         <div class="grid-2">
@@ -925,6 +965,7 @@
                                     <div>Раскрыто: <b>${solved}</b></div>
                                     <div>Провалено: <b>${failed}</b></div>
                                     <div>Раскрываемость: <b>${rate}%</b></div>
+                                    <div>Дней в ОМВД: <b>${state.day}</b></div>
                                 </div>
                             </div>
                             <div class="card">
@@ -932,251 +973,88 @@
                                 <div class="meta">
                                     <div>По закону: <b>${law}</b></div>
                                     <div>Взятки: <b>${bribe}</b></div>
-                                    <div>Соотношение: <b>${law > 0 ? Math.round((law/(law+bribe))*100) : 0}% / ${bribe > 0 ? Math.round((bribe/(law+bribe))*100) : 0}%</b></div>
+                                    <div>Законность: <b>${ratio}%</b></div>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="title">🏆 Карьера</div>
                                 <div class="meta">
                                     <div>Ранг: <b>${getRank().title}</b></div>
-                                    <div>Зарплата: <b>${formatMoney(getSalary())}</b></div>
-                                    <div>Деньги: <b>${formatMoney(GameState.money)}</b></div>
-                                    <div>День в ОМВД: <b>${GameState.day}</b></div>
+                                    <div>Зарплата: <b>${fmt(getRank().salary)}</b></div>
+                                    <div>Деньги: <b>${fmt(state.money)}</b></div>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="title">🚗 Автомобиль</div>
                                 <div class="meta">
-                                    <div>Модель: <b>${GameState.car}</b></div>
-                                    <div>Состояние: <b>${GameState.carHealth}%</b></div>
-                                    <div>Бензин: <b>${GameState.fuel}%</b></div>
+                                    <div>Модель: <b>${state.car}</b></div>
+                                    <div>Состояние: <b>${state.carHealth}%</b></div>
+                                    <div>Бензин: <b>${state.fuel}%</b></div>
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="title">😰 Психологическое состояние</div>
+                                <div class="title">😰 Психология</div>
                                 <div class="meta">
-                                    <div>Стресс: <b>${GameState.stress}%</b></div>
-                                    <div>Репутация: <b>${GameState.reputation}%</b></div>
+                                    <div>Стресс: <b>${state.stress}%</b></div>
+                                    <div>Репутация: <b>${state.reputation}%</b></div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="title">📜 Диалоги</div>
+                                <div class="meta">
+                                    <div>Всего: <b>${state.dialogs.length}</b></div>
+                                    <div>Мухич: <b>${state.dialogs.filter(d => d.who.includes('Мухич')).length}</b></div>
+                                    <div>Яковлев: <b>${state.dialogs.filter(d => d.who.includes('Яковлев')).length}</b></div>
                                 </div>
                             </div>
                         </div>
                     `;
         }
 
-        // ============================================================
-        //  7. ИГРОВЫЕ МЕХАНИКИ
-        // ============================================================
-
-        // ----- РЕШЕНИЕ ДЕЛА -----
-        function solveCrime(id, method) {
-            const crime = CRIMES_DB.find(c => c.id === id);
-            if (!crime) return;
-
-            // Проверка ресурсов
-            if (GameState.fuel < 10) {
-                alert('⛽ Нет бензина! Заправь машину в гараже.');
-                return;
-            }
-
-            // Расход топлива
-            GameState.fuel = clamp(GameState.fuel - rand(5, 15), 0, 100);
-
-            // Износ машины
-            GameState.carHealth = clamp(GameState.carHealth - rand(2, 8), 0, 100);
-
-            // Успех зависит от сложности, стресса и репутации
-            const stressMod = GameState.stress / 100;
-            const repMod = GameState.reputation / 100;
-            const baseChance = 100 - crime.risk;
-            const successChance = clamp(baseChance + repMod * 15 - stressMod * 20, 10, 95);
-
-            const success = Math.random() * 100 < successChance;
-
-            if (success) {
-                // Успех
-                let reward = crime.reward;
-                let reputationChange = 5;
-                let stressChange = -5;
-
-                if (method === 'bribe') {
-                    // Взятка — больше денег, но риск
-                    reward = Math.round(reward * 1.5);
-                    reputationChange = -10;
-                    stressChange = 10;
-                    GameState.bribeCount++;
-                    // Риск ССБ
-                    if (Math.random() * 100 < 15) {
-                        alert('🚨 Тебя поймали на взятке! ССБ начала расследование.');
-                        GameState.reputation = clamp(GameState.reputation - 20, 0, 100);
-                        GameState.money = Math.round(GameState.money * 0.7);
-                    }
-                } else {
-                    // Закон
-                    GameState.lawCount++;
-                    reputationChange = 10;
-                    stressChange = -10;
-                }
-
-                GameState.money += reward;
-                GameState.reputation = clamp(GameState.reputation + reputationChange, 0, 100);
-                GameState.stress = clamp(GameState.stress + stressChange, 0, 100);
-                GameState.crimesSolved++;
-                GameState.completedCrimes.push(id);
-
-                // Диалог успеха
-                addDialog('📢 Успех!', `Дело "${crime.title}" раскрыто! +${formatMoney(reward)}`);
-
-                // Проверка повышения
-                const newRank = getRank();
-                if (newRank.level > GameState.rank) {
-                    GameState.rank = newRank.level;
-                    addDialog('🎉 Повышение!', `Поздравляю! Теперь ты ${newRank.title}!`);
-                }
-
-            } else {
-                // Провал
-                GameState.crimesFailed++;
-                GameState.stress = clamp(GameState.stress + 15, 0, 100);
-                GameState.reputation = clamp(GameState.reputation - 10, 0, 100);
-                addDialog('❌ Провал', `Дело "${crime.title}" провалено! Потеряна репутация.`);
-            }
-
-            // Рандомный звонок Мухича
-            if (Math.random() * 100 < 30) {
-                const msg = pick(DIALOGS_DB.muhich);
-                addDialog(msg.who, msg.text);
-                GameState.stress = clamp(GameState.stress + rand(3, 8), 0, 100);
-            }
-
-            // Рандомный звонок Яковлева
-            if (Math.random() * 100 < 20) {
-                const msg = pick(DIALOGS_DB.yakovlev);
-                addDialog(msg.who, msg.text);
-            }
-
-            GameState.day++;
-            saveGame();
-            renderAll();
-        }
-
-        // ----- ИГНОРИРОВАНИЕ ДЕЛА -----
-        function skipCrime(id) {
-            if (!confirm('Точно пропустишь дело? Это может отразиться на репутации.')) return;
-            GameState.reputation = clamp(GameState.reputation - 3, 0, 100);
-            GameState.completedCrimes.push(id);
-            addDialog('📋 Пропуск', 'Ты проигнорировал дело. Репутация немного упала.');
-            saveGame();
-            renderAll();
-        }
-
-        // ----- ДОБАВЛЕНИЕ ДИАЛОГА -----
-        function addDialog(who, text) {
-            GameState.dialogs.push({ who, text, time: new Date().toLocaleTimeString() });
-            if (GameState.dialogs.length > 100) {
-                GameState.dialogs = GameState.dialogs.slice(-80);
-            }
-        }
-
-        // ----- ВЫБОР АВТОМОБИЛЯ -----
-        function selectCar(model) {
-            GameState.car = model;
-            addDialog('🚗 Гараж', `Ты пересел на ${model}`);
-            saveGame();
-            renderAll();
-        }
-
-        // ----- РЕМОНТ АВТО -----
-        function repairCar(model) {
-            if (GameState.money < 5000) {
-                alert('Недостаточно денег! Нужно 5000 ₽');
-                return;
-            }
-            GameState.money -= 5000;
-            GameState.carHealth = clamp(GameState.carHealth + 20, 0, 100);
-            addDialog('🔧 Ремонт', 'Машина отремонтирована. Здоровье +20%');
-            saveGame();
-            renderAll();
-        }
-
-        // ----- ЗАПРАВКА -----
-        function refuel() {
-            if (GameState.money < 2000) {
-                alert('Недостаточно денег! Нужно 2000 ₽');
-                return;
-            }
-            GameState.money -= 2000;
-            GameState.fuel = clamp(GameState.fuel + 30, 0, 100);
-            addDialog('⛽ Заправка', 'Бак заправлен. Бензин +30%');
-            saveGame();
-            renderAll();
-        }
-
-        // ----- СБРОС ИГРЫ -----
-        function resetGame() {
-            if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
-            localStorage.removeItem('barviha_rp_save');
-            location.reload();
-        }
-
-        // ============================================================
-        //  8. ГЛАВНЫЙ РЕНДЕРИНГ
-        // ============================================================
-
         function renderAll() {
-            updateHUD();
+            renderHUD();
             renderCrimes();
             renderGarage();
             renderDialogs();
             renderStats();
         }
 
-        // ============================================================
-        //  9. ВКЛАДКИ
-        // ============================================================
+        // ================================================================
+        // 8.  ВКЛАДКИ
+        // ================================================================
 
-        document.querySelectorAll('.tab-btn').forEach(btn => {
+        document.querySelectorAll('.tabs button').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 document.getElementById('tab-' + this.dataset.tab).classList.add('active');
             });
         });
 
-        // ============================================================
-        //  10. ЗАПУСК
-        // ============================================================
+        // ================================================================
+        // 9.  ЗАПУСК
+        // ================================================================
 
-        // Загружаем сохранение
-        const loaded = loadGame();
+        const loaded = load();
 
-        // Добавляем стартовый диалог
-        if (!loaded || GameState.dialogs.length === 0) {
-            addDialog('🚔 ОМВД Барвиха-Северное', 'Добро пожаловать на службу! Раскрывай дела, повышай ранг, зарабатывай деньги.');
-            addDialog('📞 Мухич', 'Привет! Это я, Мухич. Жду тебя в отделе, есть дело!');
-            addDialog('👮 Яковлев', 'Новичок, да? Не подведи. Устав — это святое.');
-            addDialog('🎯 Гриша', 'Брат, я в деле. Ты тоже в деле? Погнали!');
-            saveGame();
+        if (!loaded || state.dialogs.length === 0) {
+            addDialog('🚔 ОМВД Барвиха-Северное', 'Добро пожаловать на службу! Раскрывай дела, повышай ранг, зарабатывай.');
+            addDialog('📞 Мухич', 'Привет! Жду тебя в отделе, есть дело!');
+            addDialog('👮 Яковлев', 'Новичок? Не подведи. Устав — святое.');
+            addDialog('🎯 Гриша', 'Брат, я в деле. Погнали!');
+            if (state.money === 0) state.money = 5000;
+            save();
         }
 
-        // Проверяем, если нет денег — даём стартовый капитал
-        if (GameState.money === 0 && GameState.crimesSolved === 0) {
-            GameState.money = 5000;
-        }
-
-        // Запускаем рендеринг
         renderAll();
 
-        // Автосохранение каждые 30 секунд
-        setInterval(() => {
-            saveGame();
-            console.log('💾 Автосохранение...');
-        }, 30000);
+        // Автосохранение
+        setInterval(() => { save(); }, 30000);
 
         console.log('🚔 ОМВД Барвиха-Северное загружен!');
-        console.log(`👮 Персонажей: ${CRIMES_DB.length} дел, ${DIALOGS_DB.muhich.length + DIALOGS_DB.yakovlev.length + DIALOGS_DB.grisha.length} диалогов, ${GARAGE_DB.length} машин`);
-        console.log('💾 Сохранения в localStorage');
-        console.log('🎮 Играй!');
+        console.log(`📋 ${CRIMES.length} дел, ${CARS.length} машин, ${MUHICH.length + YAKOVLEV.length + GRISHA.length} диалогов`);
+        console.log('💾 Автосохранение каждые 30 секунд');
     </script>
 </body>
 </html>
