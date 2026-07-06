@@ -1,934 +1,156 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ОМВД Барвиха-Северное</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#080b10;color:#eaeef3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding-bottom:40px}
-        .container{max-width:1100px;margin:0 auto;padding:0 16px}
-        .btn{background:#0071e3;color:#fff;border:none;padding:8px 20px;border-radius:30px;font-weight:600;font-size:13px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
-        .btn:hover{background:#005bb5;transform:scale(1.02)}
-        .btn-danger{background:#e74c3c}.btn-danger:hover{background:#c0392b}
-        .btn-success{background:#2ecc71}.btn-success:hover{background:#27ae60}
-        .btn-outline{background:transparent;border:2px solid #1c2533;color:#eaeef3}
-        .btn-outline:hover{border-color:#0071e3;background:rgba(0,113,227,0.1)}
-        .btn-sm{padding:5px 12px;font-size:11px}
-        .btn-block{width:100%;justify-content:center}
-        .hero{background:linear-gradient(145deg,#0a0f17,#141c28);padding:20px 16px;border-bottom:2px solid #1c2533}
-        .hero h1{font-size:26px;font-weight:900}
-        .hero p{color:#8896a8;font-size:14px}
-        .hero-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-        .user-badge{display:none;align-items:center;gap:8px;background:#0e141c;border:1px solid #1c2533;border-radius:30px;padding:4px 14px 4px 10px;font-size:13px}
-        .user-badge.show{display:flex}
-        .user-badge .avatar{width:26px;height:26px;border-radius:50%;background:#0071e3;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
-        .user-badge .role{font-size:10px;color:#8896a8;background:#1c2533;padding:1px 8px;border-radius:10px}
-        .login-btn{background:#0071e3;color:#fff;border:none;padding:6px 18px;border-radius:30px;font-weight:600;font-size:13px;cursor:pointer;transition:.2s}
-        .login-btn:hover{background:#005bb5}
-        .nav{display:flex;gap:2px;background:#0e141c;border-bottom:1px solid #1c2533;padding:0 12px;overflow-x:auto;position:sticky;top:0;z-index:50}
-        .nav button{background:none;border:none;color:#8896a8;padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap}
-        .nav button:hover{color:#eaeef3}
-        .nav button.active{color:#eaeef3;border-bottom-color:#0071e3}
-        .section{display:none;padding:20px 0}
-        .section.active{display:block}
-        .section-title{font-size:20px;font-weight:700;margin-bottom:16px;padding-left:14px;border-left:4px solid #0071e3;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-        .section-title .count{font-size:12px;color:#8896a8;background:#0e141c;padding:1px 12px;border-radius:20px;border:1px solid #1c2533}
-        .section-title .right{margin-left:auto;display:flex;gap:6px}
-        .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-        .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
-        .card{background:#0e141c;border:1px solid #1c2533;border-radius:12px;overflow:hidden;transition:.2s;cursor:pointer;position:relative}
-        .card:hover{border-color:#2a3a4a;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.5)}
-        .card-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#1c2533}
-        .card-img-auto{aspect-ratio:16/9}
-        .card-body{padding:12px 14px 14px}
-        .card-body h3{font-size:15px;margin:2px 0}
-        .card-body .sub{color:#8896a8;font-size:13px}
-        .card-body .meta{margin-top:8px;padding-top:8px;border-top:1px solid #1c2533;display:flex;gap:12px;font-size:12px;color:#8896a8;flex-wrap:wrap}
-        .card-body .meta strong{color:#eaeef3}
-        .card-actions{position:absolute;top:6px;right:6px;display:flex;gap:4px;opacity:0;transition:.2s}
-        .card:hover .card-actions{opacity:1}
-        .card-actions button{background:#0e141c;border:1px solid #1c2533;color:#eaeef3;padding:3px 8px;border-radius:4px;font-size:11px;cursor:pointer}
-        .card-actions button:hover{border-color:#0071e3;background:#0071e3}
-        .card-actions .del:hover{border-color:#e74c3c;background:#e74c3c}
-        .tag{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 10px;border-radius:4px;display:inline-block;letter-spacing:.5px}
-        .tag-red{background:rgba(231,76,60,.15);color:#e74c3c}
-        .tag-blue{background:rgba(0,113,227,.15);color:#0071e3}
-        .tag-gold{background:rgba(201,168,76,.15);color:#c9a84c}
-        .tag-green{background:rgba(46,204,113,.15);color:#2ecc71}
-        .tag-purple{background:rgba(155,89,182,.15);color:#9b59b6}
-        .case-list{display:flex;flex-direction:column;gap:8px}
-        .case-item{background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:12px 16px;cursor:pointer;transition:.2s;border-left:4px solid #1c2533;position:relative}
-        .case-item:hover{border-left-color:#0071e3;background:rgba(14,20,28,.8)}
-        .case-item .head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
-        .case-item .number{font-weight:700;font-size:14px}
-        .case-item .status{font-size:11px;font-weight:600;padding:1px 10px;border-radius:20px}
-        .status-solved{background:rgba(46,204,113,.15);color:#2ecc71}
-        .status-active{background:rgba(201,168,76,.15);color:#c9a84c}
-        .status-closed{background:rgba(231,76,60,.15);color:#e74c3c}
-        .case-item .title{font-size:15px;font-weight:600;margin-top:2px}
-        .case-item .preview{margin-top:4px;padding-top:4px;border-top:1px solid #1c2533;font-size:13px;color:#8896a8}
-        .case-item .case-actions{position:absolute;top:8px;right:8px;display:flex;gap:4px;opacity:0;transition:.2s}
-        .case-item:hover .case-actions{opacity:1}
-        .case-item .case-actions button{background:#0e141c;border:1px solid #1c2533;color:#eaeef3;padding:2px 8px;border-radius:4px;font-size:11px;cursor:pointer}
-        .case-item .case-actions button:hover{border-color:#0071e3;background:#0071e3}
-        .case-item .case-actions .del:hover{border-color:#e74c3c;background:#e74c3c}
-        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;margin-bottom:16px}
-        .stat-card{background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:14px 10px;text-align:center}
-        .stat-card .num{font-size:28px;font-weight:900;color:#0071e3}
-        .stat-card .label{font-size:12px;color:#8896a8}
-        .map-container{background:#0e141c;border:1px solid #1c2533;border-radius:12px;padding:12px}
-        .map-container iframe{width:100%;height:350px;border-radius:8px;border:1px solid #1c2533}
-        .map-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}
-        .map-point{background:#080b10;border:1px solid #1c2533;border-radius:6px;padding:8px 12px;font-size:12px}
-        .map-point .pt{font-weight:600}
-        .map-point .pd{color:#8896a8;font-size:11px}
-        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:999;align-items:center;justify-content:center;padding:20px}
-        .modal.active{display:flex}
-        .modal-box{background:#0e141c;border:1px solid #1c2533;max-width:460px;width:100%;max-height:80vh;overflow-y:auto;border-radius:14px;padding:24px 22px;position:relative;animation:fadeIn .3s ease}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        .modal-close{position:absolute;top:10px;right:14px;font-size:26px;color:#8896a8;cursor:pointer;background:0;border:0}
-        .modal-close:hover{color:#eaeef3}
-        .modal-box h2{font-size:20px;padding-right:30px}
-        .modal-box .sub{color:#8896a8;font-size:14px;margin-bottom:8px}
-        .modal-box hr{border:0;height:1px;background:#1c2533;margin:12px 0}
-        .modal-box .content{font-size:14px;line-height:1.6;color:#8896a8}
-        .modal-box .content b{color:#eaeef3}
-        .modal-box .content img{width:100%;border-radius:8px;margin:8px 0;max-height:200px;object-fit:cover}
-        .modal-box .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-        .form-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center;padding:20px}
-        .form-modal.active{display:flex}
-        .form-box{background:#0e141c;border:1px solid #1c2533;max-width:440px;width:100%;max-height:85vh;overflow-y:auto;border-radius:14px;padding:24px 22px;position:relative;animation:fadeIn .3s ease}
-        .form-box .close{position:absolute;top:10px;right:14px;font-size:26px;color:#8896a8;cursor:pointer;background:0;border:0}
-        .form-box .close:hover{color:#eaeef3}
-        .form-box h2{font-size:20px;margin-bottom:14px;padding-right:30px}
-        .form-group{margin-bottom:12px}
-        .form-group label{display:block;font-size:12px;font-weight:600;color:#8896a8;margin-bottom:3px}
-        .form-group input,.form-group textarea,.form-group select{width:100%;padding:8px 12px;background:#080b10;border:1px solid #1c2533;border-radius:6px;color:#eaeef3;font-size:14px;outline:0;font-family:inherit}
-        .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:#0071e3}
-        .form-group textarea{resize:vertical;min-height:50px}
-        .form-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-        .login-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);z-index:9999;align-items:center;justify-content:center;padding:20px}
-        .login-overlay.active{display:flex}
-        .login-box{background:#0e141c;border:1px solid #1c2533;max-width:360px;width:100%;border-radius:14px;padding:30px 24px}
-        .login-box .logo{font-size:44px;text-align:center;margin-bottom:4px}
-        .login-box h2{font-size:22px;text-align:center}
-        .login-box .sub{color:#8896a8;font-size:14px;text-align:center;margin-bottom:16px}
-        .login-box .form-group{text-align:left}
-        .login-box .form-group input{background:#080b10}
-        .login-error{color:#e74c3c;font-size:13px;margin-top:8px;text-align:center;display:none}
-        .login-error.show{display:block}
-        .login-success{color:#2ecc71;font-size:13px;margin-top:8px;text-align:center;display:none}
-        .login-success.show{display:block}
-        .login-tabs{display:flex;gap:4px;margin-bottom:16px;background:#080b10;border-radius:8px;padding:4px}
-        .login-tabs button{flex:1;background:0;border:0;color:#8896a8;padding:8px;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;transition:.2s}
-        .login-tabs button.active{background:#0071e3;color:#fff}
-        .login-tabs button:hover:not(.active){color:#eaeef3}
-        .login-form{display:none}
-        .login-form.active{display:block}
-        .admin-only{display:none}
-        .admin-only.show{display:inline-flex}
-        .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
-        .admin-card{background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px 12px;text-align:center}
-        .admin-card .icon{font-size:28px}
-        .admin-card .num{font-size:24px;font-weight:900;color:#0071e3}
-        .admin-card .label{color:#8896a8;font-size:12px}
-        .admin-card .actions{display:flex;gap:4px;margin-top:8px;justify-content:center;flex-wrap:wrap}
-        @media(max-width:600px){.grid-2{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr 1fr}.hero h1{font-size:20px}.hero-top{flex-direction:column;align-items:stretch}.nav button{padding:10px 12px;font-size:12px}.section-title{font-size:17px}.card-actions{opacity:1}.case-item .case-actions{opacity:1;position:static;margin-top:6px}.map-container iframe{height:200px}.admin-grid{grid-template-columns:1fr 1fr}.login-box{padding:20px 16px}}
-        @media(max-width:400px){.grid-3{grid-template-columns:1fr}.admin-grid{grid-template-columns:1fr}}
+        body{background:#0a0e17;color:#fff;font-family:Arial;padding:20px;max-width:900px;margin:0 auto}
+        .card{background:#141c28;border:1px solid #1c2533;border-radius:10px;padding:15px;margin:10px 0;display:flex;gap:15px;align-items:center}
+        .card img{width:80px;height:80px;border-radius:50%;object-fit:cover}
+        .info{flex:1}
+        .info h3{margin:0}
+        .info p{margin:3px 0;color:#8896a8;font-size:14px}
+        .tag{background:#0071e3;padding:2px 10px;border-radius:12px;font-size:11px;display:inline-block}
+        .btn{background:#0071e3;border:none;color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer}
+        .btn:hover{background:#005bb5}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+        .nav{display:flex;gap:10px;margin:15px 0;flex-wrap:wrap}
+        .nav button{background:#141c28;border:1px solid #1c2533;color:#fff;padding:8px 20px;border-radius:20px;cursor:pointer}
+        .nav button.active{background:#0071e3}
+        .hidden{display:none}
+        .login-box{background:#141c28;border:1px solid #1c2533;border-radius:10px;padding:30px;max-width:350px;margin:50px auto}
+        .login-box input{width:100%;padding:10px;background:#0a0e17;border:1px solid #1c2533;color:#fff;border-radius:6px;margin:5px 0}
+        .login-box .btn{width:100%}
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-    ЛОГИН
-    ============================================================ -->
-    <div class="login-overlay active" id="loginOverlay">
+    <!-- ЛОГИН -->
+    <div id="loginScreen">
         <div class="login-box">
-            <div class="logo">🚔</div>
-            <h2>ОМВД Барвиха-Северное</h2>
-            <div class="sub">Вход в систему</div>
-            <div class="login-tabs">
-                <button class="active" onclick="switchLoginTab('login')">Вход</button>
-                <button onclick="switchLoginTab('register')">Регистрация</button>
-            </div>
-            <div class="login-form active" id="loginForm">
-                <form onsubmit="loginUser(event)">
-                    <div class="form-group"><label>Логин или Email</label><input type="text" id="loginUsername" placeholder="admin или user@mail.ru"></div>
-                    <div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
-                    <button type="submit" class="btn btn-block">Войти</button>
-                    <div class="login-error" id="loginError">❌ Неверный логин или пароль</div>
-                </form>
-                <div style="margin-top:10px;font-size:12px;color:#5d6a7a;text-align:center;">👑 Основатель: admin / admin123<br>Обычные пользователи — только просмотр</div>
-            </div>
-            <div class="login-form" id="registerForm">
-                <form onsubmit="registerUser(event)">
-                    <div class="form-group"><label>Имя пользователя *</label><input type="text" id="regUsername" placeholder="Введите логин" required></div>
-                    <div class="form-group"><label>Email *</label><input type="email" id="regEmail" placeholder="user@mail.ru" required></div>
-                    <div class="form-group"><label>Пароль *</label><input type="password" id="regPassword" placeholder="Минимум 6 символов" required minlength="6"></div>
-                    <button type="submit" class="btn btn-block">Зарегистрироваться</button>
-                    <div class="login-success" id="regSuccess">✅ Регистрация успешна! Теперь войдите.</div>
-                    <div class="login-error" id="regError">❌ Ошибка регистрации</div>
-                </form>
-            </div>
+            <h2 style="text-align:center">🚔 ОМВД Барвиха</h2>
+            <p style="text-align:center;color:#8896a8">Вход в систему</p>
+            <input type="text" id="loginUser" placeholder="Логин" value="admin">
+            <input type="password" id="loginPass" placeholder="Пароль" value="admin123">
+            <button class="btn" onclick="login()">Войти</button>
+            <p style="text-align:center;color:#5d6a7a;font-size:12px;margin-top:10px">admin / admin123</p>
         </div>
     </div>
 
-    <!-- ============================================================
-    ШАПКА
-    ============================================================ -->
-    <header class="hero">
-        <div class="container">
-            <div class="hero-top">
-                <div>
-                    <div style="font-size:10px;color:#0071e3;font-weight:700;letter-spacing:2px;text-transform:uppercase;">МВД России</div>
-                    <h1>ОМВД «Барвиха-Северное»</h1>
-                    <p>Управление внутренних дел по району Барвиха и прилегающим территориям</p>
-                </div>
-                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                    <div class="user-badge" id="userBadge">
-                        <div class="avatar">👮</div>
-                        <span id="userName">Гость</span>
-                        <span class="role" id="userRole">user</span>
-                    </div>
-                    <button class="login-btn" id="loginBtn" onclick="document.getElementById('loginOverlay').classList.add('active')">🔑 Вход</button>
-                    <button class="login-btn" onclick="logoutUser()" id="logoutBtn" style="display:none;background:#e74c3c;">🚪 Выход</button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- ============================================================
-    НАВИГАЦИЯ
-    ============================================================ -->
-    <nav class="nav" id="mainNav">
-        <button class="active" data-tab="staff">👮 Персонажи</button>
-        <button data-tab="fleet">🚗 Автопарк</button>
-        <button data-tab="cases">📋 Дела</button>
-        <button data-tab="map">🗺️ Карта</button>
-        <button data-tab="admin" class="admin-only" id="adminTab">⚙️ Админ</button>
-    </nav>
-
-    <!-- ============================================================
-    КОНТЕНТ
-    ============================================================ -->
-    <main class="container">
-        <div class="stats-grid" id="statsGrid">
-            <div class="stat-card"><div class="num" id="totalStaff">0</div><div class="label">Персонажей</div></div>
-            <div class="stat-card"><div class="num" id="totalCases">0</div><div class="label">Дел</div></div>
-            <div class="stat-card"><div class="num" id="solvedCases">0</div><div class="label">Раскрыто</div></div>
-            <div class="stat-card"><div class="num" id="clearanceRate">0%</div><div class="label">Раскрываемость</div></div>
+    <!-- ОСНОВНОЙ САЙТ -->
+    <div id="mainSite" style="display:none">
+        <h1>🚔 ОМВД «Барвиха-Северное»</h1>
+        <p style="color:#8896a8">Управление внутренних дел</p>
+        
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0">
+            <span>👮 Персонажей: <b id="staffCount">0</b></span>
+            <span>📋 Дел: <b id="casesCount">0</b></span>
+            <span>✅ Раскрыто: <b id="solvedCount">0</b></span>
+            <button class="btn" onclick="logout()" style="background:#e74c3c">Выйти</button>
         </div>
 
-        <!-- ПЕРСОНАЖИ -->
-        <div class="section active" id="section-staff">
-            <div class="section-title">👮 Персонажи <span class="count" id="staffCount">0</span>
-                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button></span>
-            </div>
-            <div class="grid-2" id="staffGrid"></div>
+        <div class="nav">
+            <button class="active" onclick="showTab('staff')">Персонажи</button>
+            <button onclick="showTab('cases')">Дела</button>
         </div>
 
-        <!-- АВТОПАРК -->
-        <div class="section" id="section-fleet">
-            <div class="section-title">🚗 Автомобили <span class="count" id="fleetCount">0</span></div>
-            <div class="grid-3" id="fleetGrid"></div>
+        <!-- Персонажи -->
+        <div id="staffTab">
+            <div id="staffGrid" class="grid"></div>
         </div>
 
-        <!-- ДЕЛА -->
-        <div class="section" id="section-cases">
-            <div class="section-title">📋 Дела <span class="count" id="casesCount">0</span>
-                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button></span>
-            </div>
-            <div class="case-list" id="caseList"></div>
-        </div>
-
-        <!-- КАРТА -->
-        <div class="section" id="section-map">
-            <div class="section-title">🗺️ Карта <span class="count">📍 места</span></div>
-            <div class="map-container">
-                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A8e3f5a1b2c9d4e7f8a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f&amp;source=constructor" frameborder="0"></iframe>
-                <div class="map-points">
-                    <div class="map-point"><div class="pt">📍 ОМВД Барвиха</div><div class="pd">ул. Центральная, 12</div></div>
-                    <div class="map-point"><div class="pt">🏠 Жуковка</div><div class="pd">Кража часов</div></div>
-                    <div class="map-point"><div class="pt">🛍️ Luxury Village</div><div class="pd">Угон Porsche</div></div>
-                    <div class="map-point"><div class="pt">🏘️ Барвиха-3</div><div class="pd">«Барвихинский стрелок»</div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- АДМИН -->
-        <div class="section" id="section-admin">
-            <div class="section-title">⚙️ Админ <span class="count">👑 основатель</span></div>
-            <div class="admin-grid">
-                <div class="admin-card"><div class="icon">👮</div><div class="num" id="adminStaffCount">0</div><div class="label">Персонажей</div><div class="actions"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button></div></div>
-                <div class="admin-card"><div class="icon">📋</div><div class="num" id="adminCasesCount">0</div><div class="label">Дел</div><div class="actions"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button></div></div>
-                <div class="admin-card"><div class="icon">🚗</div><div class="num" id="adminFleetCount">0</div><div class="label">Автомобилей</div><div class="actions"><button class="btn btn-sm btn-outline" onclick="resetFleet()">🔄</button></div></div>
-                <div class="admin-card"><div class="icon">💾</div><div class="num">📦</div><div class="label">Экспорт/Импорт</div><div class="actions"><button class="btn btn-sm btn-outline" onclick="exportData()">📤</button><button class="btn btn-sm btn-outline" onclick="importData()">📥</button></div></div>
-                <div class="admin-card"><div class="icon">🗑️</div><div class="num">🔄</div><div class="label">Сброс</div><div class="actions"><button class="btn btn-sm btn-danger" onclick="resetData()">Сбросить</button></div></div>
-            </div>
-            <div style="background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px;margin-top:12px;">
-                <p style="color:#8896a8;font-size:13px;">👑 <b style="color:#eaeef3;">Основатель:</b> admin / admin123</p>
-                <p style="color:#5d6a7a;font-size:12px;">📌 Обычные пользователи — только просмотр</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- ============================================================
-    МОДАЛКА
-    ============================================================ -->
-    <div class="modal" id="detailModal">
-        <div class="modal-box">
-            <button class="modal-close" onclick="closeDetail()">&times;</button>
-            <h2 id="detailTitle"></h2>
-            <div class="sub" id="detailSub"></div>
-            <hr>
-            <div class="content" id="detailContent"></div>
-            <div class="actions" id="detailActions"></div>
+        <!-- Дела -->
+        <div id="casesTab" class="hidden">
+            <div id="casesList"></div>
         </div>
     </div>
 
-    <!-- ============================================================
-    ФОРМЫ
-    ============================================================ -->
-    <div class="form-modal" id="staffForm">
-        <div class="form-box">
-            <button class="close" onclick="closeForm('staffForm')">&times;</button>
-            <h2 id="staffFormTitle">Добавить персонажа</h2>
-            <input type="hidden" id="editStaffId">
-            <div class="form-group"><label>ФИО *</label><input type="text" id="sName" placeholder="Измайлов Григорий"></div>
-            <div class="form-group"><label>Звание *</label><input type="text" id="sRank" placeholder="Капитан полиции"></div>
-            <div class="form-group"><label>Должность *</label><input type="text" id="sPosition" placeholder="Начальник уголовного розыска"></div>
-            <div class="form-group"><label>Фото</label><input type="text" id="sPhoto" placeholder="https://i.pravatar.cc/400?img=1"></div>
-            <div class="form-group"><label>Описание</label><textarea id="sDesc" rows="3"></textarea></div>
-            <div class="form-group"><label>Раскрыто дел</label><input type="number" id="sSolved" value="0"></div>
-            <div class="form-group"><label>Стаж (лет)</label><input type="number" id="sExp" value="0"></div>
-            <div class="form-group"><label>Автомобиль</label><input type="text" id="sCar" placeholder="Mercedes E-Class"></div>
-            <div class="form-group"><label>Категория</label>
-                <select id="sType">
-                    <option value="Руководство">Руководство</option>
-                    <option value="Оперуполномоченный" selected>Оперуполномоченный</option>
-                    <option value="Следственный отдел">Следственный отдел</option>
-                    <option value="Гражданские">Гражданские</option>
-                </select>
-            </div>
-            <div class="form-actions"><button class="btn" onclick="saveStaff()">💾 Сохранить</button><button class="btn btn-outline" onclick="closeForm('staffForm')">Отмена</button></div>
-        </div>
-    </div>
-
-    <div class="form-modal" id="caseForm">
-        <div class="form-box">
-            <button class="close" onclick="closeForm('caseForm')">&times;</button>
-            <h2 id="caseFormTitle">Добавить дело</h2>
-            <input type="hidden" id="editCaseId">
-            <div class="form-group"><label>Номер *</label><input type="text" id="cNumber" placeholder="УД-2026-1024"></div>
-            <div class="form-group"><label>Название *</label><input type="text" id="cTitle" placeholder="Кража в Жуковке"></div>
-            <div class="form-group"><label>Статья УК</label><input type="text" id="cArticle" placeholder="ст. 158 УК РФ"></div>
-            <div class="form-group"><label>Описание</label><textarea id="cDesc" rows="3"></textarea></div>
-            <div class="form-group"><label>Статус</label>
-                <select id="cStatus">
-                    <option value="active">🔄 В работе</option>
-                    <option value="solved">✅ Раскрыто</option>
-                    <option value="closed">❌ Закрыто</option>
-                </select>
-            </div>
-            <div class="form-actions"><button class="btn" onclick="saveCase()">💾 Сохранить</button><button class="btn btn-outline" onclick="closeForm('caseForm')">Отмена</button></div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    СКРИПТ
-    ============================================================ -->
     <script>
-        // ============================================================
-        // БАЗА
-        // ============================================================
-        const DB = {
-            getStaff() { return JSON.parse(localStorage.getItem('psr_staff')) || []; },
-            setStaff(d) { localStorage.setItem('psr_staff', JSON.stringify(d)); },
-            getCases() { return JSON.parse(localStorage.getItem('psr_cases')) || []; },
-            setCases(d) { localStorage.setItem('psr_cases', JSON.stringify(d)); },
-            getUsers() { return JSON.parse(localStorage.getItem('psr_users')) || []; },
-            setUsers(d) { localStorage.setItem('psr_users', JSON.stringify(d)); }
-        };
+        // ======= ДАННЫЕ =======
+        const characters = [
+            { name: 'Владимир Яковлев', rank: 'Полковник', position: 'Начальник ОМВД', car: 'Nissan Teana', solved: 45, img: 'https://i.pravatar.cc/150?img=1' },
+            { name: 'Григорий Измайлов', rank: 'Капитан', position: 'Начальник уголовного розыска', car: 'Mercedes E-Class', solved: 47, img: 'https://i.pravatar.cc/150?img=2' },
+            { name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', car: 'Ford Focus', solved: 25, img: 'https://i.pravatar.cc/150?img=3' },
+            { name: 'Александр Савельев', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', car: 'ВАЗ-2109', solved: 22, img: 'https://i.pravatar.cc/150?img=4' },
+            { name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь', car: 'Chrysler PT Cruiser', solved: 35, img: 'https://i.pravatar.cc/150?img=5' },
+            { name: 'Мария Гудкова', rank: 'Ст. лейтенант юстиции', position: 'Следователь', car: 'Hyundai Solaris', solved: 18, img: 'https://i.pravatar.cc/150?img=6' },
+            { name: 'Алёна', rank: '—', position: 'Совладелица кофеен, жена Гриши', car: 'Porsche Macan', solved: 0, img: 'https://i.pravatar.cc/150?img=7' },
+            { name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кафе', car: 'BMW 4-Series', solved: 0, img: 'https://i.pravatar.cc/150?img=8' },
+            { name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, сестра Гриши', car: 'Чоппер', solved: 0, img: 'https://i.pravatar.cc/150?img=9' }
+        ];
 
-        // ============================================================
-        // ДАННЫЕ
-        // ============================================================
-        function getDefaultStaff() {
-            return [
-                { id: 1, name: 'Владимир Яковлев', rank: 'Полковник', position: 'Начальник ОМВД → Академия', photo: 'https://i.pravatar.cc/400?img=1', desc: 'Начальник ОМВД. Строгий, принципиальный.', solved: 45, exp: 25, car: 'Nissan Teana', type: 'Руководство' },
-                { id: 2, name: 'Григорий Измайлов', rank: 'Капитан', position: 'Начальник уголовного розыска', photo: 'https://i.pravatar.cc/400?img=2', desc: 'Главный герой. Циничный, дерзкий, справедливый.', solved: 47, exp: 14, car: 'Mercedes E-Class', type: 'Оперуполномоченный' },
-                { id: 3, name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=3', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus', type: 'Оперуполномоченный' },
-                { id: 4, name: 'Александр Савельев', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=4', desc: 'Оперуполномоченный. Использует ВАЗ-2109.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
-                { id: 5, name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь', photo: 'https://i.pravatar.cc/400?img=5', desc: 'Старший следователь. Водит Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
-                { id: 6, name: 'Мария Гудкова', rank: 'Ст. лейтенант юстиции', position: 'Следователь', photo: 'https://i.pravatar.cc/400?img=6', desc: 'Следователь. Принципиальная, умная.', solved: 18, exp: 6, car: 'Hyundai Solaris', type: 'Следственный отдел' },
-                { id: 7, name: 'Алёна', rank: '—', position: 'Совладелица кофеен, жена Гриши', photo: 'https://i.pravatar.cc/400?img=7', desc: 'Жена Григория. Успешная бизнес-леди.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
-                { id: 8, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кафе', photo: 'https://i.pravatar.cc/400?img=8', desc: 'Бывшая эскортница, теперь сексолог.', solved: 0, exp: 0, car: 'BMW 4-Series', type: 'Гражданские' },
-                { id: 9, name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, сестра Гриши', photo: 'https://i.pravatar.cc/400?img=9', desc: 'Проблемная младшая сестра Гриши.', solved: 0, exp: 0, car: 'Чоппер', type: 'Гражданские' }
-            ];
-        }
+        const casesList = [
+            { number: 'УД-2025-017', title: 'Барвихинский стрелок', article: 'ст. 105 УК РФ', status: '✅ Раскрыто' },
+            { number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', status: '🔄 В работе' },
+            { number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', status: '✅ Раскрыто' },
+            { number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', status: '❌ Закрыто' }
+        ];
 
-        function getDefaultFleet() {
-            return [
-                { id: 1, model: 'Nissan Teana', plate: 'А 001 МР 77', owner: 'Владимир Яковлев', desc: 'Бордовый → черный. Семейный автомобиль.', photo: 'https://picsum.photos/seed/teana/400/250' },
-                { id: 2, model: 'Mercedes E-Class', plate: 'Р001РР 77', owner: 'Григорий Измайлов', desc: 'Чёрный седан. Статусная машина.', photo: 'https://picsum.photos/seed/mercedes/400/250' },
-                { id: 3, model: 'Ford Focus', plate: 'Ф888ФФ 77', owner: 'Олег Елисеев', desc: 'Служебная машина оперативников.', photo: 'https://picsum.photos/seed/focus/400/250' },
-                { id: 4, model: 'ВАЗ-2109', plate: 'В999ВВ 77', owner: 'Александр Савельев', desc: 'Для скрытого наблюдения.', photo: 'https://picsum.photos/seed/vaz/400/250' },
-                { id: 5, model: 'Chrysler PT Cruiser', plate: 'К999КК 77', owner: 'Игорь Мухич', desc: 'Редкий ретро-хэтчбек.', photo: 'https://picsum.photos/seed/ptcruiser/400/250' },
-                { id: 6, model: 'Hyundai Solaris', plate: 'С555СС 77', owner: 'Мария Гудкова', desc: 'Надёжный седан следователя.', photo: 'https://picsum.photos/seed/solaris/400/250' },
-                { id: 7, model: 'Porsche Macan', plate: 'С888СС 77', owner: 'Алёна', desc: 'Белый люксовый кроссовер.', photo: 'https://picsum.photos/seed/macan/400/250' },
-                { id: 8, model: 'BMW 4-Series', plate: 'М777ММ 77', owner: 'Кристина', desc: 'Спортивное купе.', photo: 'https://picsum.photos/seed/bmw4/400/250' },
-                { id: 9, model: 'Кастомный чоппер', plate: 'Н001НН 77', owner: 'Вероника Измайлова', desc: 'Чёрный мощный байк.', photo: 'https://picsum.photos/seed/choper/400/250' }
-            ];
-        }
-
-        function getDefaultCases() {
-            return [
-                { id: 1, number: 'УД-2025-017', title: 'Дело «Барвихинский стрелок»', article: 'ст. 105 УК РФ', desc: 'Убийство в Барвихе-3. Раскрыто за 48 часов.', status: 'solved' },
-                { id: 2, number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', desc: 'Похищены часы на 15 млн руб.', status: 'active' },
-                { id: 3, number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', desc: 'Угнан Porsche 911. Найден за сутки.', status: 'solved' },
-                { id: 4, number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', desc: 'Хищение 50 млн руб. у инвесторов.', status: 'closed' }
-            ];
-        }
-
-        function getDefaultUsers() {
-            return [
-                { id: 1, username: 'admin', email: 'admin@omvd.ru', password: 'admin123', role: 'admin' }
-            ];
-        }
-
-        // ============================================================
-        // ИНИЦИАЛИЗАЦИЯ
-        // ============================================================
-        function initDB() {
-            if (!localStorage.getItem('psr_staff')) DB.setStaff(getDefaultStaff());
-            if (!localStorage.getItem('psr_cases')) DB.setCases(getDefaultCases());
-            if (!localStorage.getItem('psr_fleet')) localStorage.setItem('psr_fleet', JSON.stringify(getDefaultFleet()));
-            if (!localStorage.getItem('psr_users')) DB.setUsers(getDefaultUsers());
-        }
-
-        function genId() { return Date.now() + Math.floor(Math.random() * 1000); }
-
-        function getStaff() { return DB.getStaff(); }
-
-        function getCases() { return DB.getCases(); }
-
-        function getFleet() { return JSON.parse(localStorage.getItem('psr_fleet')) || getDefaultFleet(); }
-
-        function getUsers() { return DB.getUsers(); }
-
-        // ============================================================
-        // АВТОРИЗАЦИЯ
-        // ============================================================
-        let currentUser = null;
-
-        function switchLoginTab(tab) {
-            document.querySelectorAll('.login-tabs button').forEach(b => b.classList.remove('active'));
-            if (tab === 'login') {
-                document.querySelector('.login-tabs button:first-child').classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
-                document.getElementById('registerForm').classList.remove('active');
-            } else {
-                document.querySelector('.login-tabs button:last-child').classList.add('active');
-                document.getElementById('registerForm').classList.add('active');
-                document.getElementById('loginForm').classList.remove('active');
-            }
-            document.getElementById('loginError').classList.remove('show');
-            document.getElementById('regError').classList.remove('show');
-            document.getElementById('regSuccess').classList.remove('show');
-        }
-
-        function registerUser(e) {
-            e.preventDefault();
-            const username = document.getElementById('regUsername').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
-
-            if (!username || !email || !password) {
-                document.getElementById('regError').textContent = '❌ Заполните все поля!';
-                document.getElementById('regError').classList.add('show');
-                return;
-            }
-            if (password.length < 6) {
-                document.getElementById('regError').textContent = '❌ Пароль должен быть минимум 6 символов!';
-                document.getElementById('regError').classList.add('show');
-                return;
-            }
-
-            const users = getUsers();
-            if (users.find(u => u.username === username || u.email === email)) {
-                document.getElementById('regError').textContent = '❌ Пользователь с таким логином или email уже существует!';
-                document.getElementById('regError').classList.add('show');
-                return;
-            }
-
-            users.push({ id: genId(), username, email, password, role: 'user' });
-            DB.setUsers(users);
-
-            document.getElementById('regSuccess').textContent = '✅ Регистрация успешна! Теперь войдите.';
-            document.getElementById('regSuccess').classList.add('show');
-            document.getElementById('regError').classList.remove('show');
-
-            document.getElementById('regUsername').value = '';
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regPassword').value = '';
-
-            setTimeout(() => {
-                switchLoginTab('login');
-            }, 1500);
-        }
-
-        function loginUser(e) {
-            e.preventDefault();
-            const login = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-
-            const users = getUsers();
-            const user = users.find(u => (u.username === login || u.email === login) && u.password === password);
-
-            if (!user) {
-                document.getElementById('loginError').textContent = '❌ Неверный логин или пароль!';
-                document.getElementById('loginError').classList.add('show');
-                return;
-            }
-
-            currentUser = user;
-            document.getElementById('loginOverlay').classList.remove('active');
-            document.getElementById('userBadge').classList.add('show');
-            document.getElementById('loginBtn').style.display = 'none';
-            document.getElementById('logoutBtn').style.display = 'inline-flex';
-            document.getElementById('userName').textContent = user.username;
-
-            if (user.role === 'admin') {
-                document.getElementById('userRole').textContent = '👑 основатель';
-                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
-                document.getElementById('userRole').style.background = '#d4af37';
-                document.getElementById('userRole').style.color = '#080b10';
-            } else {
-                document.getElementById('userRole').textContent = 'пользователь';
-                document.getElementById('userRole').style.background = '#1c2533';
-                document.getElementById('userRole').style.color = '#8896a8';
-                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
-            }
-
-            localStorage.setItem('psr_logged', 'true');
-            localStorage.setItem('psr_user', JSON.stringify(user));
-        }
-
-        function logoutUser() {
-            currentUser = null;
-            document.getElementById('userBadge').classList.remove('show');
-            document.getElementById('loginBtn').style.display = 'inline-flex';
-            document.getElementById('logoutBtn').style.display = 'none';
-            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
-            localStorage.removeItem('psr_logged');
-            localStorage.removeItem('psr_user');
-            document.getElementById('loginOverlay').classList.add('active');
-        }
-
-        function checkAuth() {
-            if (localStorage.getItem('psr_logged') === 'true') {
-                try {
-                    const user = JSON.parse(localStorage.getItem('psr_user'));
-                    if (user) {
-                        currentUser = user;
-                        document.getElementById('userBadge').classList.add('show');
-                        document.getElementById('loginBtn').style.display = 'none';
-                        document.getElementById('logoutBtn').style.display = 'inline-flex';
-                        document.getElementById('userName').textContent = user.username;
-                        if (user.role === 'admin') {
-                            document.getElementById('userRole').textContent = '👑 основатель';
-                            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
-                            document.getElementById('userRole').style.background = '#d4af37';
-                            document.getElementById('userRole').style.color = '#080b10';
-                        } else {
-                            document.getElementById('userRole').textContent = 'пользователь';
-                            document.getElementById('userRole').style.background = '#1c2533';
-                            document.getElementById('userRole').style.color = '#8896a8';
-                            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
-                        }
-                    }
-                } catch (e) {}
-            }
-        }
-
-        // ============================================================
-        // РЕНДЕРИНГ
-        // ============================================================
-        function renderAll() {
-            renderStaff();
-            renderFleet();
-            renderCases();
-            renderStats();
-            renderAdmin();
-        }
-
+        // ======= ФУНКЦИИ =======
         function renderStaff() {
-            const staff = getStaff();
             const grid = document.getElementById('staffGrid');
-            const count = document.getElementById('staffCount');
-            count.textContent = staff.length;
-            if (!staff.length) {
-                grid.innerHTML =
-                    `<div style="grid-column:1/-1;text-align:center;padding:30px;color:#8896a8;border:2px dashed #1c2533;border-radius:12px;">Нет персонажей. Добавьте первого!</div>`;
-                return;
-            }
-            const colors = { 'Руководство': 'tag-red', 'Оперуполномоченный': 'tag-blue', 'Следственный отдел': 'tag-gold',
-                'Гражданские': 'tag-purple' };
-            const isAdmin = currentUser && currentUser.role === 'admin';
-            grid.innerHTML = staff.map(c => `
-                <div class="card" onclick="viewStaff(${c.id})">
-                    <img class="card-img" src="${c.photo || 'https://i.pravatar.cc/400?img='+c.id}" alt="${c.name}" onerror="this.src='https://i.pravatar.cc/400?img=${c.id}'">
-                    <div class="card-body">
-                        <span class="tag ${colors[c.type] || 'tag-blue'}">${c.type || 'Персонаж'}</span>
+            grid.innerHTML = characters.map(c => `
+                <div class="card">
+                    <img src="${c.img}" onerror="this.src='https://i.pravatar.cc/150?img=1'">
+                    <div class="info">
                         <h3>${c.name}</h3>
-                        <div class="sub">${c.rank || '—'}</div>
-                        <div class="sub" style="font-size:12px;color:#5d6a7a;">${c.position}</div>
-                        <div class="meta">
-                            <span>📌 <strong>${c.solved || 0}</strong> дел</span>
-                            <span>⭐ <strong>${c.exp || 0}</strong> лет</span>
-                            <span>🚗 ${c.car || '—'}</span>
-                        </div>
-                    </div>
-                    ${isAdmin ? `
-                    <div class="card-actions">
-                        <button onclick="event.stopPropagation();editStaff(${c.id})">✏️</button>
-                        <button class="del" onclick="event.stopPropagation();deleteStaff(${c.id})">🗑️</button>
-                    </div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function renderFleet() {
-            const fleet = getFleet();
-            const grid = document.getElementById('fleetGrid');
-            const count = document.getElementById('fleetCount');
-            count.textContent = fleet.length;
-            grid.innerHTML = fleet.map(f => `
-                <div class="card" onclick="viewFleet(${f.id})">
-                    <img class="card-img card-img-auto" src="${f.photo || 'https://picsum.photos/seed/fleet_'+f.id+'/400/250'}" alt="${f.model}" onerror="this.src='https://picsum.photos/seed/fleet_${f.id}/400/250'">
-                    <div class="card-body">
-                        <span class="tag tag-gold">${f.owner.includes('ДПС') ? 'Патруль' : 'Личный'}</span>
-                        <h3>${f.model}</h3>
-                        <div class="sub">${f.plate}</div>
-                        <div class="meta"><span>👮 ${f.owner}</span></div>
+                        <p>${c.rank} • ${c.position}</p>
+                        <p>🚗 ${c.car} • 📌 ${c.solved} дел</p>
+                        <span class="tag">${c.rank.includes('Начальник') ? 'Руководство' : 'Сотрудник'}</span>
                     </div>
                 </div>
             `).join('');
+            document.getElementById('staffCount').textContent = characters.length;
         }
 
         function renderCases() {
-            const cases = getCases();
-            const list = document.getElementById('caseList');
-            const count = document.getElementById('casesCount');
-            count.textContent = cases.length;
-            const smap = { solved: { label: '✅ Раскрыто', cls: 'status-solved' }, active: { label: '🔄 В работе',
-                    cls: 'status-active' }, closed: { label: '❌ Закрыто', cls: 'status-closed' } };
-            if (!cases.length) {
-                list.innerHTML =
-                    `<div style="text-align:center;padding:30px;color:#8896a8;border:2px dashed #1c2533;border-radius:12px;">Нет дел. Добавьте первое!</div>`;
-                return;
-            }
-            const isAdmin = currentUser && currentUser.role === 'admin';
-            list.innerHTML = cases.map(c => {
-                const st = smap[c.status] || smap.active;
-                return `
-                    <div class="case-item" onclick="viewCase(${c.id})">
-                        <div class="head"><span class="number">${c.number}</span><span class="status ${st.cls}">${st.label}</span></div>
-                        <div class="title">${c.title}</div>
-                        <div style="font-size:13px;color:#8896a8;">${c.article || '—'}</div>
-                        <div class="preview">${c.desc || 'Нет описания'}</div>
-                        ${isAdmin ? `
-                        <div class="case-actions">
-                            <button onclick="event.stopPropagation();editCase(${c.id})">✏️</button>
-                            <button class="del" onclick="event.stopPropagation();deleteCase(${c.id})">🗑️</button>
-                        </div>` : ''}
+            const list = document.getElementById('casesList');
+            list.innerHTML = casesList.map(c => `
+                <div class="card" style="flex-direction:column;align-items:stretch">
+                    <div style="display:flex;justify-content:space-between">
+                        <b>${c.number}</b>
+                        <span style="color:#2ecc71">${c.status}</span>
                     </div>
-                `;
-            }).join('');
+                    <h4>${c.title}</h4>
+                    <p style="color:#8896a8">${c.article}</p>
+                </div>
+            `).join('');
+            document.getElementById('casesCount').textContent = casesList.length;
+            const solved = casesList.filter(c => c.status.includes('Раскрыто') || c.status.includes('Закрыто')).length;
+            document.getElementById('solvedCount').textContent = solved;
         }
 
-        function renderStats() {
-            const staff = getStaff();
-            const cases = getCases();
-            document.getElementById('totalStaff').textContent = staff.length;
-            document.getElementById('totalCases').textContent = cases.length;
-            const solved = cases.filter(c => c.status === 'solved' || c.status === 'closed').length;
-            document.getElementById('solvedCases').textContent = solved;
-            document.getElementById('clearanceRate').textContent = cases.length ? Math.round((solved / cases.length) * 100) +
-                '%' : '0%';
-        }
-
-        function renderAdmin() {
-            document.getElementById('adminStaffCount').textContent = getStaff().length;
-            document.getElementById('adminCasesCount').textContent = getCases().length;
-            document.getElementById('adminFleetCount').textContent = getFleet().length;
-        }
-
-        // ============================================================
-        // НАВИГАЦИЯ
-        // ============================================================
-        document.querySelectorAll('.nav button').forEach(b => {
-            b.onclick = function() {
-                document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById('section-' + this.dataset.tab).classList.add('active');
-            };
-        });
-
-        // ============================================================
-        // МОДАЛКИ
-        // ============================================================
-        function openDetail(title, sub, content, actions = '') {
-            document.getElementById('detailTitle').textContent = title;
-            document.getElementById('detailSub').textContent = sub || '';
-            document.getElementById('detailContent').innerHTML = content;
-            document.getElementById('detailActions').innerHTML = actions;
-            document.getElementById('detailModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeDetail() {
-            document.getElementById('detailModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function viewStaff(id) {
-            const c = getStaff().find(p => p.id === id);
-            if (!c) return;
-            const isAdmin = currentUser && currentUser.role === 'admin';
-            const actions = isAdmin ?
-                `<button class="btn btn-sm" onclick="closeDetail();editStaff(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteStaff(${c.id})">🗑️ Удалить</button>` :
-                '';
-            openDetail(c.name, `${c.rank} • ${c.position}`,
-                `<img src="${c.photo || 'https://i.pravatar.cc/400?img='+c.id}" alt="${c.name}" onerror="this.style.display='none'"><p>${c.desc || 'Нет описания'}</p><hr><b>📌 Раскрыто:</b> ${c.solved || 0}<br><b>⭐ Стаж:</b> ${c.exp || 0} лет<br><b>🚗 Автомобиль:</b> ${c.car || '—'}<br><b>🏷️ Категория:</b> ${c.type || '—'}`,
-                actions);
-        }
-
-        function viewFleet(id) {
-            const f = getFleet().find(p => p.id === id);
-            if (!f) return;
-            openDetail(f.model, f.plate,
-                `<img src="${f.photo || 'https://picsum.photos/seed/fleet_'+f.id+'/400/250'}" alt="${f.model}" onerror="this.style.display='none'"><p>${f.desc || 'Нет описания'}</p><hr><b>👮 Владелец:</b> ${f.owner}<br><b>🚘 Госномер:</b> ${f.plate}`,
-                '');
-        }
-
-        function viewCase(id) {
-            const c = getCases().find(p => p.id === id);
-            if (!c) return;
-            const smap = { solved: '✅ Раскрыто', active: '🔄 В работе', closed: '❌ Закрыто' };
-            const isAdmin = currentUser && currentUser.role === 'admin';
-            const actions = isAdmin ?
-                `<button class="btn btn-sm" onclick="closeDetail();editCase(${c.id})">✏️ Редактировать</button><button class="btn btn-sm btn-danger" onclick="closeDetail();deleteCase(${c.id})">🗑️ Удалить</button>` :
-                '';
-            openDetail(c.number, c.title,
-                `<b>Статья:</b> ${c.article || '—'}<br><b>Статус:</b> ${smap[c.status] || 'Неизвестно'}<hr>${c.desc || 'Нет описания'}`,
-                actions);
-        }
-
-        // ============================================================
-        // ФОРМЫ
-        // ============================================================
-        function closeForm(id) { document.getElementById(id).classList.remove('active'); }
-
-        function openStaffForm(data) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            const f = document.getElementById('staffForm');
-            document.getElementById('staffFormTitle').textContent = data ? '✏️ Редактировать персонажа' :
-                '➕ Добавить персонажа';
-            document.getElementById('editStaffId').value = data ? data.id : '';
-            document.getElementById('sName').value = data ? data.name : '';
-            document.getElementById('sRank').value = data ? data.rank : '';
-            document.getElementById('sPosition').value = data ? data.position : '';
-            document.getElementById('sPhoto').value = data ? data.photo : '';
-            document.getElementById('sDesc').value = data ? data.desc : '';
-            document.getElementById('sSolved').value = data ? data.solved : 0;
-            document.getElementById('sExp').value = data ? data.exp : 0;
-            document.getElementById('sCar').value = data ? data.car : '';
-            document.getElementById('sType').value = data ? data.type : 'Оперуполномоченный';
-            f.classList.add('active');
-        }
-
-        function editStaff(id) { const c = getStaff().find(p => p.id === id); if (c) openStaffForm(c); }
-
-        function saveStaff() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            const id = document.getElementById('editStaffId').value;
-            const name = document.getElementById('sName').value.trim();
-            const rank = document.getElementById('sRank').value.trim();
-            const pos = document.getElementById('sPosition').value.trim();
-            const photo = document.getElementById('sPhoto').value.trim();
-            const desc = document.getElementById('sDesc').value.trim();
-            const solved = parseInt(document.getElementById('sSolved').value) || 0;
-            const exp = parseInt(document.getElementById('sExp').value) || 0;
-            const car = document.getElementById('sCar').value.trim();
-            const type = document.getElementById('sType').value;
-            if (!name || !rank || !pos) { alert('Заполните ФИО, звание и должность!'); return; }
-            let staff = getStaff();
-            if (id) {
-                const idx = staff.findIndex(s => s.id === parseInt(id));
-                if (idx !== -1) staff[idx] = { ...staff[idx], name, rank, position: pos, photo, desc, solved, exp, car,
-                    type };
+        function showTab(tab) {
+            document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+            if (tab === 'staff') {
+                document.querySelector('.nav button:first-child').classList.add('active');
+                document.getElementById('staffTab').classList.remove('hidden');
+                document.getElementById('casesTab').classList.add('hidden');
             } else {
-                staff.push({ id: genId(), name, rank, position: pos, photo, desc, solved, exp, car, type });
+                document.querySelector('.nav button:last-child').classList.add('active');
+                document.getElementById('casesTab').classList.remove('hidden');
+                document.getElementById('staffTab').classList.add('hidden');
             }
-            DB.setStaff(staff);
-            closeForm('staffForm');
-            renderAll();
         }
 
-        function deleteStaff(id) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            if (!confirm('Удалить персонажа?')) return;
-            DB.setStaff(getStaff().filter(s => s.id !== id));
-            renderAll();
-        }
-
-        function openCaseForm(data) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            const f = document.getElementById('caseForm');
-            document.getElementById('caseFormTitle').textContent = data ? '✏️ Редактировать дело' : '📋 Добавить дело';
-            document.getElementById('editCaseId').value = data ? data.id : '';
-            document.getElementById('cNumber').value = data ? data.number : '';
-            document.getElementById('cTitle').value = data ? data.title : '';
-            document.getElementById('cArticle').value = data ? data.article : '';
-            document.getElementById('cDesc').value = data ? data.desc : '';
-            document.getElementById('cStatus').value = data ? data.status : 'active';
-            f.classList.add('active');
-        }
-
-        function editCase(id) { const c = getCases().find(p => p.id === id); if (c) openCaseForm(c); }
-
-        function saveCase() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            const id = document.getElementById('editCaseId').value;
-            const number = document.getElementById('cNumber').value.trim();
-            const title = document.getElementById('cTitle').value.trim();
-            const article = document.getElementById('cArticle').value.trim();
-            const desc = document.getElementById('cDesc').value.trim();
-            const status = document.getElementById('cStatus').value;
-            if (!number || !title) { alert('Заполните номер и название дела!'); return; }
-            let cases = getCases();
-            if (id) {
-                const idx = cases.findIndex(c => c.id === parseInt(id));
-                if (idx !== -1) cases[idx] = { ...cases[idx], number, title, article, desc, status };
+        function login() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            if (user === 'admin' && pass === 'admin123') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainSite').style.display = 'block';
+                renderStaff();
+                renderCases();
             } else {
-                cases.push({ id: genId(), number, title, article, desc, status });
+                alert('Неверный логин или пароль!');
             }
-            DB.setCases(cases);
-            closeForm('caseForm');
-            renderAll();
         }
 
-        function deleteCase(id) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            if (!confirm('Удалить дело?')) return;
-            DB.setCases(getCases().filter(c => c.id !== id));
-            renderAll();
+        function logout() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('mainSite').style.display = 'none';
         }
-
-        // ============================================================
-        // ЭКСПОРТ/ИМПОРТ/СБРОС
-        // ============================================================
-        function exportData() {
-            const data = { staff: getStaff(), cases: getCases(), fleet: getFleet(), exported: new Date().toISOString() };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `omvd_psr_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = e => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = ev => {
-                    try {
-                        const data = JSON.parse(ev.target.result);
-                        if (data.staff) DB.setStaff(data.staff);
-                        if (data.cases) DB.setCases(data.cases);
-                        if (data.fleet) localStorage.setItem('psr_fleet', JSON.stringify(data.fleet));
-                        renderAll();
-                        alert('✅ Импорт выполнен!');
-                    } catch (err) { alert('❌ Ошибка формата'); }
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-
-        function resetData() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            if (!confirm('⚠️ ВСЕ ДАННЫЕ БУДУТ УДАЛЕНЫ!')) return;
-            if (!confirm('Точно?')) return;
-            localStorage.removeItem('psr_staff');
-            localStorage.removeItem('psr_cases');
-            localStorage.removeItem('psr_fleet');
-            initDB();
-            renderAll();
-            alert('✅ Данные сброшены');
-        }
-
-        function resetFleet() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('⛔ Доступ только для основателя!');
-                return;
-            }
-            if (!confirm('Сбросить автопарк?')) return;
-            localStorage.setItem('psr_fleet', JSON.stringify(getDefaultFleet()));
-            renderAll();
-        }
-
-        // ============================================================
-        // ЗАПУСК
-        // ============================================================
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                closeDetail();
-                closeForm('staffForm');
-                closeForm('caseForm');
-            }
-        });
-
-        initDB();
-        checkAuth();
-        renderAll();
-
-        console.log('👑 ОМВД Барвиха-Северное загружен!');
-        console.log(`👮 Персонажей: ${getStaff().length}`);
-        console.log(`🚗 Автомобилей: ${getFleet().length}`);
-        console.log(`📋 Дел: ${getCases().length}`);
-        console.log('👑 Основатель: admin / admin123');
-        console.log('📝 Обычные пользователи — только просмотр');
     </script>
+
 </body>
 </html>
