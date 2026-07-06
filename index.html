@@ -57,7 +57,6 @@
         .tag-gold{background:rgba(201,168,76,.15);color:#c9a84c}
         .tag-green{background:rgba(46,204,113,.15);color:#2ecc71}
         .tag-purple{background:rgba(155,89,182,.15);color:#9b59b6}
-        .tag-orange{background:rgba(255,165,0,.15);color:#ffa500}
         .case-list{display:flex;flex-direction:column;gap:8px}
         .case-item{background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:12px 16px;cursor:pointer;transition:.2s;border-left:4px solid #1c2533;position:relative}
         .case-item:hover{border-left-color:#0071e3;background:rgba(14,20,28,.8)}
@@ -223,8 +222,8 @@
 
         <!-- ПЕРСОНАЖИ -->
         <div class="section active" id="section-staff">
-            <div class="section-title">👮 Персонажи сериала <span class="count" id="staffCount">0</span>
-                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕ Добавить</button></span>
+            <div class="section-title">👮 Персонажи <span class="count" id="staffCount">0</span>
+                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button></span>
             </div>
             <div class="grid-2" id="staffGrid"></div>
         </div>
@@ -237,31 +236,29 @@
 
         <!-- ДЕЛА -->
         <div class="section" id="section-cases">
-            <div class="section-title">📋 Уголовные дела <span class="count" id="casesCount">0</span>
-                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕ Добавить</button></span>
+            <div class="section-title">📋 Дела <span class="count" id="casesCount">0</span>
+                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button></span>
             </div>
             <div class="case-list" id="caseList"></div>
         </div>
 
         <!-- КАРТА -->
         <div class="section" id="section-map">
-            <div class="section-title">🗺️ Карта Рублёвки <span class="count">📍 места действия</span></div>
+            <div class="section-title">🗺️ Карта <span class="count">📍 места</span></div>
             <div class="map-container">
                 <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A8e3f5a1b2c9d4e7f8a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f&amp;source=constructor" frameborder="0"></iframe>
                 <div class="map-points">
-                    <div class="map-point"><div class="pt">📍 ОМВД Барвиха-Северное</div><div class="pd">ул. Центральная, 12</div></div>
+                    <div class="map-point"><div class="pt">📍 ОМВД Барвиха</div><div class="pd">ул. Центральная, 12</div></div>
                     <div class="map-point"><div class="pt">🏠 Жуковка</div><div class="pd">Кража часов</div></div>
                     <div class="map-point"><div class="pt">🛍️ Luxury Village</div><div class="pd">Угон Porsche</div></div>
                     <div class="map-point"><div class="pt">🏘️ Барвиха-3</div><div class="pd">«Барвихинский стрелок»</div></div>
-                    <div class="map-point"><div class="pt">🔧 Автосервис Ники</div><div class="pd">Вероника Измайлова</div></div>
-                    <div class="map-point"><div class="pt">☕ Кофейня</div><div class="pd">Алёна и Кристина</div></div>
                 </div>
             </div>
         </div>
 
         <!-- АДМИН -->
         <div class="section" id="section-admin">
-            <div class="section-title">⚙️ Админ-панель <span class="count">👑 только основатель</span></div>
+            <div class="section-title">⚙️ Админ <span class="count">👑 основатель</span></div>
             <div class="admin-grid">
                 <div class="admin-card"><div class="icon">👮</div><div class="num" id="adminStaffCount">0</div><div class="label">Персонажей</div><div class="actions"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button></div></div>
                 <div class="admin-card"><div class="icon">📋</div><div class="num" id="adminCasesCount">0</div><div class="label">Дел</div><div class="actions"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button></div></div>
@@ -271,7 +268,7 @@
             </div>
             <div style="background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px;margin-top:12px;">
                 <p style="color:#8896a8;font-size:13px;">👑 <b style="color:#eaeef3;">Основатель:</b> admin / admin123</p>
-                <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">📌 Обычные пользователи — только просмотр</p>
+                <p style="color:#5d6a7a;font-size:12px;">📌 Обычные пользователи — только просмотр</p>
             </div>
         </div>
     </main>
@@ -300,8 +297,8 @@
             <input type="hidden" id="editStaffId">
             <div class="form-group"><label>ФИО *</label><input type="text" id="sName" placeholder="Измайлов Григорий"></div>
             <div class="form-group"><label>Звание *</label><input type="text" id="sRank" placeholder="Капитан полиции"></div>
-            <div class="form-group"><label>Должность *</label><input type="text" id="sPosition" placeholder="Старший оперуполномоченный"></div>
-            <div class="form-group"><label>Фото (URL)</label><input type="text" id="sPhoto" placeholder="https://i.pravatar.cc/400?img=1"></div>
+            <div class="form-group"><label>Должность *</label><input type="text" id="sPosition" placeholder="Начальник уголовного розыска"></div>
+            <div class="form-group"><label>Фото</label><input type="text" id="sPhoto" placeholder="https://i.pravatar.cc/400?img=1"></div>
             <div class="form-group"><label>Описание</label><textarea id="sDesc" rows="3"></textarea></div>
             <div class="form-group"><label>Раскрыто дел</label><input type="number" id="sSolved" value="0"></div>
             <div class="form-group"><label>Стаж (лет)</label><input type="number" id="sExp" value="0"></div>
@@ -343,7 +340,7 @@
     ============================================================ -->
     <script>
         // ============================================================
-        // БАЗА ДАННЫХ
+        // БАЗА
         // ============================================================
         const DB = {
             getStaff() { return JSON.parse(localStorage.getItem('psr_staff')) || []; },
@@ -355,19 +352,19 @@
         };
 
         // ============================================================
-        // ПЕРСОНАЖИ (9 ШТУК — ПО ТВОЕМУ СПИСКУ)
+        // ДАННЫЕ
         // ============================================================
         function getDefaultStaff() {
             return [
-                { id: 1, name: 'Владимир Яковлев', rank: 'Подполковник → Полковник', position: 'Начальник ОМВД → Начальник Академии', photo: 'https://i.pravatar.cc/400?img=1', desc: 'Начальник ОМВД «Барвиха-Северное». Строгий, принципиальный.', solved: 45, exp: 25, car: 'Nissan Teana', type: 'Руководство' },
-                { id: 2, name: 'Григорий Измайлов', rank: 'Капитан полиции', position: 'Начальник уголовного розыска', photo: 'https://i.pravatar.cc/400?img=2', desc: 'Главный герой. Циничный, дерзкий, справедливый.', solved: 47, exp: 14, car: 'Mercedes E-Class', type: 'Оперуполномоченный' },
-                { id: 3, name: 'Олег Елисеев', rank: 'Капитан полиции', position: 'Оперуполномоченный уголовного розыска', photo: 'https://i.pravatar.cc/400?img=3', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus', type: 'Оперуполномоченный' },
-                { id: 4, name: 'Александр Савельев', rank: 'Старший лейтенант полиции', position: 'Оперуполномоченный уголовного розыска', photo: 'https://i.pravatar.cc/400?img=4', desc: 'Оперуполномоченный. Использует ВАЗ-2109 для скрытого наблюдения.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
-                { id: 5, name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь ОМВД', photo: 'https://i.pravatar.cc/400?img=5', desc: 'Старший следователь. Водит редкий Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
-                { id: 6, name: 'Мария Гудкова', rank: 'Старший лейтенант юстиции', position: 'Следователь ОМВД', photo: 'https://i.pravatar.cc/400?img=6', desc: 'Следователь. Принципиальная, умная.', solved: 18, exp: 6, car: 'Hyundai Solaris', type: 'Следственный отдел' },
-                { id: 7, name: 'Алёна', rank: '—', position: 'Совладелица кофеен и коворкинга, жена Гриши', photo: 'https://i.pravatar.cc/400?img=7', desc: 'Жена Григория Измайлова. Успешная бизнес-леди. Водит Porsche Macan.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
-                { id: 8, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица коворкинга и кафе', photo: 'https://i.pravatar.cc/400?img=8', desc: 'Бывшая эскортница, теперь сексолог. Водит BMW 4-Series.', solved: 0, exp: 0, car: 'BMW 4-Series', type: 'Гражданские' },
-                { id: 9, name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, младшая сестра Гриши', photo: 'https://i.pravatar.cc/400?img=9', desc: 'Проблемная младшая сестра Гриши. Водит кастомный чоппер.', solved: 0, exp: 0, car: 'Чоппер / ВАЗ-2105', type: 'Гражданские' }
+                { id: 1, name: 'Владимир Яковлев', rank: 'Полковник', position: 'Начальник ОМВД → Академия', photo: 'https://i.pravatar.cc/400?img=1', desc: 'Начальник ОМВД. Строгий, принципиальный.', solved: 45, exp: 25, car: 'Nissan Teana', type: 'Руководство' },
+                { id: 2, name: 'Григорий Измайлов', rank: 'Капитан', position: 'Начальник уголовного розыска', photo: 'https://i.pravatar.cc/400?img=2', desc: 'Главный герой. Циничный, дерзкий, справедливый.', solved: 47, exp: 14, car: 'Mercedes E-Class', type: 'Оперуполномоченный' },
+                { id: 3, name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=3', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus', type: 'Оперуполномоченный' },
+                { id: 4, name: 'Александр Савельев', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=4', desc: 'Оперуполномоченный. Использует ВАЗ-2109.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
+                { id: 5, name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь', photo: 'https://i.pravatar.cc/400?img=5', desc: 'Старший следователь. Водит Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
+                { id: 6, name: 'Мария Гудкова', rank: 'Ст. лейтенант юстиции', position: 'Следователь', photo: 'https://i.pravatar.cc/400?img=6', desc: 'Следователь. Принципиальная, умная.', solved: 18, exp: 6, car: 'Hyundai Solaris', type: 'Следственный отдел' },
+                { id: 7, name: 'Алёна', rank: '—', position: 'Совладелица кофеен, жена Гриши', photo: 'https://i.pravatar.cc/400?img=7', desc: 'Жена Григория. Успешная бизнес-леди.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
+                { id: 8, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кафе', photo: 'https://i.pravatar.cc/400?img=8', desc: 'Бывшая эскортница, теперь сексолог.', solved: 0, exp: 0, car: 'BMW 4-Series', type: 'Гражданские' },
+                { id: 9, name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, сестра Гриши', photo: 'https://i.pravatar.cc/400?img=9', desc: 'Проблемная младшая сестра Гриши.', solved: 0, exp: 0, car: 'Чоппер', type: 'Гражданские' }
             ];
         }
 
@@ -390,8 +387,7 @@
                 { id: 1, number: 'УД-2025-017', title: 'Дело «Барвихинский стрелок»', article: 'ст. 105 УК РФ', desc: 'Убийство в Барвихе-3. Раскрыто за 48 часов.', status: 'solved' },
                 { id: 2, number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', desc: 'Похищены часы на 15 млн руб.', status: 'active' },
                 { id: 3, number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', desc: 'Угнан Porsche 911. Найден за сутки.', status: 'solved' },
-                { id: 4, number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', desc: 'Хищение 50 млн руб. у инвесторов.', status: 'closed' },
-                { id: 5, number: 'УД-2026-1102', title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', desc: 'Обнаружен схрон с оружием.', status: 'active' }
+                { id: 4, number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', desc: 'Хищение 50 млн руб. у инвесторов.', status: 'closed' }
             ];
         }
 
