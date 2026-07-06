@@ -2,63 +2,62 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ОМВД | Система управления Барвихой</title>
+    <title>OMVD HUD | BARVIHA RP</title>
     <style>
-        :root { --primary: #0f172a; --secondary: #1e293b; --accent: #38bdf8; --text: #f1f5f9; }
-        body { background: var(--primary); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
         
-        /* Боковая панель управления */
-        #nav { width: 250px; background: var(--secondary); height: 100vh; padding: 20px; border-right: 1px solid #334155; }
-        .nav-btn { display: block; width: 100%; padding: 12px; margin-bottom: 10px; background: #334155; border: none; color: white; cursor: pointer; border-radius: 5px; text-align: left; }
-        .nav-btn:hover { background: var(--accent); color: #000; }
+        body { 
+            margin: 0; background: url('https://i.imgur.com/8FkP4Tf.jpg') no-repeat center center fixed; /* Можно заменить на фон Рублевки */
+            background-size: cover; font-family: 'Roboto Condensed', sans-serif; color: white;
+            overflow: hidden; display: flex; height: 100vh;
+        }
 
-        /* Рабочая область */
-        #dashboard { flex: 1; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .module { background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; }
-        
-        .stat-val { font-size: 24px; font-weight: bold; color: var(--accent); }
+        /* HUD Панель */
+        .hud-left { width: 300px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); border-right: 2px solid #38bdf8; display: flex; flex-direction: column; }
+        .hud-item { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.4s; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; }
+        .hud-item:hover { background: rgba(56, 189, 248, 0.2); padding-left: 30px; border-left: 5px solid #38bdf8; }
+
+        /* Контентная зона с анимацией */
+        #main-view { flex: 1; padding: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.6s; }
+        .fade-in { opacity: 1 !important; }
+
+        .card { background: rgba(30, 41, 59, 0.9); padding: 40px; border-radius: 0; border: 1px solid #475569; width: 600px; }
+        .btn-game { background: transparent; border: 1px solid #38bdf8; color: #38bdf8; padding: 10px 20px; cursor: pointer; margin-top: 20px; }
+        .btn-game:hover { background: #38bdf8; color: white; }
     </style>
 </head>
 <body>
 
-<div id="nav">
-    <h3>📱 ОМВД Барвиха</h3>
-    <button class="nav-btn" onclick="showModule('tasks')">🚨 Оперативные дела</button>
-    <button class="nav-btn" onclick="showModule('inventory')">📦 Склад вещдоков</button>
-    <button class="nav-btn" onclick="showModule('budget')">🏛️ Кабинет начальника</button>
-    <button class="nav-btn" onclick="showModule('garage')">🚗 Автопарк</button>
+<div class="hud-left">
+    <div style="padding: 30px; font-weight: bold; font-size: 24px; color: #38bdf8;">ОМВД БАРВИХА</div>
+    <div class="hud-item" onclick="navigate('missions')">🚨 Задания</div>
+    <div class="hud-item" onclick="navigate('garage')">🚗 Автопарк</div>
+    <div class="hud-item" onclick="navigate('admin')">🏛️ Управление</div>
 </div>
 
-<div id="dashboard">
-    <div class="module">
-        <h3>Состояние отдела</h3>
-        <p>Рейтинг раскрываемости: <span class="stat-val">84%</span></p>
-        <p>Бюджет на премии: <span class="stat-val" id="b-val">5,000,000</span> ₽</p>
-    </div>
-    
-    <div class="module" id="content-area">
-        <h1>Добро пожаловать в систему</h1>
-        <p>Выберите модуль из меню слева для начала работы.</p>
+<div id="main-view">
+    <div class="card" id="content">
+        <h1>Добро пожаловать в отдел</h1>
+        <p>Выберите пункт меню для активации модуля.</p>
     </div>
 </div>
 
 <script>
-    const db = {
-        tasks: [
-            { id: 1, name: "Облава на мажоров", type: "force", reward: 150000 },
-            { id: 2, name: "Кража черной икры", type: "investigation", reward: 80000 },
-            { id: 3, name: "Драка в ресторане", type: "force", reward: 120000 }
-        ]
-    };
-
-    function showModule(mod) {
-        const area = document.getElementById('content-area');
-        if(mod === 'tasks') {
-            area.innerHTML = "<h2>Текущие задачи:</h2>" + 
-                db.tasks.map(t => `<div style="margin-bottom:10px;">${t.name} <button onclick="accept('${t.name}')">Принять</button></div>`).join('');
-        } else if(mod === 'budget') {
-            area.innerHTML = "<h2>Управление бюджетом</h2><p>Потратить 500к на ремонт?</p><button>Подтвердить</button>";
-        }
+    function navigate(mod) {
+        const view = document.getElementById('main-view');
+        const content = document.getElementById('content');
+        
+        // Эффект исчезновения
+        view.classList.remove('fade-in');
+        
+        setTimeout(() => {
+            if(mod === 'missions') {
+                content.innerHTML = `<h1>Оперативные сводки</h1><button class="btn-game" onclick="alert('Запуск патруля...')">Начать патруль</button>`;
+            } else if(mod === 'garage') {
+                content.innerHTML = `<h1>Ваши Т/С</h1><p>Mercedes E-Class (Состояние: 100%)</p>`;
+            }
+            view.classList.add('fade-in');
+        }, 500);
     }
 </script>
 </body>
