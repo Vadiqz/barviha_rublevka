@@ -2,98 +2,63 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ОМВД Барвиха | Оперативный штаб</title>
+    <title>ОМВД | Система управления Барвихой</title>
     <style>
-        :root { --bg: #0a0e14; --panel: #161b24; --accent: #38bdf8; --text: #e2e8f0; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', monospace; display: flex; height: 100vh; margin: 0; }
-        #sidebar { width: 320px; background: var(--panel); border-right: 1px solid #334155; padding: 20px; }
-        #main { flex: 1; padding: 30px; overflow-y: auto; }
-        .card { background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
-        .btn { padding: 12px 20px; border-radius: 6px; border: none; cursor: pointer; color: white; margin: 5px; font-weight: bold; }
-        .btn-blue { background: #0ea5e9; }
-        .btn-red { background: #ef4444; }
-        .fuel-bar { height: 12px; background: #000; border-radius: 6px; margin: 10px 0; overflow: hidden; }
-        .fuel-fill { height: 100%; background: #f59e0b; width: 100%; transition: 0.3s; }
-        .log-list { font-size: 13px; color: #94a3b8; border-top: 1px solid #334155; margin-top: 20px; padding-top: 10px; }
+        :root { --primary: #0f172a; --secondary: #1e293b; --accent: #38bdf8; --text: #f1f5f9; }
+        body { background: var(--primary); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; }
+        
+        /* Боковая панель управления */
+        #nav { width: 250px; background: var(--secondary); height: 100vh; padding: 20px; border-right: 1px solid #334155; }
+        .nav-btn { display: block; width: 100%; padding: 12px; margin-bottom: 10px; background: #334155; border: none; color: white; cursor: pointer; border-radius: 5px; text-align: left; }
+        .nav-btn:hover { background: var(--accent); color: #000; }
+
+        /* Рабочая область */
+        #dashboard { flex: 1; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .module { background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; }
+        
+        .stat-val { font-size: 24px; font-weight: bold; color: var(--accent); }
     </style>
 </head>
 <body>
 
-<div id="sidebar">
-    <h3>📂 ОМВД «Барвиха»</h3>
-    <div class="card">
-        <div>Бюджет ОМВД: <b id="budget" style="color:#f59e0b">2,000,000</b> ₽</div>
-        <div>Ваш капитал: <b id="money" style="color:#10b981">150,000</b> ₽</div>
-    </div>
-    <div class="card" id="car-ui">
-        <b>🚓 Т/С: Mercedes E-Class</b>
-        <div class="fuel-bar"><div id="fuel-fill" class="fuel-fill"></div></div>
-        <button class="btn" style="background:#475569" onclick="refuel()">Заправить (500 ₽)</button>
-    </div>
-    <button class="btn btn-blue" style="width:90%" onclick="generateNewCases()">🔄 Обновить сводку</button>
+<div id="nav">
+    <h3>📱 ОМВД Барвиха</h3>
+    <button class="nav-btn" onclick="showModule('tasks')">🚨 Оперативные дела</button>
+    <button class="nav-btn" onclick="showModule('inventory')">📦 Склад вещдоков</button>
+    <button class="nav-btn" onclick="showModule('budget')">🏛️ Кабинет начальника</button>
+    <button class="nav-btn" onclick="showModule('garage')">🚗 Автопарк</button>
 </div>
 
-<div id="main">
-    <div id="mission-board"><h3>Добро пожаловать в отдел. Ждем приказов.</h3></div>
-    <div id="report-area" style="display:none;" class="card">
-        <h3 id="m-title"></h3>
-        <p id="m-desc"></p>
-        <textarea id="report-text" style="width:100%; height:80px; background:#000; color:#0f0;"></textarea>
-        <button class="btn btn-blue" onclick="completeCase()">Подать рапорт</button>
+<div id="dashboard">
+    <div class="module">
+        <h3>Состояние отдела</h3>
+        <p>Рейтинг раскрываемости: <span class="stat-val">84%</span></p>
+        <p>Бюджет на премии: <span class="stat-val" id="b-val">5,000,000</span> ₽</p>
     </div>
-    <div class="log-list" id="logs"></div>
+    
+    <div class="module" id="content-area">
+        <h1>Добро пожаловать в систему</h1>
+        <p>Выберите модуль из меню слева для начала работы.</p>
+    </div>
 </div>
 
 <script>
-    let state = { budget: 2000000, money: 150000, fuel: 100, activeCase: null };
-    
-    function log(msg) { document.getElementById('logs').innerHTML += `<div>> ${msg}</div>`; }
+    const db = {
+        tasks: [
+            { id: 1, name: "Облава на мажоров", type: "force", reward: 150000 },
+            { id: 2, name: "Кража черной икры", type: "investigation", reward: 80000 },
+            { id: 3, name: "Драка в ресторане", type: "force", reward: 120000 }
+        ]
+    };
 
-    function generateNewCases() {
-        const crimes = ["Угон авто", "Грабеж", "Взятка", "Подпольные игры", "Разбой"];
-        const locs = ["Жуковка", "Барвиха Luxury", "Рублевка-1", "МКАД"];
-        document.getElementById('mission-board').innerHTML = "<h3>Оперативные вызовы:</h3>";
-        
-        for(let i=0; i<3; i++) {
-            let c = crimes[Math.floor(Math.random()*crimes.length)];
-            let l = locs[Math.floor(Math.random()*locs.length)];
-            let rew = 50000;
-            let btn = document.createElement('button');
-            btn.className = 'btn btn-blue';
-            btn.innerText = `[${l}] ${c}`;
-            btn.onclick = () => acceptCase(c, l, rew);
-            document.getElementById('mission-board').appendChild(btn);
+    function showModule(mod) {
+        const area = document.getElementById('content-area');
+        if(mod === 'tasks') {
+            area.innerHTML = "<h2>Текущие задачи:</h2>" + 
+                db.tasks.map(t => `<div style="margin-bottom:10px;">${t.name} <button onclick="accept('${t.name}')">Принять</button></div>`).join('');
+        } else if(mod === 'budget') {
+            area.innerHTML = "<h2>Управление бюджетом</h2><p>Потратить 500к на ремонт?</p><button>Подтвердить</button>";
         }
-    }
-
-    function acceptCase(crime, loc, rew) {
-        if(state.fuel < 20) return alert("Бензина мало! Заправьтесь.");
-        state.activeCase = { crime, loc, rew };
-        document.getElementById('mission-board').style.display = 'none';
-        document.getElementById('report-area').style.display = 'block';
-        document.getElementById('m-title').innerText = "Дело: " + crime;
-        document.getElementById('m-desc').innerText = "Место: " + loc + ". Опишите задержание:";
-    }
-
-    function completeCase() {
-        if(document.getElementById('report-text').value.length < 30) return alert("Рапорт неполный!");
-        state.budget += 100000;
-        state.money += state.activeCase.rew;
-        state.fuel -= 20;
-        document.getElementById('fuel-fill').style.width = state.fuel + "%";
-        
-        if(Math.random() > 0.85) { log("⚠️ ССБ: Выявлены нарушения в рапорте. Штраф!"); state.money -= 50000; }
-        
-        log(`✅ Дело «${state.activeCase.crime}» закрыто.`);
-        document.getElementById('mission-board').style.display = 'block';
-        document.getElementById('report-area').style.display = 'none';
-        updateUI();
-    }
-
-    function refuel() { if(state.money >= 500) { state.money -= 500; state.fuel = 100; document.getElementById('fuel-fill').style.width = "100%"; updateUI(); } }
-    function updateUI() { 
-        document.getElementById('budget').innerText = state.budget.toLocaleString(); 
-        document.getElementById('money').innerText = state.money.toLocaleString(); 
     }
 </script>
 </body>
