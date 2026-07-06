@@ -142,54 +142,31 @@
 <body>
 
     <!-- ============================================================
-    ЛОГИН / РЕГИСТРАЦИЯ
+    ЛОГИН
     ============================================================ -->
     <div class="login-overlay active" id="loginOverlay">
         <div class="login-box">
             <div class="logo">🚔</div>
             <h2>ОМВД Барвиха-Северное</h2>
             <div class="sub">Вход в систему</div>
-
             <div class="login-tabs">
                 <button class="active" onclick="switchLoginTab('login')">Вход</button>
                 <button onclick="switchLoginTab('register')">Регистрация</button>
             </div>
-
-            <!-- ВХОД -->
             <div class="login-form active" id="loginForm">
                 <form onsubmit="loginUser(event)">
-                    <div class="form-group">
-                        <label>Логин или Email</label>
-                        <input type="text" id="loginUsername" placeholder="admin или user@mail.ru">
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" id="loginPassword" placeholder="••••••••">
-                    </div>
+                    <div class="form-group"><label>Логин или Email</label><input type="text" id="loginUsername" placeholder="admin или user@mail.ru"></div>
+                    <div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
                     <button type="submit" class="btn btn-block">Войти</button>
                     <div class="login-error" id="loginError">❌ Неверный логин или пароль</div>
                 </form>
-                <div style="margin-top:10px;font-size:12px;color:#5d6a7a;text-align:center;">
-                    👑 Основатель: admin / admin123<br>
-                    Обычные пользователи — только просмотр
-                </div>
+                <div style="margin-top:10px;font-size:12px;color:#5d6a7a;text-align:center;">👑 Основатель: admin / admin123<br>Обычные пользователи — только просмотр</div>
             </div>
-
-            <!-- РЕГИСТРАЦИЯ -->
             <div class="login-form" id="registerForm">
                 <form onsubmit="registerUser(event)">
-                    <div class="form-group">
-                        <label>Имя пользователя *</label>
-                        <input type="text" id="regUsername" placeholder="Введите логин" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="email" id="regEmail" placeholder="user@mail.ru" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль *</label>
-                        <input type="password" id="regPassword" placeholder="Минимум 6 символов" required minlength="6">
-                    </div>
+                    <div class="form-group"><label>Имя пользователя *</label><input type="text" id="regUsername" placeholder="Введите логин" required></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="regEmail" placeholder="user@mail.ru" required></div>
+                    <div class="form-group"><label>Пароль *</label><input type="password" id="regPassword" placeholder="Минимум 6 символов" required minlength="6"></div>
                     <button type="submit" class="btn btn-block">Зарегистрироваться</button>
                     <div class="login-success" id="regSuccess">✅ Регистрация успешна! Теперь войдите.</div>
                     <div class="login-error" id="regError">❌ Ошибка регистрации</div>
@@ -237,8 +214,6 @@
     КОНТЕНТ
     ============================================================ -->
     <main class="container">
-
-        <!-- ========== СТАТИСТИКА ========== -->
         <div class="stats-grid" id="statsGrid">
             <div class="stat-card"><div class="num" id="totalStaff">0</div><div class="label">Персонажей</div></div>
             <div class="stat-card"><div class="num" id="totalCases">0</div><div class="label">Дел</div></div>
@@ -246,40 +221,29 @@
             <div class="stat-card"><div class="num" id="clearanceRate">0%</div><div class="label">Раскрываемость</div></div>
         </div>
 
-        <!-- ========== ПЕРСОНАЖИ ========== -->
+        <!-- ПЕРСОНАЖИ -->
         <div class="section active" id="section-staff">
-            <div class="section-title">
-                👮 Персонажи сериала
-                <span class="count" id="staffCount">0</span>
-                <span class="right admin-only">
-                    <button class="btn btn-sm btn-success" onclick="openStaffForm()">➕ Добавить</button>
-                </span>
+            <div class="section-title">👮 Персонажи сериала <span class="count" id="staffCount">0</span>
+                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕ Добавить</button></span>
             </div>
             <div class="grid-2" id="staffGrid"></div>
         </div>
 
-        <!-- ========== АВТОПАРК ========== -->
+        <!-- АВТОПАРК -->
         <div class="section" id="section-fleet">
-            <div class="section-title">
-                🚗 Автомобили
-                <span class="count" id="fleetCount">0</span>
-            </div>
+            <div class="section-title">🚗 Автомобили <span class="count" id="fleetCount">0</span></div>
             <div class="grid-3" id="fleetGrid"></div>
         </div>
 
-        <!-- ========== ДЕЛА ========== -->
+        <!-- ДЕЛА -->
         <div class="section" id="section-cases">
-            <div class="section-title">
-                📋 Уголовные дела
-                <span class="count" id="casesCount">0</span>
-                <span class="right admin-only">
-                    <button class="btn btn-sm btn-success" onclick="openCaseForm()">➕ Добавить</button>
-                </span>
+            <div class="section-title">📋 Уголовные дела <span class="count" id="casesCount">0</span>
+                <span class="right admin-only"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕ Добавить</button></span>
             </div>
             <div class="case-list" id="caseList"></div>
         </div>
 
-        <!-- ========== КАРТА ========== -->
+        <!-- КАРТА -->
         <div class="section" id="section-map">
             <div class="section-title">🗺️ Карта Рублёвки <span class="count">📍 места действия</span></div>
             <div class="map-container">
@@ -295,50 +259,21 @@
             </div>
         </div>
 
-        <!-- ========== АДМИН-ПАНЕЛЬ ========== -->
+        <!-- АДМИН -->
         <div class="section" id="section-admin">
             <div class="section-title">⚙️ Админ-панель <span class="count">👑 только основатель</span></div>
             <div class="admin-grid">
-                <div class="admin-card">
-                    <div class="icon">👮</div>
-                    <div class="num" id="adminStaffCount">0</div>
-                    <div class="label">Персонажей</div>
-                    <div class="actions"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button></div>
-                </div>
-                <div class="admin-card">
-                    <div class="icon">📋</div>
-                    <div class="num" id="adminCasesCount">0</div>
-                    <div class="label">Дел</div>
-                    <div class="actions"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button></div>
-                </div>
-                <div class="admin-card">
-                    <div class="icon">🚗</div>
-                    <div class="num" id="adminFleetCount">0</div>
-                    <div class="label">Автомобилей</div>
-                    <div class="actions"><button class="btn btn-sm btn-outline" onclick="resetFleet()">🔄</button></div>
-                </div>
-                <div class="admin-card">
-                    <div class="icon">💾</div>
-                    <div class="num">📦</div>
-                    <div class="label">Экспорт/Импорт</div>
-                    <div class="actions">
-                        <button class="btn btn-sm btn-outline" onclick="exportData()">📤</button>
-                        <button class="btn btn-sm btn-outline" onclick="importData()">📥</button>
-                    </div>
-                </div>
-                <div class="admin-card">
-                    <div class="icon">🗑️</div>
-                    <div class="num">🔄</div>
-                    <div class="label">Сброс</div>
-                    <div class="actions"><button class="btn btn-sm btn-danger" onclick="resetData()">Сбросить</button></div>
-                </div>
+                <div class="admin-card"><div class="icon">👮</div><div class="num" id="adminStaffCount">0</div><div class="label">Персонажей</div><div class="actions"><button class="btn btn-sm btn-success" onclick="openStaffForm()">➕</button></div></div>
+                <div class="admin-card"><div class="icon">📋</div><div class="num" id="adminCasesCount">0</div><div class="label">Дел</div><div class="actions"><button class="btn btn-sm btn-success" onclick="openCaseForm()">➕</button></div></div>
+                <div class="admin-card"><div class="icon">🚗</div><div class="num" id="adminFleetCount">0</div><div class="label">Автомобилей</div><div class="actions"><button class="btn btn-sm btn-outline" onclick="resetFleet()">🔄</button></div></div>
+                <div class="admin-card"><div class="icon">💾</div><div class="num">📦</div><div class="label">Экспорт/Импорт</div><div class="actions"><button class="btn btn-sm btn-outline" onclick="exportData()">📤</button><button class="btn btn-sm btn-outline" onclick="importData()">📥</button></div></div>
+                <div class="admin-card"><div class="icon">🗑️</div><div class="num">🔄</div><div class="label">Сброс</div><div class="actions"><button class="btn btn-sm btn-danger" onclick="resetData()">Сбросить</button></div></div>
             </div>
             <div style="background:#0e141c;border:1px solid #1c2533;border-radius:10px;padding:16px;margin-top:12px;">
                 <p style="color:#8896a8;font-size:13px;">👑 <b style="color:#eaeef3;">Основатель:</b> admin / admin123</p>
                 <p style="color:#5d6a7a;font-size:12px;margin-top:4px;">📌 Обычные пользователи — только просмотр</p>
             </div>
         </div>
-
     </main>
 
     <!-- ============================================================
@@ -356,7 +291,7 @@
     </div>
 
     <!-- ============================================================
-    ФОРМЫ (ТОЛЬКО ДЛЯ АДМИНА)
+    ФОРМЫ
     ============================================================ -->
     <div class="form-modal" id="staffForm">
         <div class="form-box">
@@ -377,13 +312,9 @@
                     <option value="Оперуполномоченный" selected>Оперуполномоченный</option>
                     <option value="Следственный отдел">Следственный отдел</option>
                     <option value="Гражданские">Гражданские</option>
-                    <option value="ДПС">ДПС</option>
                 </select>
             </div>
-            <div class="form-actions">
-                <button class="btn" onclick="saveStaff()">💾 Сохранить</button>
-                <button class="btn btn-outline" onclick="closeForm('staffForm')">Отмена</button>
-            </div>
+            <div class="form-actions"><button class="btn" onclick="saveStaff()">💾 Сохранить</button><button class="btn btn-outline" onclick="closeForm('staffForm')">Отмена</button></div>
         </div>
     </div>
 
@@ -403,10 +334,7 @@
                     <option value="closed">❌ Закрыто</option>
                 </select>
             </div>
-            <div class="form-actions">
-                <button class="btn" onclick="saveCase()">💾 Сохранить</button>
-                <button class="btn btn-outline" onclick="closeForm('caseForm')">Отмена</button>
-            </div>
+            <div class="form-actions"><button class="btn" onclick="saveCase()">💾 Сохранить</button><button class="btn btn-outline" onclick="closeForm('caseForm')">Отмена</button></div>
         </div>
     </div>
 
@@ -427,42 +355,33 @@
         };
 
         // ============================================================
-        // ВСЕ ПЕРСОНАЖИ ИЗ ПСР (12 ШТУК)
+        // ПЕРСОНАЖИ (9 ШТУК — ПО ТВОЕМУ СПИСКУ)
         // ============================================================
         function getDefaultStaff() {
             return [
-                { id: 1, name: 'Владимир Яковлев', rank: 'Генерал-майор', position: 'Начальник ОМВД', photo: 'https://i.pravatar.cc/400?img=1', desc: 'Начальник ОМВД. Строгий, принципиальный. Водит Nissan Teana.', solved: 45, exp: 25, car: 'Nissan Teana (J32)', type: 'Руководство' },
-                { id: 2, name: 'Григорий Измайлов', rank: 'Майор', position: 'Старший оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=2', desc: 'Главный герой. Циничный, дерзкий, справедливый. Водит Mercedes E-Class.', solved: 47, exp: 14, car: 'Mercedes E-Class (W212)', type: 'Оперуполномоченный' },
-                { id: 3, name: 'Алиса Рыбкина', rank: 'Капитан', position: 'Старший оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=3', desc: 'Старший оперуполномоченный. Водит Hyundai Getz.', solved: 28, exp: 10, car: 'Hyundai Getz', type: 'Оперуполномоченный' },
-                { id: 4, name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=4', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus II', type: 'Оперуполномоченный' },
-                { id: 5, name: 'Александр Савельев', rank: 'Капитан', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=5', desc: 'Оперуполномоченный. Использует ВАЗ-2109 для скрытого наблюдения.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
-                { id: 6, name: 'Дмитрий Котельников', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', photo: 'https://i.pravatar.cc/400?img=6', desc: 'Молодой оперуполномоченный. Водит УАЗ Патриот.', solved: 15, exp: 5, car: 'УАЗ Патриот', type: 'Оперуполномоченный' },
-                { id: 7, name: 'Игорь Мухич', rank: 'Майор юстиции', position: 'Начальник следственного отдела', photo: 'https://i.pravatar.cc/400?img=7', desc: 'Следователь. Водит редкий Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
-                { id: 8, name: 'Алёна', rank: '—', position: 'Бизнес-леди, совладелица кофейни', photo: 'https://i.pravatar.cc/400?img=8', desc: 'Главная любовь Гриши. Водит Porsche Macan.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
-                { id: 9, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кофейни', photo: 'https://i.pravatar.cc/400?img=9', desc: 'Бывшая эскортница, теперь сексолог. Водит BMW 4-Series.', solved: 0, exp: 0, car: 'BMW 4-Series (F32)', type: 'Гражданские' },
-                { id: 10, name: 'Вероника (Ника)', rank: '—', position: 'Автомеханик, владелица автосервиса', photo: 'https://i.pravatar.cc/400?img=10', desc: 'Сестра Гриши. Водит кастомный чоппер и ВАЗ-2105.', solved: 0, exp: 0, car: 'Чоппер / ВАЗ-2105', type: 'Гражданские' },
-                { id: 11, name: 'Вера Ершова', rank: '—', position: 'Учительница-дефектолог, жена Мухича', photo: 'https://i.pravatar.cc/400?img=11', desc: 'Возлюбленная Мухича. Ездит пассажиром в его Chrysler.', solved: 0, exp: 0, car: 'Пассажир в Chrysler', type: 'Гражданские' },
-                { id: 12, name: 'ДПС Барвихи', rank: '—', position: 'Патрулирование Рублёвки', photo: 'https://i.pravatar.cc/400?img=12', desc: 'Патрульная служба. Водит Mercedes E-Class и BMW 5-Series.', solved: 0, exp: 0, car: 'Mercedes E-Class / BMW 5-Series', type: 'ДПС' }
+                { id: 1, name: 'Владимир Яковлев', rank: 'Подполковник → Полковник', position: 'Начальник ОМВД → Начальник Академии', photo: 'https://i.pravatar.cc/400?img=1', desc: 'Начальник ОМВД «Барвиха-Северное». Строгий, принципиальный.', solved: 45, exp: 25, car: 'Nissan Teana', type: 'Руководство' },
+                { id: 2, name: 'Григорий Измайлов', rank: 'Капитан полиции', position: 'Начальник уголовного розыска', photo: 'https://i.pravatar.cc/400?img=2', desc: 'Главный герой. Циничный, дерзкий, справедливый.', solved: 47, exp: 14, car: 'Mercedes E-Class', type: 'Оперуполномоченный' },
+                { id: 3, name: 'Олег Елисеев', rank: 'Капитан полиции', position: 'Оперуполномоченный уголовного розыска', photo: 'https://i.pravatar.cc/400?img=3', desc: 'Оперуполномоченный. Спокойный, надёжный.', solved: 25, exp: 10, car: 'Ford Focus', type: 'Оперуполномоченный' },
+                { id: 4, name: 'Александр Савельев', rank: 'Старший лейтенант полиции', position: 'Оперуполномоченный уголовного розыска', photo: 'https://i.pravatar.cc/400?img=4', desc: 'Оперуполномоченный. Использует ВАЗ-2109 для скрытого наблюдения.', solved: 22, exp: 8, car: 'ВАЗ-2109', type: 'Оперуполномоченный' },
+                { id: 5, name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь ОМВД', photo: 'https://i.pravatar.cc/400?img=5', desc: 'Старший следователь. Водит редкий Chrysler PT Cruiser.', solved: 35, exp: 15, car: 'Chrysler PT Cruiser', type: 'Следственный отдел' },
+                { id: 6, name: 'Мария Гудкова', rank: 'Старший лейтенант юстиции', position: 'Следователь ОМВД', photo: 'https://i.pravatar.cc/400?img=6', desc: 'Следователь. Принципиальная, умная.', solved: 18, exp: 6, car: 'Hyundai Solaris', type: 'Следственный отдел' },
+                { id: 7, name: 'Алёна', rank: '—', position: 'Совладелица кофеен и коворкинга, жена Гриши', photo: 'https://i.pravatar.cc/400?img=7', desc: 'Жена Григория Измайлова. Успешная бизнес-леди. Водит Porsche Macan.', solved: 0, exp: 0, car: 'Porsche Macan', type: 'Гражданские' },
+                { id: 8, name: 'Кристина', rank: '—', position: 'Сексолог, совладелица коворкинга и кафе', photo: 'https://i.pravatar.cc/400?img=8', desc: 'Бывшая эскортница, теперь сексолог. Водит BMW 4-Series.', solved: 0, exp: 0, car: 'BMW 4-Series', type: 'Гражданские' },
+                { id: 9, name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, младшая сестра Гриши', photo: 'https://i.pravatar.cc/400?img=9', desc: 'Проблемная младшая сестра Гриши. Водит кастомный чоппер.', solved: 0, exp: 0, car: 'Чоппер / ВАЗ-2105', type: 'Гражданские' }
             ];
         }
 
         function getDefaultFleet() {
             return [
-                { id: 1, model: 'Nissan Teana (J32)', plate: 'А 001 МР 77', owner: 'Владимир Яковлев', desc: 'Бордовый → черный. Семейный автомобиль.', photo: 'https://picsum.photos/seed/teana/400/250' },
-                { id: 2, model: 'Toyota Camry (XV50)', plate: 'А 001 МР 77', owner: 'Владимир Яковлев (служ.)', desc: 'Служебная машина с мигалкой.', photo: 'https://picsum.photos/seed/camry/400/250' },
-                { id: 3, model: 'Mercedes E-Class (W212)', plate: 'Р001РР 77', owner: 'Григорий Измайлов', desc: 'Чёрный седан. Статусная машина.', photo: 'https://picsum.photos/seed/mercedes/400/250' },
-                { id: 4, model: 'Jaguar XK', plate: 'Я001ЯЯ 77', owner: 'Григорий Измайлов', desc: 'Спорткар, появлялся эпизодически.', photo: 'https://picsum.photos/seed/jaguar/400/250' },
-                { id: 5, model: 'Hyundai Getz', plate: 'Г777ГГ 77', owner: 'Алиса Рыбкина', desc: 'Красный хэтчбек. Лихая машина.', photo: 'https://picsum.photos/seed/getz/400/250' },
-                { id: 6, model: 'Ford Focus II', plate: 'Ф888ФФ 77', owner: 'Олег Елисеев', desc: 'Служебная машина оперативников.', photo: 'https://picsum.photos/seed/focus/400/250' },
-                { id: 7, model: 'ВАЗ-2109', plate: 'В999ВВ 77', owner: 'Александр Савельев', desc: 'Для скрытого наблюдения.', photo: 'https://picsum.photos/seed/vaz/400/250' },
-                { id: 8, model: 'УАЗ Патриот', plate: 'У777УУ 77', owner: 'Дмитрий Котельников', desc: 'Служебный внедорожник.', photo: 'https://picsum.photos/seed/uaz/400/250' },
-                { id: 9, model: 'Chrysler PT Cruiser', plate: 'К999КК 77', owner: 'Игорь Мухич', desc: 'Редкий ретро-хэтчбек.', photo: 'https://picsum.photos/seed/ptcruiser/400/250' },
-                { id: 10, model: 'Porsche Macan', plate: 'С888СС 77', owner: 'Алёна', desc: 'Белый люксовый кроссовер.', photo: 'https://picsum.photos/seed/macan/400/250' },
-                { id: 11, model: 'BMW 4-Series (F32)', plate: 'М777ММ 77', owner: 'Кристина', desc: 'Спортивное купе.', photo: 'https://picsum.photos/seed/bmw4/400/250' },
-                { id: 12, model: 'Кастомный чоппер', plate: 'Н001НН 77', owner: 'Вероника (Ника)', desc: 'Чёрный мощный байк.', photo: 'https://picsum.photos/seed/choper/400/250' },
-                { id: 13, model: 'ВАЗ-2105 (тюнинг)', plate: 'В555ВВ 77', owner: 'Вероника (Ника)', desc: 'Боевой классик для автосервиса.', photo: 'https://picsum.photos/seed/vaz2105/400/250' },
-                { id: 14, model: 'Mercedes E-Class (W212/W213)', plate: 'СПЕЦ', owner: 'ДПС Барвихи', desc: 'Патрульный с ливреей и мигалками.', photo: 'https://picsum.photos/seed/dpsmerc/400/250' },
-                { id: 15, model: 'BMW 5-Series', plate: 'СПЕЦ', owner: 'ДПС Барвихи', desc: 'Патрульный с ливреей и мигалками.', photo: 'https://picsum.photos/seed/dpsbmw/400/250' }
+                { id: 1, model: 'Nissan Teana', plate: 'А 001 МР 77', owner: 'Владимир Яковлев', desc: 'Бордовый → черный. Семейный автомобиль.', photo: 'https://picsum.photos/seed/teana/400/250' },
+                { id: 2, model: 'Mercedes E-Class', plate: 'Р001РР 77', owner: 'Григорий Измайлов', desc: 'Чёрный седан. Статусная машина.', photo: 'https://picsum.photos/seed/mercedes/400/250' },
+                { id: 3, model: 'Ford Focus', plate: 'Ф888ФФ 77', owner: 'Олег Елисеев', desc: 'Служебная машина оперативников.', photo: 'https://picsum.photos/seed/focus/400/250' },
+                { id: 4, model: 'ВАЗ-2109', plate: 'В999ВВ 77', owner: 'Александр Савельев', desc: 'Для скрытого наблюдения.', photo: 'https://picsum.photos/seed/vaz/400/250' },
+                { id: 5, model: 'Chrysler PT Cruiser', plate: 'К999КК 77', owner: 'Игорь Мухич', desc: 'Редкий ретро-хэтчбек.', photo: 'https://picsum.photos/seed/ptcruiser/400/250' },
+                { id: 6, model: 'Hyundai Solaris', plate: 'С555СС 77', owner: 'Мария Гудкова', desc: 'Надёжный седан следователя.', photo: 'https://picsum.photos/seed/solaris/400/250' },
+                { id: 7, model: 'Porsche Macan', plate: 'С888СС 77', owner: 'Алёна', desc: 'Белый люксовый кроссовер.', photo: 'https://picsum.photos/seed/macan/400/250' },
+                { id: 8, model: 'BMW 4-Series', plate: 'М777ММ 77', owner: 'Кристина', desc: 'Спортивное купе.', photo: 'https://picsum.photos/seed/bmw4/400/250' },
+                { id: 9, model: 'Кастомный чоппер', plate: 'Н001НН 77', owner: 'Вероника Измайлова', desc: 'Чёрный мощный байк.', photo: 'https://picsum.photos/seed/choper/400/250' }
             ];
         }
 
@@ -472,8 +391,7 @@
                 { id: 2, number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', desc: 'Похищены часы на 15 млн руб.', status: 'active' },
                 { id: 3, number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', desc: 'Угнан Porsche 911. Найден за сутки.', status: 'solved' },
                 { id: 4, number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', desc: 'Хищение 50 млн руб. у инвесторов.', status: 'closed' },
-                { id: 5, number: 'УД-2026-1102', title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', desc: 'Обнаружен схрон с оружием.', status: 'active' },
-                { id: 6, number: 'УД-2026-1205', title: 'ДТП на Рублёвке', article: 'ст. 264 УК РФ', desc: 'ДТП с участием Lamborghini Urus.', status: 'active' }
+                { id: 5, number: 'УД-2026-1102', title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', desc: 'Обнаружен схрон с оружием.', status: 'active' }
             ];
         }
 
@@ -660,7 +578,7 @@
                 return;
             }
             const colors = { 'Руководство': 'tag-red', 'Оперуполномоченный': 'tag-blue', 'Следственный отдел': 'tag-gold',
-                'Гражданские': 'tag-purple', 'ДПС': 'tag-orange' };
+                'Гражданские': 'tag-purple' };
             const isAdmin = currentUser && currentUser.role === 'admin';
             grid.innerHTML = staff.map(c => `
                 <div class="card" onclick="viewStaff(${c.id})">
@@ -814,7 +732,7 @@
         }
 
         // ============================================================
-        // ФОРМЫ (ТОЛЬКО ДЛЯ ОСНОВАТЕЛЯ)
+        // ФОРМЫ
         // ============================================================
         function closeForm(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -1015,7 +933,6 @@
         console.log(`📋 Дел: ${getCases().length}`);
         console.log('👑 Основатель: admin / admin123');
         console.log('📝 Обычные пользователи — только просмотр');
-        console.log('❌ Никаких Крюковых, Фёдоровых, Ольг!');
     </script>
 </body>
 </html>
