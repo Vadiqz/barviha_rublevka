@@ -72,6 +72,8 @@
         .car-badge.personal{background:#2a4d7a;color:#5b9aff}
         .car-badge.premium{background:#7a6a2a;color:#f0b34b}
         .car-badge.party{background:#6b2a2a;color:#f06a6a}
+        .btn-sound{background:#1a2636;border:1px solid #2a3d57;color:#8896b0;padding:4px 12px;border-radius:20px;font-size:11px;cursor:pointer}
+        .btn-sound:hover{background:#2a3d57;color:#eef2f6}
         @media(max-width:700px){#app{padding:16px 14px 22px}.header h1{font-size:20px}.hud{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr 1fr}.tabs button{font-size:12px;padding:8px 12px;min-width:60px}.map-grid{grid-template-columns:1fr 1fr}}
         @media(max-width:450px){.grid-2{grid-template-columns:1fr}.tabs button{font-size:11px;padding:6px 10px}.map-grid{grid-template-columns:1fr}.car-status{flex-direction:column;align-items:stretch}}
         ::-webkit-scrollbar{width:4px}
@@ -193,38 +195,139 @@
 
 <script>
     // ================================================================
-    // 1. СОСТОЯНИЕ ИГРОКА (ГРИША ИЗМАЙЛОВ)
+    // 0. ЗВУКИ (Web Audio API — работают без файлов)
+    // ================================================================
+    const Sound = {
+        ctx: null,
+
+        init() {
+            this.ctx = new(window.AudioContext || window.webkitAudioContext)();
+        },
+
+        // Генерация звука
+        play(type) {
+            if (!this.ctx) this.init();
+
+            const ctx = this.ctx;
+            const now = ctx.currentTime;
+
+            try {
+                switch (type) {
+                    case 'engine':
+                        // Звук завода двигателя
+                        const osc1 = ctx.createOscillator();
+                        const gain1 = ctx.createGain();
+                        osc1.type = 'sawtooth';
+                        osc1.frequency.setValueAtTime(80, now);
+                        osc1.frequency.exponentialRampToValueAtTime(150, now + 0.3);
+                        gain1.gain.setValueAtTime(0.3, now);
+                        gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                        osc1.connect(gain1);
+                        gain1.connect(ctx.destination);
+                        osc1.start(now);
+                        osc1.stop(now + 0.5);
+                        break;
+
+                    case 'siren':
+                        // Сирена полиции
+                        const osc2 = ctx.createOscillator();
+                        const gain2 = ctx.createGain();
+                        osc2.type = 'square';
+                        osc2.frequency.setValueAtTime(800, now);
+                        osc2.frequency.setValueAtTime(1000, now + 0.1);
+                        osc2.frequency.setValueAtTime(800, now + 0.2);
+                        osc2.frequency.setValueAtTime(1000, now + 0.3);
+                        gain2.gain.setValueAtTime(0.15, now);
+                        gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                        osc2.connect(gain2);
+                        gain2.connect(ctx.destination);
+                        osc2.start(now);
+                        osc2.stop(now + 0.4);
+                        break;
+
+                    case 'shot':
+                        // Выстрел
+                        const osc3 = ctx.createOscillator();
+                        const gain3 = ctx.createGain();
+                        const noise = ctx.createBufferSource();
+                        const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.1, ctx.sampleRate);
+                        const data = buffer.getChannelData(0);
+                        for (let i = 0; i < data.length; i++) {
+                            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.03));
+                        }
+                        noise.buffer = buffer;
+                        const gainN = ctx.createGain();
+                        gainN.gain.setValueAtTime(0.4, now);
+                        gainN.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        noise.connect(gainN);
+                        gainN.connect(ctx.destination);
+                        noise.start(now);
+                        noise.stop(now + 0.1);
+                        break;
+
+                    case 'radio':
+                        // Рация/радио
+                        const osc4 = ctx.createOscillator();
+                        const gain4 = ctx.createGain();
+                        osc4.type = 'sine';
+                        osc4.frequency.setValueAtTime(600, now);
+                        osc4.frequency.setValueAtTime(400, now + 0.05);
+                        osc4.frequency.setValueAtTime(600, now + 0.1);
+                        gain4.gain.setValueAtTime(0.1, now);
+                        gain4.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                        osc4.connect(gain4);
+                        gain4.connect(ctx.destination);
+                        osc4.start(now);
+                        osc4.stop(now + 0.15);
+                        break;
+
+                    case 'click':
+                        // Клик для интерфейса
+                        const osc5 = ctx.createOscillator();
+                        const gain5 = ctx.createGain();
+                        osc5.type = 'sine';
+                        osc5.frequency.setValueAtTime(800, now);
+                        gain5.gain.setValueAtTime(0.1, now);
+                        gain5.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                        osc5.connect(gain5);
+                        gain5.connect(ctx.destination);
+                        osc5.start(now);
+                        osc5.stop(now + 0.05);
+                        break;
+                }
+            } catch (e) {
+                // console.log('Звук не воспроизведён:', e);
+            }
+        }
+    };
+
+    // ================================================================
+    // 1. СОСТОЯНИЕ
     // ================================================================
     const state = {
         name: 'Григорий Александрович Измайлов',
         rank: 'Капитан полиции',
-        rankLevel: 2, // Капитан = 2 (из RANKS)
+        rankLevel: 2,
         money: 5000,
         stress: 0,
         energy: 100,
         location: 'ОМВД Барвиха',
-
-        // Текущая машина (из гаража)
         car: 'Porsche 911 Turbo S',
         carPlate: 'А 777 АА 77',
-        carType: 'service', // service, personal, premium, party
+        carType: 'service',
         carFuel: 100,
         carHealth: 100,
         carStarted: false,
-
-        // Статистика
         crimesSolved: 0,
         crimesFailed: 0,
         arrested: 0,
         fined: 0,
         killed: 0,
-
-        // Диалоги
         dialogs: []
     };
 
     // ================================================================
-    // 2. СИСТЕМА ЗВАНИЙ (ПО СЕРИАЛУ)
+    // 2. ДАННЫЕ
     // ================================================================
     const RANKS = [
         { level: 0, title: 'Лейтенант', need: 0 },
@@ -239,16 +342,13 @@
         { level: 9, title: 'Генерал армии', need: 150 }
     ];
 
-    // ================================================================
-    // 3. ГАРАЖ ГРИШИ (ПО СЕРИАЛУ)
-    // ================================================================
     const CARS = [{
         model: 'Porsche 911 Turbo S',
         plate: 'А 777 АА 77',
         type: 'service',
         typeLabel: '🚔 Служебная',
         typeClass: 'service',
-        desc: 'Для выездов на дела и патруль',
+        desc: 'Для выездов на дела',
         fuelMax: 100,
         reliability: 95
     }, {
@@ -257,7 +357,7 @@
         type: 'personal',
         typeLabel: '🏠 Личная',
         typeClass: 'personal',
-        desc: 'Для повседневной жизни и работы',
+        desc: 'Для повседневной жизни',
         fuelMax: 90,
         reliability: 90
     }, {
@@ -266,7 +366,7 @@
         type: 'premium',
         typeLabel: '🍾 Выходная',
         typeClass: 'premium',
-        desc: 'Для статусных встреч и особых случаев',
+        desc: 'Для статусных встреч',
         fuelMax: 85,
         reliability: 85
     }, {
@@ -280,60 +380,43 @@
         reliability: 80
     }];
 
-    // ================================================================
-    // 4. ЛОКАЦИИ
-    // ================================================================
     const LOCATIONS = [
         { name: 'ОМВД Барвиха', icon: '🚔', desc: 'Главное здание' },
         { name: 'Дом', icon: '🏠', desc: 'Твой дом' },
         { name: 'Жуковка', icon: '🏠', desc: 'Элитный посёлок' },
         { name: 'Luxury Village', icon: '🛍️', desc: 'Торговый центр' },
         { name: 'Барвиха-3', icon: '🏘️', desc: 'Коттеджный посёлок' },
-        { name: 'Особняк', icon: '🏰', desc: 'Твой особняк на Рублёвке' },
+        { name: 'Особняк', icon: '🏰', desc: 'Твой особняк' },
         { name: 'Дискотека', icon: '🎧', desc: 'Ночной клуб' },
         { name: 'Кофейня', icon: '☕', desc: 'Место встреч' }
     ];
 
-    // ================================================================
-    // 5. ДИАЛОГИ
-    // ================================================================
     const MUHICH = [
-        'Гриша! Ты не видел мои очки? Я без них как крот!',
-        'Срочно! Кто-то украл носки из моего шкафа!',
-        'Я хочу купить попугая. Ты не знаешь, где их продают?',
-        'Гриш, я нашёл в архиве дело о пропавшем кексе!',
-        'Скажи честно, моя причёска похожа на Элвиса?',
-        'Ты не знаешь, сколько стоит козёл? Мне нужен козёл!',
-        'У меня в кабинете призрак! Он переставляет папки!'
+        'Гриша! Ты не видел мои очки?', 'Срочно! Кто-то украл носки!',
+        'Я хочу купить попугая!', 'Я нашёл дело о пропавшем кексе!',
+        'Ты не знаешь, сколько стоит козёл?', 'У меня в кабинете призрак!'
     ];
 
     const YAKOVLEV = [
-        'Измайлов, ты опять опоздал! Объяснись.',
-        'Хорошая работа по "Барвихинскому стрелку". Не ожидал.',
-        'Твой отчёт — полный бардак. Переделай.',
-        'Измайлов, ты слишком много времени проводишь с Мухичем.',
-        'Твои методы неэтичны, но эффективны. Продолжай.',
-        'Ты — лучший сыщик в моём отделе. Не подведи.'
+        'Измайлов, ты опять опоздал!', 'Хорошая работа по "Барвихинскому стрелку".',
+        'Твой отчёт — полный бардак.', 'Ты — лучший сыщик в моём отделе.'
     ];
 
     const GRISHA = [
-        'Брат, я в деле. Ты тоже в деле? Погнали!',
-        'Это просто бизнес, ничего личного.',
-        'Слушай, я ценю твой подход. Ты как я.',
-        'Помнишь дело на Рублёвке? Мы их круто развели!',
-        'Деньги любят смелых. Ты смелый?'
+        'Брат, я в деле! Погнали!', 'Это просто бизнес, ничего личного.',
+        'Помнишь дело на Рублёвке?', 'Деньги любят смелых.'
     ];
 
     // ================================================================
-    // 6. СОХРАНЕНИЕ
+    // 3. СОХРАНЕНИЕ
     // ================================================================
     function save() {
-        try { localStorage.setItem('barviha_grisha_garage', JSON.stringify(state)); } catch (e) {}
+        try { localStorage.setItem('barviha_grisha_sound', JSON.stringify(state)); } catch (e) {}
     }
 
     function load() {
         try {
-            const raw = localStorage.getItem('barviha_grisha_garage');
+            const raw = localStorage.getItem('barviha_grisha_sound');
             if (!raw) return false;
             const data = JSON.parse(raw);
             Object.assign(state, data);
@@ -342,7 +425,7 @@
     }
 
     // ================================================================
-    // 7. УТИЛИТЫ
+    // 4. УТИЛИТЫ
     // ================================================================
     function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
@@ -361,22 +444,12 @@
     }
 
     function getCarBadge(type) {
-        const map = {
-            'service': '🚔 Служебная',
-            'personal': '🏠 Личная',
-            'premium': '🍾 Выходная',
-            'party': '🎉 Для тусовок'
-        };
+        const map = { 'service': '🚔 Служебная', 'personal': '🏠 Личная', 'premium': '🍾 Выходная', 'party': '🎉 Для тусовок' };
         return map[type] || '🚗';
     }
 
     function getCarClass(type) {
-        const map = {
-            'service': 'service',
-            'personal': 'personal',
-            'premium': 'premium',
-            'party': 'party'
-        };
+        const map = { 'service': 'service', 'personal': 'personal', 'premium': 'premium', 'party': 'party' };
         return map[type] || '';
     }
 
@@ -388,13 +461,14 @@
     }
 
     // ================================================================
-    // 8. МАШИНА
+    // 5. МАШИНА
     // ================================================================
 
     function startCar() {
         if (state.carFuel < 5) { addDialog('⛽ Ошибка', 'Нет бензина!'); return; }
         if (state.carHealth < 10) { addDialog('🔧 Ошибка', 'Машина сломана!'); return; }
         state.carStarted = !state.carStarted;
+        Sound.play('engine'); // Звук двигателя
         addDialog('🔑 Двигатель', state.carStarted ? 'Машина заведена!' : 'Машина заглушена.');
         renderCarStatus();
     }
@@ -403,31 +477,36 @@
         if (!state.carStarted) { addDialog('🚗 Ошибка', 'Сначала заведи машину!'); return; }
         if (state.carFuel < 10) { addDialog('⛽ Ошибка', 'Нет бензина!'); return; }
 
+        Sound.play('click');
+
         state.carFuel = clamp(state.carFuel - rand(5, 15), 0, 100);
         state.carHealth = clamp(state.carHealth - rand(1, 5), 0, 100);
         state.location = location;
 
         let eventText = 'Приехал в ' + location;
 
-        // События в пути
+        // Сирена если едем на дело
+        if (['Жуковка', 'Luxury Village', 'Барвиха-3'].includes(location)) {
+            Sound.play('siren');
+            eventText += ' 🚨 Сирена включена!';
+        }
+
         if (Math.random() * 100 < 25) {
             const ev = pick(['Попал в пробку', 'Увидел аварию', 'Остановил гаишник']);
             eventText += '. ' + ev;
             state.stress = clamp(state.stress + rand(2, 5), 0, 100);
         }
 
-        // Мухич звонит
         if (Math.random() * 100 < 15) {
             const msg = pick(MUHICH);
-            addDialog('📞 Мухич', msg);
+            Sound.play('radio');
+            addDialog('📞 Мухич (рация)', msg);
             state.stress = clamp(state.stress + rand(2, 5), 0, 100);
         }
 
         addDialog('🚗 Поездка', eventText);
 
-        // Если приехали не в ОМВД и не домой — возможен вызов
-        const crimeLocations = ['Жуковка', 'Luxury Village', 'Барвиха-3'];
-        if (crimeLocations.includes(location)) {
+        if (['Жуковка', 'Luxury Village', 'Барвиха-3'].includes(location)) {
             setTimeout(() => {
                 if (confirm('📍 ' + location + '. Поступил вызов. Действуем?')) {
                     showCrimeActions(location);
@@ -465,6 +544,7 @@
         state.money += amount;
         state.fined++;
         state.stress = clamp(state.stress + rand(2, 5), 0, 100);
+        Sound.play('click');
         addDialog('📋 Штраф', 'Выписал штраф на ' + fmt(amount));
         checkRankUp();
         save();
@@ -472,6 +552,7 @@
     }
 
     function doArrest() {
+        Sound.play('siren');
         if (Math.random() * 100 < 70) {
             state.money += rand(2000, 8000);
             state.crimesSolved++;
@@ -490,12 +571,13 @@
 
     function doKill() {
         if (state.stress > 80) { addDialog('😰 Отказ', 'Слишком устал, чтобы стрелять.'); return; }
+        Sound.play('shot');
         if (Math.random() * 100 < 60) {
             state.money += rand(5000, 15000);
             state.crimesSolved++;
             state.killed++;
             state.stress = clamp(state.stress + rand(15, 30), 0, 100);
-            addDialog('💀 Застрелил', 'Преступник ликвидирован. Тяжёлое решение...');
+            addDialog('💀 Застрелил', 'Преступник ликвидирован.');
         } else {
             state.crimesFailed++;
             state.stress = clamp(state.stress + rand(20, 40), 0, 100);
@@ -506,15 +588,12 @@
         renderAll();
     }
 
-    // ================================================================
-    // 9. СИСТЕМА ПОВЫШЕНИЯ
-    // ================================================================
-
     function checkRankUp() {
         const current = getRank();
         if (current.level > state.rankLevel) {
             state.rankLevel = current.level;
             state.rank = current.title;
+            Sound.play('click');
             addDialog('🎉 ПОВЫШЕНИЕ!', 'Поздравляю! Теперь ты ' + current.title + '!');
             if (current.title === 'Майор') {
                 addDialog('⭐ МАЙОР!', 'Гриша, ты стал майором! Как в сериале!');
@@ -522,25 +601,11 @@
         }
     }
 
-    // ================================================================
-    // 10. ГАРАЖ
-    // ================================================================
-
-    function selectCar(model) {
-        const car = CARS.find(c => c.model === model);
-        if (!car) return;
-        state.car = car.model;
-        state.carPlate = car.plate;
-        state.carType = car.type;
-        addDialog('🚗 Гараж', 'Ты пересел на ' + car.model + ' (' + car.typeLabel + ')');
-        save();
-        renderAll();
-    }
-
     function repairCar() {
         if (state.money < 3000) { alert('Нужно 3000 ₽!'); return; }
         state.money -= 3000;
         state.carHealth = clamp(state.carHealth + 30, 0, 100);
+        Sound.play('click');
         addDialog('🔧 Ремонт', 'Машина отремонтирована. +30%');
         save();
         renderAll();
@@ -550,20 +615,32 @@
         if (state.money < 1500) { alert('Нужно 1500 ₽!'); return; }
         state.money -= 1500;
         state.carFuel = clamp(state.carFuel + 30, 0, 100);
+        Sound.play('click');
         addDialog('⛽ Заправка', 'Бак заправлен. +30%');
         save();
         renderAll();
     }
 
+    function selectCar(model) {
+        const car = CARS.find(c => c.model === model);
+        if (!car) return;
+        state.car = car.model;
+        state.carPlate = car.plate;
+        state.carType = car.type;
+        Sound.play('click');
+        addDialog('🚗 Гараж', 'Ты пересел на ' + car.model);
+        save();
+        renderAll();
+    }
+
     // ================================================================
-    // 11. РЕНДЕРИНГ
+    // 6. РЕНДЕРИНГ
     // ================================================================
 
     function renderProfile() {
         document.getElementById('profileRank').textContent = state.rank;
         document.getElementById('profileSolved').textContent = state.crimesSolved;
         document.getElementById('profileLevel').textContent = state.rank;
-
         const current = getRank();
         const next = current.level < RANKS.length - 1 ? RANKS[current.level + 1] : null;
         document.getElementById('profileNext').textContent = next ? next.title : '🏆 Легенда';
@@ -581,7 +658,6 @@
         document.getElementById('carPlate').textContent = state.carPlate;
         document.getElementById('carFuel').textContent = state.carFuel + '%';
         document.getElementById('carHealth').textContent = state.carHealth + '%';
-
         const badge = document.getElementById('carBadge');
         badge.textContent = getCarBadge(state.carType);
         badge.className = 'car-badge ' + getCarClass(state.carType);
@@ -647,7 +723,7 @@
                         <div class="card">
                             <div class="title">👮 Статистика Гриши</div>
                             <div class="meta">
-                                <div>Раскрыто дел: <b>${state.crimesSolved}</b></div>
+                                <div>Раскрыто: <b>${state.crimesSolved}</b></div>
                                 <div>Провалено: <b>${state.crimesFailed}</b></div>
                                 <div>Арестов: <b>${state.arrested}</b></div>
                                 <div>Штрафов: <b>${state.fined}</b></div>
@@ -658,15 +734,13 @@
                             <div class="title">⭐ Звания</div>
                             <div class="meta">
                                 <div>Текущее: <b>${state.rank}</b></div>
-                                <div>Дел до следующего: <b>${RANKS.find(r => r.level > getRank().level) ? RANKS.find(r => r.level > getRank().level).need - state.crimesSolved : '🏆 Достигнут максимум'}</b></div>
+                                <div>Дел до следующего: <b>${RANKS.find(r => r.level > getRank().level) ? RANKS.find(r => r.level > getRank().level).need - state.crimesSolved : '🏆 Максимум'}</b></div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="title">🚗 ГАРАЖ ГРИШИ</div>
                             <div class="meta">
-                                ${CARS.map(c => `
-                                    <div>${c.model} — ${c.typeLabel}</div>
-                                `).join('')}
+                                ${CARS.map(c => `<div>${c.model} — ${c.typeLabel}</div>`).join('')}
                                 <div>Текущая: <b>${state.car}</b></div>
                             </div>
                         </div>
@@ -693,39 +767,38 @@
     }
 
     // ================================================================
-    // 12. ВКЛАДКИ
+    // 7. ВКЛАДКИ
     // ================================================================
-
     document.querySelectorAll('.tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+            Sound.play('click');
         });
     });
 
     // ================================================================
-    // 13. СБРОС
+    // 8. СБРОС
     // ================================================================
-
     function resetGame() {
         if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
-        localStorage.removeItem('barviha_grisha_garage');
+        localStorage.removeItem('barviha_grisha_sound');
         location.reload();
     }
 
     // ================================================================
-    // 14. ЗАПУСК
+    // 9. ЗАПУСК
     // ================================================================
 
     const loaded = load();
 
     if (!loaded || state.dialogs.length === 0) {
         addDialog('🚔 ОМВД Барвиха', 'Гриша, добро пожаловать на службу!');
-        addDialog('📞 Мухич', 'Гриша! Жду тебя в отделе, есть дело!');
-        addDialog('👮 Яковлев', 'Измайлов, не подведи. Устав — святое.');
-        addDialog('🎯 Гриша', 'Брат, я в деле. Ты тоже в деле? Погнали!');
+        addDialog('📞 Мухич', 'Гриша! Жду тебя в отделе!');
+        addDialog('👮 Яковлев', 'Измайлов, не подведи.');
+        addDialog('🎯 Гриша', 'Брат, я в деле! Погнали!');
         if (state.money === 0) state.money = 5000;
         if (!state.car) state.car = 'Porsche 911 Turbo S';
         if (!state.rank) state.rank = 'Капитан полиции';
@@ -737,8 +810,8 @@
     setInterval(() => { save(); }, 30000);
 
     console.log('🚔 Григорий Измайлов — Барвиха RP загружена!');
-    console.log('🚗 В гараже: Porsche (служебная), Mercedes E212 (личная), Jaguar (выходная), Ferrari (для тусовок)');
-    console.log('⭐ Начальное звание: Капитан полиции');
+    console.log('🔊 Звуки: двигатель, сирена, выстрел, рация');
+    console.log('🚗 В гараже: Porsche, Mercedes E212, Jaguar, Ferrari');
 </script>
 </body>
 </html>
