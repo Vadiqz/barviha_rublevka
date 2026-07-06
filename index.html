@@ -1,155 +1,476 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>ОМВД Барвиха-Северное</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ОМВД «Барвиха-Северное»</title>
+    <!-- Подключаем красивый шрифт, как на твоём примере -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
     <style>
-        body{background:#0a0e17;color:#fff;font-family:Arial;padding:20px;max-width:900px;margin:0 auto}
-        .card{background:#141c28;border:1px solid #1c2533;border-radius:10px;padding:15px;margin:10px 0;display:flex;gap:15px;align-items:center}
-        .card img{width:80px;height:80px;border-radius:50%;object-fit:cover}
-        .info{flex:1}
-        .info h3{margin:0}
-        .info p{margin:3px 0;color:#8896a8;font-size:14px}
-        .tag{background:#0071e3;padding:2px 10px;border-radius:12px;font-size:11px;display:inline-block}
-        .btn{background:#0071e3;border:none;color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer}
-        .btn:hover{background:#005bb5}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-        .nav{display:flex;gap:10px;margin:15px 0;flex-wrap:wrap}
-        .nav button{background:#141c28;border:1px solid #1c2533;color:#fff;padding:8px 20px;border-radius:20px;cursor:pointer}
-        .nav button.active{background:#0071e3}
-        .hidden{display:none}
-        .login-box{background:#141c28;border:1px solid #1c2533;border-radius:10px;padding:30px;max-width:350px;margin:50px auto}
-        .login-box input{width:100%;padding:10px;background:#0a0e17;border:1px solid #1c2533;color:#fff;border-radius:6px;margin:5px 0}
-        .login-box .btn{width:100%}
+        /* ----- ОБНУЛЕНИЕ И БАЗА ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #080c14;
+            /* Тёмный, но не чёрный фон */
+            color: #eef2f6;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ----- ОСНОВНАЯ КАРТОЧКА (как на том сайте) ----- */
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: #101722;
+            /* Тёмно-синий, как у тебя, но светлее */
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        /* ----- ШАПКА ----- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-left h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #7aa9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-left p {
+            color: #8896b0;
+            font-size: 14px;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        .badge {
+            background: #1e2a3a;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #7aa9ff;
+            border: 1px solid rgba(122, 169, 255, 0.15);
+            white-space: nowrap;
+        }
+
+        /* ----- СТАТИСТИКА (3 блока) ----- */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item {
+            background: #0c141f;
+            border-radius: 16px;
+            padding: 16px 18px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.2s;
+        }
+
+        .stat-item:hover {
+            background: #111c2b;
+            border-color: rgba(122, 169, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #7aa9ff;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #8896b0;
+            margin-top: 2px;
+        }
+
+        /* ----- ВКЛАДКИ (как на Glitch) ----- */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #8896b0;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: #eef2f6;
+            background: #1a2535;
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background: #1f2d42;
+            box-shadow: inset 0 0 0 1px rgba(122, 169, 255, 0.2);
+        }
+
+        /* ----- КОНТЕНТ ВКЛАДОК ----- */
+        .tab-content {
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- СЕТКА КАРТОЧЕК (как в твоём примере) ----- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        /* ----- КАРТОЧКА ПЕРСОНАЖА ----- */
+        .person-card {
+            background: #0c141f;
+            border-radius: 16px;
+            padding: 18px 16px 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+
+        .person-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(122, 169, 255, 0.25);
+            background: #111c2b;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .person-card img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #1e2a3a;
+            margin-bottom: 12px;
+            background: #1a2535;
+        }
+
+        .person-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .person-card .rank {
+            font-size: 13px;
+            color: #7aa9ff;
+            font-weight: 500;
+        }
+
+        .person-card .position {
+            font-size: 12px;
+            color: #8896b0;
+            margin: 4px 0 8px;
+        }
+
+        .person-card .car {
+            font-size: 12px;
+            background: #1a2535;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            color: #c8d2e0;
+        }
+
+        /* ----- КАРТОЧКА ДЕЛА ----- */
+        .case-card {
+            background: #0c141f;
+            border-radius: 16px;
+            padding: 16px 18px;
+            border-left: 4px solid #2a3a55;
+            transition: 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .case-card:hover {
+            background: #111c2b;
+            border-left-color: #7aa9ff;
+        }
+
+        .case-card .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .case-card .case-number {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .case-card .case-status {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 12px;
+            border-radius: 40px;
+            background: #1a2535;
+        }
+
+        .case-status.solved {
+            color: #4caf84;
+        }
+        .case-status.active {
+            color: #f0b34b;
+        }
+        .case-status.closed {
+            color: #e05a5a;
+        }
+
+        .case-card .case-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .case-card .case-article {
+            font-size: 13px;
+            color: #8896b0;
+            margin-top: 2px;
+        }
+
+        /* ----- АДАПТИВ ----- */
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 18px;
+            }
+            .header-left h1 {
+                font-size: 20px;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stat-item:last-child {
+                grid-column: span 2;
+            }
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .tabs {
+                gap: 4px;
+            }
+            .tab-btn {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .stat-item:last-child {
+                grid-column: span 1;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ЛОГИН -->
-    <div id="loginScreen">
-        <div class="login-box">
-            <h2 style="text-align:center">🚔 ОМВД Барвиха</h2>
-            <p style="text-align:center;color:#8896a8">Вход в систему</p>
-            <input type="text" id="loginUser" placeholder="Логин" value="admin">
-            <input type="password" id="loginPass" placeholder="Пароль" value="admin123">
-            <button class="btn" onclick="login()">Войти</button>
-            <p style="text-align:center;color:#5d6a7a;font-size:12px;margin-top:10px">admin / admin123</p>
-        </div>
-    </div>
+    <div class="container">
 
-    <!-- ОСНОВНОЙ САЙТ -->
-    <div id="mainSite" style="display:none">
-        <h1>🚔 ОМВД «Барвиха-Северное»</h1>
-        <p style="color:#8896a8">Управление внутренних дел</p>
-        
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0">
-            <span>👮 Персонажей: <b id="staffCount">0</b></span>
-            <span>📋 Дел: <b id="casesCount">0</b></span>
-            <span>✅ Раскрыто: <b id="solvedCount">0</b></span>
-            <button class="btn" onclick="logout()" style="background:#e74c3c">Выйти</button>
+        <!-- ===== ШАПКА ===== -->
+        <div class="header">
+            <div class="header-left">
+                <h1>🚔 ОМВД «Барвиха-Северное»</h1>
+                <p>Управление внутренних дел по району Барвиха и прилегающим территориям</p>
+            </div>
+            <div class="badge">по мотивам сериала</div>
         </div>
 
-        <div class="nav">
-            <button class="active" onclick="showTab('staff')">Персонажи</button>
-            <button onclick="showTab('cases')">Дела</button>
+        <!-- ===== СТАТИСТИКА ===== -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Персонажей</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Уголовных дел</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">87%</div>
+                <div class="stat-label">Раскрываемость</div>
+            </div>
         </div>
 
-        <!-- Персонажи -->
-        <div id="staffTab">
-            <div id="staffGrid" class="grid"></div>
+        <!-- ===== ВКЛАДКИ ===== -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="staff">👮 Персонажи</button>
+            <button class="tab-btn" data-tab="cases">📋 Дела</button>
         </div>
 
-        <!-- Дела -->
-        <div id="casesTab" class="hidden">
-            <div id="casesList"></div>
+        <!-- ===== ВКЛАДКА: ПЕРСОНАЖИ ===== -->
+        <div class="tab-content active" id="tab-staff">
+            <div class="grid" id="staffGrid">
+                <!-- Заполняется через JS -->
+            </div>
         </div>
+
+        <!-- ===== ВКЛАДКА: ДЕЛА ===== -->
+        <div class="tab-content" id="tab-cases">
+            <div id="casesList">
+                <!-- Заполняется через JS -->
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // ======= ДАННЫЕ =======
+        // ============================================================
+        //  ДАННЫЕ
+        // ============================================================
         const characters = [
-            { name: 'Владимир Яковлев', rank: 'Полковник', position: 'Начальник ОМВД', car: 'Nissan Teana', solved: 45, img: 'https://i.pravatar.cc/150?img=1' },
-            { name: 'Григорий Измайлов', rank: 'Капитан', position: 'Начальник уголовного розыска', car: 'Mercedes E-Class', solved: 47, img: 'https://i.pravatar.cc/150?img=2' },
-            { name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', car: 'Ford Focus', solved: 25, img: 'https://i.pravatar.cc/150?img=3' },
-            { name: 'Александр Савельев', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', car: 'ВАЗ-2109', solved: 22, img: 'https://i.pravatar.cc/150?img=4' },
-            { name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь', car: 'Chrysler PT Cruiser', solved: 35, img: 'https://i.pravatar.cc/150?img=5' },
-            { name: 'Мария Гудкова', rank: 'Ст. лейтенант юстиции', position: 'Следователь', car: 'Hyundai Solaris', solved: 18, img: 'https://i.pravatar.cc/150?img=6' },
-            { name: 'Алёна', rank: '—', position: 'Совладелица кофеен, жена Гриши', car: 'Porsche Macan', solved: 0, img: 'https://i.pravatar.cc/150?img=7' },
-            { name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кафе', car: 'BMW 4-Series', solved: 0, img: 'https://i.pravatar.cc/150?img=8' },
-            { name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, сестра Гриши', car: 'Чоппер', solved: 0, img: 'https://i.pravatar.cc/150?img=9' }
+            { name: 'Владимир Яковлев', rank: 'Полковник', position: 'Начальник ОМВД → Академия', car: 'Nissan Teana',
+                img: 'https://i.pravatar.cc/150?img=1' },
+            { name: 'Григорий Измайлов', rank: 'Капитан', position: 'Начальник уголовного розыска', car: 'Mercedes E-Class',
+                img: 'https://i.pravatar.cc/150?img=2' },
+            { name: 'Олег Елисеев', rank: 'Капитан', position: 'Оперуполномоченный', car: 'Ford Focus',
+                img: 'https://i.pravatar.cc/150?img=3' },
+            { name: 'Александр Савельев', rank: 'Ст. лейтенант', position: 'Оперуполномоченный', car: 'ВАЗ-2109',
+                img: 'https://i.pravatar.cc/150?img=4' },
+            { name: 'Игорь Мухич', rank: 'Капитан юстиции', position: 'Старший следователь', car: 'Chrysler PT Cruiser',
+                img: 'https://i.pravatar.cc/150?img=5' },
+            { name: 'Мария Гудкова', rank: 'Ст. лейтенант юстиции', position: 'Следователь', car: 'Hyundai Solaris',
+                img: 'https://i.pravatar.cc/150?img=6' },
+            { name: 'Алёна', rank: '—', position: 'Совладелица кофеен, жена Гриши', car: 'Porsche Macan',
+                img: 'https://i.pravatar.cc/150?img=7' },
+            { name: 'Кристина', rank: '—', position: 'Сексолог, совладелица кафе', car: 'BMW 4-Series',
+                img: 'https://i.pravatar.cc/150?img=8' },
+            { name: 'Вероника Измайлова', rank: '—', position: 'Автомеханик, сестра Гриши', car: 'Чоппер',
+                img: 'https://i.pravatar.cc/150?img=9' }
         ];
 
-        const casesList = [
-            { number: 'УД-2025-017', title: 'Барвихинский стрелок', article: 'ст. 105 УК РФ', status: '✅ Раскрыто' },
-            { number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', status: '🔄 В работе' },
-            { number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', status: '✅ Раскрыто' },
-            { number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', status: '❌ Закрыто' }
+        const casesData = [
+            { number: 'УД-2025-017', title: 'Дело «Барвихинский стрелок»', article: 'ст. 105 УК РФ', status: 'solved',
+                statusLabel: '✅ Раскрыто' },
+            { number: 'УД-2026-1024', title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', status: 'active',
+                statusLabel: '🔄 В работе' },
+            { number: 'УД-2026-1025', title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', status: 'solved',
+                statusLabel: '✅ Раскрыто' },
+            { number: 'УД-2024-891', title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', status: 'closed',
+                statusLabel: '❌ Закрыто' }
         ];
 
-        // ======= ФУНКЦИИ =======
+        // ============================================================
+        //  РЕНДЕРИНГ
+        // ============================================================
         function renderStaff() {
             const grid = document.getElementById('staffGrid');
             grid.innerHTML = characters.map(c => `
-                <div class="card">
-                    <img src="${c.img}" onerror="this.src='https://i.pravatar.cc/150?img=1'">
-                    <div class="info">
-                        <h3>${c.name}</h3>
-                        <p>${c.rank} • ${c.position}</p>
-                        <p>🚗 ${c.car} • 📌 ${c.solved} дел</p>
-                        <span class="tag">${c.rank.includes('Начальник') ? 'Руководство' : 'Сотрудник'}</span>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('staffCount').textContent = characters.length;
+                        <div class="person-card">
+                            <img src="${c.img}" alt="${c.name}" onerror="this.src='https://i.pravatar.cc/150?img=1'" />
+                            <h3>${c.name}</h3>
+                            <div class="rank">${c.rank}</div>
+                            <div class="position">${c.position}</div>
+                            <div class="car">🚗 ${c.car}</div>
+                        </div>
+                    `).join('');
         }
 
         function renderCases() {
             const list = document.getElementById('casesList');
-            list.innerHTML = casesList.map(c => `
-                <div class="card" style="flex-direction:column;align-items:stretch">
-                    <div style="display:flex;justify-content:space-between">
-                        <b>${c.number}</b>
-                        <span style="color:#2ecc71">${c.status}</span>
-                    </div>
-                    <h4>${c.title}</h4>
-                    <p style="color:#8896a8">${c.article}</p>
-                </div>
-            `).join('');
-            document.getElementById('casesCount').textContent = casesList.length;
-            const solved = casesList.filter(c => c.status.includes('Раскрыто') || c.status.includes('Закрыто')).length;
-            document.getElementById('solvedCount').textContent = solved;
+            list.innerHTML = casesData.map(c => `
+                        <div class="case-card">
+                            <div class="case-header">
+                                <span class="case-number">${c.number}</span>
+                                <span class="case-status ${c.status}">${c.statusLabel}</span>
+                            </div>
+                            <div class="case-title">${c.title}</div>
+                            <div class="case-article">${c.article}</div>
+                        </div>
+                    `).join('');
         }
 
-        function showTab(tab) {
-            document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-            if (tab === 'staff') {
-                document.querySelector('.nav button:first-child').classList.add('active');
-                document.getElementById('staffTab').classList.remove('hidden');
-                document.getElementById('casesTab').classList.add('hidden');
-            } else {
-                document.querySelector('.nav button:last-child').classList.add('active');
-                document.getElementById('casesTab').classList.remove('hidden');
-                document.getElementById('staffTab').classList.add('hidden');
-            }
-        }
+        // ============================================================
+        //  ВКЛАДКИ
+        // ============================================================
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = {
+            staff: document.getElementById('tab-staff'),
+            cases: document.getElementById('tab-cases')
+        };
 
-        function login() {
-            const user = document.getElementById('loginUser').value;
-            const pass = document.getElementById('loginPass').value;
-            if (user === 'admin' && pass === 'admin123') {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainSite').style.display = 'block';
-                renderStaff();
-                renderCases();
-            } else {
-                alert('Неверный логин или пароль!');
-            }
-        }
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Убираем active у всех кнопок и контента
+                tabs.forEach(b => b.classList.remove('active'));
+                Object.values(contents).forEach(c => c.classList.remove('active'));
 
-        function logout() {
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('mainSite').style.display = 'none';
-        }
+                // Активируем нужные
+                btn.classList.add('active');
+                const tabName = btn.dataset.tab;
+                if (contents[tabName]) contents[tabName].classList.add('active');
+            });
+        });
+
+        // ============================================================
+        //  ЗАПУСК
+        // ============================================================
+        renderStaff();
+        renderCases();
     </script>
 
 </body>
