@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Барвиха RP — Полицейский с Рублёвки</title>
     <style>
-        /* ===== СБРОС ===== */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +22,6 @@
             align-items: center;
         }
 
-        /* ===== ГЛАВНАЯ ОБОЛОЧКА ===== */
         #app {
             max-width: 1100px;
             width: 100%;
@@ -32,10 +30,8 @@
             padding: 24px 22px 30px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-            position: relative;
         }
 
-        /* ===== ХЕДЕР ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -133,7 +129,7 @@
             color: #4caf84;
         }
 
-        /* ===== НАВИГАЦИЯ ===== */
+        /* ===== ВКЛАДКИ ===== */
         .tabs {
             display: flex;
             gap: 4px;
@@ -170,7 +166,6 @@
             box-shadow: inset 0 0 0 1px rgba(91, 154, 255, 0.15);
         }
 
-        /* ===== КОНТЕНТ ===== */
         .tab-content {
             display: none;
             animation: fadeUp 0.3s ease;
@@ -334,6 +329,117 @@
             margin-top: 4px;
         }
 
+        /* ===== КАРТА ===== */
+        .map-container {
+            background: #0b121d;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            margin-bottom: 14px;
+        }
+
+        .map-container .map-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .map-container .map-point {
+            background: #141e2a;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .map-container .map-point:hover {
+            background: #1a2636;
+            border-color: rgba(91, 154, 255, 0.15);
+        }
+
+        .map-container .map-point .point-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .map-container .map-point .point-desc {
+            font-size: 12px;
+            color: #7a8aa3;
+            margin-top: 2px;
+        }
+
+        /* ===== РАБОЧИЙ СТОЛ ===== */
+        .desk {
+            background: #0b121d;
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            margin-bottom: 14px;
+        }
+
+        .desk .desk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .desk .desk-header .desk-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* ===== РАПОРТЫ ===== */
+        .report-box {
+            background: #0b121d;
+            border-radius: 16px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            margin-bottom: 10px;
+        }
+
+        .report-box .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .report-box .report-header .report-title {
+            font-weight: 600;
+        }
+
+        .report-box .report-header .report-status {
+            font-size: 12px;
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        .report-box .report-header .report-status.approved {
+            background: #1e6b4c;
+            color: #4caf84;
+        }
+
+        .report-box .report-header .report-status.pending {
+            background: #7a6a2a;
+            color: #f0b34b;
+        }
+
+        .report-box .report-header .report-status.rejected {
+            background: #6b2a2a;
+            color: #f06a6a;
+        }
+
+        .report-box .report-text {
+            font-size: 13px;
+            color: #a0b0c8;
+            margin-top: 6px;
+        }
+
         /* ===== АДАПТИВ ===== */
         @media (max-width: 700px) {
             #app {
@@ -358,6 +464,9 @@
                 padding: 8px 12px;
                 min-width: 60px;
             }
+            .map-container .map-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 450px) {
@@ -371,9 +480,11 @@
                 font-size: 11px;
                 padding: 6px 10px;
             }
+            .map-container .map-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* ===== СКРОЛЛ ===== */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -394,7 +505,7 @@
         <div class="header">
             <h1>🚔 ОМВД «Барвиха-Северное»</h1>
             <div class="meta">
-                <span class="badge">Барвиха RP v2.0</span>
+                <span class="badge">Барвиха RP v4.0</span>
                 <button class="btn-outline" onclick="resetGame()">🔄 Сброс</button>
             </div>
         </div>
@@ -414,8 +525,8 @@
                 <div class="label">😰 Стресс</div>
             </div>
             <div class="hud-item">
-                <div class="value" id="hudRep">0%</div>
-                <div class="label">📊 Репутация</div>
+                <div class="value" id="hudEnergy">100%</div>
+                <div class="label">⚡ Энергия</div>
             </div>
             <div class="hud-item">
                 <div class="value" id="hudCar">100%</div>
@@ -429,15 +540,69 @@
 
         <!-- ===== ВКЛАДКИ ===== -->
         <div class="tabs">
-            <button class="active" data-tab="main">📋 Дела</button>
+            <button class="active" data-tab="life">🏠 Жизнь</button>
+            <button data-tab="work">👮 Работа</button>
+            <button data-tab="map">🗺️ Карта</button>
             <button data-tab="garage">🚗 Гараж</button>
             <button data-tab="dialogs">💬 Диалоги</button>
             <button data-tab="stats">📊 Статистика</button>
         </div>
 
-        <!-- ===== ВКЛАДКА: ДЕЛА ===== -->
-        <div class="tab-content active" id="tab-main">
+        <!-- ===== ВКЛАДКА: ЖИЗНЬ ===== -->
+        <div class="tab-content active" id="tab-life">
+            <div class="desk">
+                <div class="desk-header">
+                    <span class="desk-title">🏠 Дом</span>
+                    <span style="color:#7a8aa3; font-size:13px;">📍 <b id="locationDisplay">ОМВД Барвиха</b></span>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                    <button class="btn btn-success" onclick="rest()">😴 Отдохнуть (+30 энергии)</button>
+                    <button class="btn btn-primary" onclick="sleep()">💤 Спать (восстановить всё)</button>
+                    <button class="btn btn-outline" onclick="eat()">🍽️ Поесть (+20 энергии, -500₽)</button>
+                    <button class="btn btn-outline" onclick="driveTo('ОМВД Барвиха')">🚔 На работу</button>
+                    <button class="btn btn-outline" onclick="driveTo('Дом')">🏠 Домой</button>
+                </div>
+            </div>
+            <div id="lifeEvents"></div>
+        </div>
+
+        <!-- ===== ВКЛАДКА: РАБОТА ===== -->
+        <div class="tab-content" id="tab-work">
+            <div class="desk">
+                <div class="desk-header">
+                    <span class="desk-title">👮 Рабочий стол</span>
+                    <span style="color:#7a8aa3; font-size:13px;">📋 Дела: <b id="workCrimesCount">0</b></span>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                    <button class="btn btn-primary" onclick="startWorkDay()">🕘 Начать рабочий день</button>
+                    <button class="btn btn-success" onclick="openReportForm()">📝 Написать рапорт</button>
+                    <button class="btn btn-outline" onclick="renderCrimes()">🔄 Обновить дела</button>
+                </div>
+            </div>
             <div id="crimesContainer"></div>
+            <div id="reportsContainer" style="margin-top:14px;"></div>
+        </div>
+
+        <!-- ===== ВКЛАДКА: КАРТА ===== -->
+        <div class="tab-content" id="tab-map">
+            <div class="map-container">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+                    <div>
+                        <span style="font-weight:600;">📍 Рублёвка</span>
+                        <span style="color:#7a8aa3; font-size:13px; margin-left:8px;">🚗 Ты на: <b id="mapLocation">ОМВД Барвиха</b></span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <button class="btn btn-sm btn-primary" onclick="driveTo('ОМВД Барвиха')">🚔 Отдел</button>
+                        <button class="btn btn-sm btn-primary" onclick="driveTo('Дом')">🏠 Дом</button>
+                        <button class="btn btn-sm btn-primary" onclick="driveTo('Жуковка')">🏠 Жуковка</button>
+                        <button class="btn btn-sm btn-primary" onclick="driveTo('Luxury Village')">🛍️ ТЦ</button>
+                        <button class="btn btn-sm btn-primary" onclick="driveTo('Барвиха-3')">🏘️ Барвиха-3</button>
+                        <button class="btn btn-sm btn-primary" onclick="driveTo('Кофейня')">☕ Кофейня</button>
+                    </div>
+                </div>
+                <div class="map-grid" id="mapGrid"></div>
+            </div>
+            <div id="mapEvents"></div>
         </div>
 
         <!-- ===== ВКЛАДКА: ГАРАЖ ===== -->
@@ -457,144 +622,102 @@
 
     </div>
 
+    <!-- ================================================================
+    СКРИПТ
+    ================================================================ -->
     <script>
         // ================================================================
-        // 1.  БАЗА ДАННЫХ
+        // 1.  СОСТОЯНИЕ
         // ================================================================
 
-        // ----- ПРЕСТУПЛЕНИЯ (50) -----
-        const CRIMES = [
-            { id: 1, title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', diff: 3, reward: 8000, risk: 30,
-                type: 'Угон' },
-            { id: 2, title: 'Угон Mercedes в Барвихе', article: 'ст. 166 УК РФ', diff: 2, reward: 5000, risk: 20,
-                type: 'Угон' },
-            { id: 3, title: 'Угон мотоцикла в Жуковке', article: 'ст. 166 УК РФ', diff: 1, reward: 3000, risk: 15,
-                type: 'Угон' },
-            { id: 4, title: 'Угон Lamborghini Urus', article: 'ст. 166 УК РФ', diff: 4, reward: 12000, risk: 40,
-                type: 'Угон' },
-            { id: 5, title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', diff: 4, reward: 15000, risk: 45,
-                type: 'Кража' },
-            { id: 6, title: 'Кража драгоценностей', article: 'ст. 158 УК РФ', diff: 3, reward: 10000, risk: 35,
-                type: 'Кража' },
-            { id: 7, title: 'Кража элитного вина', article: 'ст. 158 УК РФ', diff: 2, reward: 6000, risk: 20, type: 'Кража' },
-            { id: 8, title: 'Кража картины', article: 'ст. 158 УК РФ', diff: 5, reward: 20000, risk: 50, type: 'Кража' },
-            { id: 9, title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', diff: 5, reward: 25000, risk: 55,
-                type: 'Мошенничество' },
-            { id: 10, title: 'Финансовая пирамида', article: 'ст. 159 УК РФ', diff: 4, reward: 18000, risk: 40,
-                type: 'Мошенничество' },
-            { id: 11, title: 'Мошенничество с недвижимостью', article: 'ст. 159 УК РФ', diff: 3, reward: 12000, risk: 30,
-                type: 'Мошенничество' },
-            { id: 12, title: 'Барвихинский стрелок', article: 'ст. 105 УК РФ', diff: 6, reward: 30000, risk: 70,
-                type: 'Убийство' },
-            { id: 13, title: 'Убийство в Жуковке', article: 'ст. 105 УК РФ', diff: 5, reward: 22000, risk: 60,
-                type: 'Убийство' },
-            { id: 14, title: 'Убийство в ресторане', article: 'ст. 105 УК РФ', diff: 4, reward: 18000, risk: 50,
-                type: 'Убийство' },
-            { id: 15, title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', diff: 4, reward: 14000, risk: 40,
-                type: 'Оружие' },
-            { id: 16, title: 'Сбыт оружия в Барвихе', article: 'ст. 222 УК РФ', diff: 3, reward: 10000, risk: 35,
-                type: 'Оружие' },
-            { id: 17, title: 'Хранение взрывчатки', article: 'ст. 222.1 УК РФ', diff: 5, reward: 20000, risk: 60,
-                type: 'Оружие' },
-            { id: 18, title: 'Сбыт наркотиков', article: 'ст. 228.1 УК РФ', diff: 4, reward: 16000, risk: 50,
-                type: 'Наркотики' },
-            { id: 19, title: 'Хранение наркотиков', article: 'ст. 228 УК РФ', diff: 3, reward: 10000, risk: 35,
-                type: 'Наркотики' },
-            { id: 20, title: 'Наркопритон', article: 'ст. 232 УК РФ', diff: 5, reward: 22000, risk: 55, type: 'Наркотики' },
-            { id: 21, title: 'Фальшивые деньги', article: 'ст. 186 УК РФ', diff: 3, reward: 9000, risk: 30,
-                type: 'Экономическое' },
-            { id: 22, title: 'Уклонение от налогов', article: 'ст. 198 УК РФ', diff: 3, reward: 8000, risk: 25,
-                type: 'Экономическое' },
-            { id: 23, title: 'Легализация доходов', article: 'ст. 174 УК РФ', diff: 4, reward: 14000, risk: 35,
-                type: 'Экономическое' },
-            { id: 24, title: 'ДТП на Рублёвке', article: 'ст. 264 УК РФ', diff: 2, reward: 6000, risk: 20, type: 'ДТП' },
-            { id: 25, title: 'Наезд на пешехода', article: 'ст. 264 УК РФ', diff: 3, reward: 8000, risk: 30, type: 'ДТП' },
-            { id: 26, title: 'Пьяная езда', article: 'ст. 264.1 УК РФ', diff: 1, reward: 3000, risk: 10, type: 'ДТП' },
-            { id: 27, title: 'Побои в клубе', article: 'ст. 116 УК РФ', diff: 1, reward: 3000, risk: 10,
-                type: 'Хулиганство' },
-            { id: 28, title: 'Вандализм в Барвихе', article: 'ст. 214 УК РФ', diff: 1, reward: 2000, risk: 10,
-                type: 'Хулиганство' },
-            { id: 29, title: 'Вымогательство', article: 'ст. 163 УК РФ', diff: 4, reward: 12000, risk: 40,
-                type: 'Эксторшн' },
-            { id: 30, title: 'Рэкет на Рублёвке', article: 'ст. 163 УК РФ', diff: 5, reward: 18000, risk: 50,
-                type: 'Эксторшн' },
-            { id: 31, title: 'Взлом банка', article: 'ст. 272 УК РФ', diff: 5, reward: 20000, risk: 45, type: 'Кибер' },
-            { id: 32, title: 'Кража данных', article: 'ст. 137 УК РФ', diff: 3, reward: 8000, risk: 25, type: 'Кибер' },
-            { id: 33, title: 'Коррупция в ОМВД', article: 'ст. 290 УК РФ', diff: 6, reward: 25000, risk: 70,
-                type: 'Коррупция' },
-            { id: 34, title: 'Получение взятки', article: 'ст. 290 УК РФ', diff: 4, reward: 12000, risk: 40,
-                type: 'Коррупция' },
-            { id: 35, title: 'Злоупотребление полномочиями', article: 'ст. 285 УК РФ', diff: 3, reward: 10000, risk: 35,
-                type: 'Коррупция' },
-            { id: 36, title: 'Вырубка леса', article: 'ст. 260 УК РФ', diff: 2, reward: 5000, risk: 15, type: 'Экология' },
-            { id: 37, title: 'Загрязнение реки', article: 'ст. 250 УК РФ', diff: 2, reward: 4000, risk: 15,
-                type: 'Экология' },
-            { id: 38, title: 'Побег из ОМВД', article: 'ст. 313 УК РФ', diff: 5, reward: 18000, risk: 60, type: 'Прочее' },
-            { id: 39, title: 'Лжесвидетельство', article: 'ст. 307 УК РФ', diff: 2, reward: 4000, risk: 15,
-                type: 'Прочее' },
-            { id: 40, title: 'Уклонение от призыва', article: 'ст. 328 УК РФ', diff: 1, reward: 2000, risk: 5,
-                type: 'Прочее' },
-            { id: 41, title: 'Браконьерство', article: 'ст. 258 УК РФ', diff: 2, reward: 3500, risk: 10, type: 'Прочее' },
-            { id: 42, title: 'Угон BMW X5 M', article: 'ст. 166 УК РФ', diff: 3, reward: 9000, risk: 35, type: 'Угон' },
-            { id: 43, title: 'Угон мотоцикла в Барвихе', article: 'ст. 166 УК РФ', diff: 2, reward: 4000, risk: 18,
-                type: 'Угон' },
-            { id: 44, title: 'Кража сейфа в офисе', article: 'ст. 158 УК РФ', diff: 3, reward: 8000, risk: 30,
-                type: 'Кража' },
-            { id: 45, title: 'Интернет-мошенничество', article: 'ст. 159 УК РФ', diff: 2, reward: 7000, risk: 20,
-                type: 'Мошенничество' },
-            { id: 46, title: 'Убийство таксиста', article: 'ст. 105 УК РФ', diff: 3, reward: 10000, risk: 40,
-                type: 'Убийство' },
-            { id: 47, title: 'Незаконное ношение оружия', article: 'ст. 222 УК РФ', diff: 2, reward: 5000, risk: 20,
-                type: 'Оружие' },
-            { id: 48, title: 'Хулиганство в ресторане', article: 'ст. 213 УК РФ', diff: 2, reward: 4000, risk: 15,
-                type: 'Хулиганство' },
-            { id: 49, title: 'Взлом сайта ОМВД', article: 'ст. 272 УК РФ', diff: 4, reward: 15000, risk: 60,
-                type: 'Кибер' },
-            { id: 50, title: 'Вымогательство в Барвихе', article: 'ст. 163 УК РФ', diff: 5, reward: 18000, risk: 50,
-                type: 'Эксторшн' }
+        const state = {
+            money: 5000,
+            rank: 0,
+            stress: 0,
+            energy: 100,
+            carHealth: 100,
+            fuel: 100,
+            day: 1,
+            location: 'ОМВД Барвиха',
+            crimesSolved: 0,
+            crimesFailed: 0,
+            bribeCount: 0,
+            lawCount: 0,
+            car: 'Porsche 911 Turbo S',
+            completed: [],
+            reports: [],
+            dialogs: [],
+            isWorking: false,
+            crimes: []
+        };
+
+        // ================================================================
+        // 2.  БАЗА ДАННЫХ
+        // ================================================================
+
+        const LOCATIONS = [
+            { name: 'ОМВД Барвиха', icon: '🚔', desc: 'Главное здание' },
+            { name: 'Дом', icon: '🏠', desc: 'Твой дом, можно отдохнуть' },
+            { name: 'Жуковка', icon: '🏠', desc: 'Элитный посёлок' },
+            { name: 'Luxury Village', icon: '🛍️', desc: 'ТЦ, угон Porsche' },
+            { name: 'Барвиха-3', icon: '🏘️', desc: 'Коттеджный посёлок' },
+            { name: 'Кофейня', icon: '☕', desc: 'Место встреч' }
         ];
 
-        // ----- ДИАЛОГИ -----
+        const CRIMES_DB = [
+            { id: 1, title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', diff: 3, reward: 8000, risk: 30,
+                type: 'Угон', location: 'Luxury Village' },
+            { id: 2, title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', diff: 4, reward: 15000, risk: 45,
+                type: 'Кража', location: 'Жуковка' },
+            { id: 3, title: 'Барвихинский стрелок', article: 'ст. 105 УК РФ', diff: 6, reward: 30000, risk: 70,
+                type: 'Убийство', location: 'Барвиха-3' },
+            { id: 4, title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', diff: 5, reward: 25000, risk: 55,
+                type: 'Мошенничество', location: 'ОМВД Барвиха' },
+            { id: 5, title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', diff: 4, reward: 14000, risk: 40,
+                type: 'Оружие', location: 'Барвиха-3' },
+            { id: 6, title: 'Сбыт наркотиков', article: 'ст. 228.1 УК РФ', diff: 4, reward: 16000, risk: 50,
+                type: 'Наркотики', location: 'Жуковка' },
+            { id: 7, title: 'ДТП на Рублёвке', article: 'ст. 264 УК РФ', diff: 2, reward: 6000, risk: 20, type: 'ДТП',
+                location: 'Luxury Village' },
+            { id: 8, title: 'Коррупция в ОМВД', article: 'ст. 290 УК РФ', diff: 6, reward: 25000, risk: 70,
+                type: 'Коррупция', location: 'ОМВД Барвиха' },
+            { id: 9, title: 'Вымогательство в Барвихе', article: 'ст. 163 УК РФ', diff: 5, reward: 18000, risk: 50,
+                type: 'Эксторшн', location: 'Барвиха-3' },
+            { id: 10, title: 'Кража драгоценностей', article: 'ст. 158 УК РФ', diff: 3, reward: 10000, risk: 35,
+                type: 'Кража', location: 'Жуковка' },
+            { id: 11, title: 'Финансовая пирамида', article: 'ст. 159 УК РФ', diff: 4, reward: 18000, risk: 40,
+                type: 'Мошенничество', location: 'ОМВД Барвиха' },
+            { id: 12, title: 'Угон Lamborghini Urus', article: 'ст. 166 УК РФ', diff: 4, reward: 12000, risk: 40,
+                type: 'Угон', location: 'Luxury Village' },
+            { id: 13, title: 'Убийство в Жуковке', article: 'ст. 105 УК РФ', diff: 5, reward: 22000, risk: 60,
+                type: 'Убийство', location: 'Жуковка' },
+            { id: 14, title: 'Хранение взрывчатки', article: 'ст. 222.1 УК РФ', diff: 5, reward: 20000, risk: 60,
+                type: 'Оружие', location: 'Барвиха-3' },
+            { id: 15, title: 'Наркопритон', article: 'ст. 232 УК РФ', diff: 5, reward: 22000, risk: 55, type: 'Наркотики',
+                location: 'Жуковка' }
+        ];
+
         const MUHICH = [
             'Ты не видел мои очки? Без них я как слепой крот!',
             'Срочно! Кто-то украл у меня носки с Рублёвки!',
             'Я хочу купить попугая. Ты не знаешь, где их продают?',
             'Слышал, у тебя есть кот? Я хочу с ним познакомиться!',
-            'Я нашёл в архиве дело о пропавшем кексе. Надо расследовать!',
+            'Я нашёл в архиве дело о пропавшем кексе!',
             'Скажи честно, моя новая причёска похожа на Элвиса?',
             'Ты не знаешь, сколько стоит козёл? Мне нужен козёл для экспериментов!',
-            'Я подозреваю соседа — у него слишком много кактусов!',
             'У меня в кабинете завёлся призрак. Он переставляет папки!',
-            'Какую шляпу выбрать на свадьбу? Срочно!',
-            'Ты не видел мои очки? Я их везде ищу!',
-            'Срочно нужна твоя помощь! Я потерял любимый карандаш!',
-            'Я решил стать веганом. Но это так сложно!',
-            'Ты не знаешь, какую музыку слушают в Bentley?',
-            'Вчера встретил твоего двойника. Он был очень вежливый!',
             'Помнишь, я просил хлеб? Я передумал — мне нужен багет!',
-            'Я купил себе йо-йо. Тренируюсь. Пока не очень...',
-            'Ты веришь в НЛО? Я видел тарелку над Барвихой!',
-            'Помоги выбрать подарок для Веры. У нас юбилей!',
-            'Слушай, а ты мог бы притвориться моим свидетелем на суде?'
+            'Я купил себе йо-йо. Тренируюсь. Пока не очень...'
         ];
 
         const YAKOVLEV = [
             'Ты опять опоздал на планерку. Объяснись.',
             'Отличная работа по "Барвихинскому стрелку". Горжусь.',
-            'Ты снова нарушил устав. Оформлю выговор.',
-            'Начальство довольно твоими показателями. Продолжай.',
-            'Твой отчёт по делу №1024 — полный бардак. Переделай.',
-            'За тобой замечена связь с сомнительными личностями.',
-            'Отличный результат. Ты получаешь повышение!',
+            'Твой отчёт — полный бардак. Переделай.',
             'Ты слишком много времени проводишь с Измайловым.',
-            'Завтра проверка документов. Приведи всё в порядок.',
             'Твои методы не всегда этичны, но они работают.',
-            'Ты слишком много берёшь на себя. Делегируй.',
-            'Я получил жалобу на тебя. Разберись.',
             'Ты — лучший сыщик в моём отделе. Не подведи.',
-            'Я перевожу тебя в отдел по особо важным делам.',
-            'Ты слишком эмоционален. Держи себя в руках.',
-            'Отличный результат по итогам месяца. Ты заслужил премию.'
+            'Я перевожу тебя в отдел по особо важным делам.'
         ];
 
         const GRISHA = [
@@ -602,41 +725,22 @@
             'Это просто бизнес, ничего личного.',
             'Слушай, я ценю твой подход к работе. Ты как я.',
             'Помнишь дело на Рублёвке? Мы круто их развели!',
-            'Ты знаешь, что такое настоящая свобода? Деньги и пофиг.',
-            'У меня есть предложение. Бизнес, деньги, риск. Ты за?',
-            'Я не верю в систему. Но я верю в тебя.',
-            'Давай замутим одно дельце. Чисто, без свидетелей.',
-            'Брат, ты слишком осторожен. Надо прыгать в омут.',
-            'Эта работа нас съест, если не получать кайф. Я получаю.',
-            'Слышал, ты опять поцапался с Яковлевым. Я на твоей стороне.',
             'Деньги любят смелых. Ты смелый?'
         ];
 
-        // ----- ГАРАЖ -----
         const CARS = [
-            { model: 'Porsche 911 Turbo S', price: 22000000, desc: 'V8 битурбо, 650 л.с. 2.6 сек до 100' },
+            { model: 'Porsche 911 Turbo S', price: 22000000, desc: 'V8 битурбо, 650 л.с.' },
             { model: 'Mercedes-Benz S-Class', price: 15000000, desc: 'V8 битурбо. Символ статуса' },
-            { model: 'Lamborghini Urus', price: 25000000, desc: 'V8 битурбо, 650 л.с. Спортивный внедорожник' },
-            { model: 'BMW X5 M', price: 12000000, desc: 'V8, 600 л.с. Для бизнес-поездок' },
-            { model: 'Audi A4', price: 5000000, desc: 'Турбодизель. Надёжный и комфортный' },
-            { model: 'Ford Focus II', price: 2500000, desc: 'Служебная машина. Простая и надёжная' },
-            { model: 'УАЗ Патриот', price: 1500000, desc: 'Служебный внедорожник. Проходимый' },
-            { model: 'Chrysler PT Cruiser', price: 800000, desc: 'Ретро-хэтчбек. Для Мухича' },
-            { model: 'Porsche Cayenne', price: 18000000, desc: 'V6, 340 л.с. Люксовый кроссовер' },
-            { model: 'BMW 4-Series', price: 8000000, desc: 'V6, 350 л.с. Спортивное купе' },
-            { model: 'Кастомный чоппер', price: 3000000, desc: 'Чёрный мощный байк' },
-            { model: 'Skoda Octavia', price: 3500000, desc: 'Серая, скромная, надёжная' },
-            { model: 'Toyota Camry', price: 4500000, desc: 'Белый седан. Для начальства' },
-            { model: 'Nissan Teana', price: 4000000, desc: 'Бордовый → черный. Для Яковлева' },
-            { model: 'Hyundai Solaris', price: 1500000, desc: 'Надёжный седан для Гудковой' },
-            { model: 'Mercedes E-Class (W212)', price: 10000000, desc: 'Чёрный седан Измайлова' },
-            { model: 'Hyundai Getz', price: 800000, desc: 'Красный хэтчбек для дрифта' },
-            { model: 'BMW 5-Series', price: 9000000, desc: 'Патрульный с ливреей и мигалками' },
-            { model: 'Lada Vesta', price: 1200000, desc: 'Вечно ломается, но своя' },
-            { model: 'ВАЗ-2109', price: 200000, desc: 'Для скрытого наблюдения. Неприметная' }
+            { model: 'Lamborghini Urus', price: 25000000, desc: 'V8 битурбо, 650 л.с.' },
+            { model: 'BMW X5 M', price: 12000000, desc: 'V8, 600 л.с.' },
+            { model: 'Audi A4', price: 5000000, desc: 'Турбодизель. Надёжный' },
+            { model: 'Ford Focus II', price: 2500000, desc: 'Служебная машина' },
+            { model: 'УАЗ Патриот', price: 1500000, desc: 'Внедорожник' },
+            { model: 'Chrysler PT Cruiser', price: 800000, desc: 'Ретро-хэтчбек' },
+            { model: 'Porsche Cayenne', price: 18000000, desc: 'V6, 340 л.с.' },
+            { model: 'BMW 4-Series', price: 8000000, desc: 'Спортивное купе' }
         ];
 
-        // ----- РАНГИ -----
         const RANKS = [
             { level: 0, title: 'Стажёр', salary: 30000, need: 0 },
             { level: 1, title: 'Мл. лейтенант', salary: 50000, need: 3 },
@@ -651,39 +755,18 @@
         ];
 
         // ================================================================
-        // 2.  СОСТОЯНИЕ ИГРЫ
-        // ================================================================
-
-        const state = {
-            money: 5000,
-            rank: 0,
-            stress: 0,
-            reputation: 50,
-            carHealth: 100,
-            fuel: 100,
-            day: 1,
-            crimesSolved: 0,
-            crimesFailed: 0,
-            bribeCount: 0,
-            lawCount: 0,
-            car: 'Porsche 911 Turbo S',
-            completed: [],
-            dialogs: []
-        };
-
-        // ================================================================
         // 3.  СОХРАНЕНИЕ
         // ================================================================
 
         function save() {
             try {
-                localStorage.setItem('barviha_rp', JSON.stringify(state));
+                localStorage.setItem('barviha_rp_v4', JSON.stringify(state));
             } catch (e) {}
         }
 
         function load() {
             try {
-                const raw = localStorage.getItem('barviha_rp');
+                const raw = localStorage.getItem('barviha_rp_v4');
                 if (!raw) return false;
                 const data = JSON.parse(raw);
                 Object.assign(state, data);
@@ -717,47 +800,122 @@
 
         function addDialog(who, text) {
             state.dialogs.push({ who, text, time: new Date().toLocaleTimeString() });
-            if (state.dialogs.length > 80) state.dialogs.shift();
+            if (state.dialogs.length > 100) state.dialogs.shift();
         }
 
         function randomDialog() {
             const r = rand(1, 100);
-            if (r < 40) {
-                const msg = pick(MUHICH);
-                addDialog('📞 Мухич', msg);
-                state.stress = clamp(state.stress + rand(2, 6), 0, 100);
-            } else if (r < 70) {
-                const msg = pick(YAKOVLEV);
-                addDialog('👮 Яковлев', msg);
-            } else if (r < 90) {
-                const msg = pick(GRISHA);
-                addDialog('🎯 Гриша', msg);
-            } else {
-                addDialog('📢 ОМВД', 'Ничего особенного. Скучный день в Барвихе.');
-            }
+            if (r < 30) addDialog('📞 Мухич', pick(MUHICH));
+            else if (r < 60) addDialog('👮 Яковлев', pick(YAKOVLEV));
+            else if (r < 80) addDialog('🎯 Гриша', pick(GRISHA));
+            else addDialog('📢 ОМВД', 'Ничего особенного. Скучный день в Барвихе.');
         }
 
         // ================================================================
-        // 6.  ИГРОВЫЕ МЕХАНИКИ
+        // 6.  ЖИЗНЕННЫЕ МЕХАНИКИ
         // ================================================================
 
-        function solveCrime(id, method) {
-            const crime = CRIMES.find(c => c.id === id);
-            if (!crime) return;
+        function rest() {
+            state.energy = clamp(state.energy + 30, 0, 100);
+            state.stress = clamp(state.stress - 10, 0, 100);
+            addDialog('😴 Отдых', 'Ты отдохнул. Энергия +30, стресс -10%');
+            save();
+            renderAll();
+        }
 
-            if (state.fuel < 5) {
+        function sleep() {
+            state.energy = 100;
+            state.stress = clamp(state.stress - 30, 0, 100);
+            state.day++;
+            addDialog('💤 Сон', 'Ты хорошо выспался! Энергия восстановлена. Наступил день ' + state.day);
+            save();
+            renderAll();
+        }
+
+        function eat() {
+            if (state.money < 500) { alert('Не хватает денег! Нужно 500 ₽'); return; }
+            state.money -= 500;
+            state.energy = clamp(state.energy + 20, 0, 100);
+            addDialog('🍽️ Обед', 'Ты поел. Энергия +20%');
+            save();
+            renderAll();
+        }
+
+        // ================================================================
+        // 7.  ПЕРЕДВИЖЕНИЕ (МАШИНА)
+        // ================================================================
+
+        function driveTo(location) {
+            if (state.fuel < 10) {
                 alert('⛽ Нет бензина! Заправь машину в гараже.');
                 return;
             }
 
-            // Расход ресурсов
             state.fuel = clamp(state.fuel - rand(5, 15), 0, 100);
-            state.carHealth = clamp(state.carHealth - rand(2, 8), 0, 100);
+            state.carHealth = clamp(state.carHealth - rand(1, 5), 0, 100);
 
-            // Шанс успеха
+            state.location = location;
+            addDialog('🚗 Поездка', 'Ты приехал в ' + location);
+
+            // Случайное событие в пути
+            if (Math.random() * 100 < 20) {
+                const events = ['Попал в пробку', 'Увидел аварию', 'Остановил гаишник', 'Нашёл 1000₽ на дороге'];
+                const event = pick(events);
+                if (event.includes('1000₽')) {
+                    state.money += 1000;
+                    addDialog('💰 Удача', 'Нашёл 1000₽ на дороге!');
+                } else {
+                    addDialog('🚦 Событие', event);
+                    state.stress = clamp(state.stress + rand(2, 5), 0, 100);
+                }
+            }
+
+            // Мухич звонит в пути
+            if (Math.random() * 100 < 25) {
+                addDialog('📞 Мухич', pick(MUHICH));
+                state.stress = clamp(state.stress + rand(2, 5), 0, 100);
+            }
+
+            save();
+            renderAll();
+        }
+
+        // ================================================================
+        // 8.  РАБОТА
+        // ================================================================
+
+        function startWorkDay() {
+            if (state.location !== 'ОМВД Барвиха') {
+                alert('Ты не в ОМВД! Приезжай на работу.');
+                return;
+            }
+            state.isWorking = true;
+            addDialog('👮 Работа', 'Ты начал рабочий день. Дела загружены.');
+            // Загружаем дела
+            state.crimes = CRIMES_DB.filter(c => !state.completed.includes(c.id)).slice(0, 10);
+            save();
+            renderAll();
+        }
+
+        function solveCrime(id, method) {
+            if (!state.isWorking) {
+                alert('Ты не на работе! Начни рабочий день.');
+                return;
+            }
+
+            const crime = state.crimes.find(c => c.id === id);
+            if (!crime) return;
+
+            if (state.energy < 10) {
+                alert('😰 Ты слишком устал! Отдохни или поспи.');
+                return;
+            }
+
+            state.energy = clamp(state.energy - rand(10, 20), 0, 100);
+
             const base = 100 - crime.risk;
-            const mod = state.reputation / 100 * 15 - state.stress / 100 * 20;
-            const chance = clamp(base + mod, 15, 95);
+            const mod = state.energy / 100 * 10 - state.stress / 100 * 20;
+            const chance = clamp(base + mod, 10, 95);
 
             const success = Math.random() * 100 < chance;
 
@@ -772,9 +930,9 @@
                     stressDelta = 10;
                     state.bribeCount++;
                     if (Math.random() * 100 < 12) {
-                        alert('🚨 Тебя поймали на взятке! ССБ начала расследование.');
-                        state.reputation = clamp(state.reputation - 25, 0, 100);
+                        alert('🚨 Тебя поймали на взятке!');
                         state.money = Math.round(state.money * 0.7);
+                        addDialog('🚨 ССБ', 'Тебя поймали на взятке! Потеряно 30% денег.');
                     }
                 } else {
                     state.lawCount++;
@@ -783,121 +941,154 @@
                 }
 
                 state.money += reward;
-                state.reputation = clamp(state.reputation + repDelta, 0, 100);
                 state.stress = clamp(state.stress + stressDelta, 0, 100);
                 state.crimesSolved++;
                 state.completed.push(id);
+                state.crimes = state.crimes.filter(c => c.id !== id);
 
                 addDialog('✅ Успех!', `Дело "${crime.title}" раскрыто! +${fmt(reward)}`);
 
                 const newRank = getRank();
                 if (newRank.level > state.rank) {
                     state.rank = newRank.level;
-                    addDialog('🎉 Повышение!', `Поздравляю! Ты теперь ${newRank.title}!`);
+                    addDialog('🎉 Повышение!', `Ты теперь ${newRank.title}!`);
                 }
             } else {
                 state.crimesFailed++;
                 state.stress = clamp(state.stress + 18, 0, 100);
-                state.reputation = clamp(state.reputation - 12, 0, 100);
-                addDialog('❌ Провал', `Дело "${crime.title}" провалено! Репутация упала.`);
+                addDialog('❌ Провал', `Дело "${crime.title}" провалено!`);
             }
 
-            state.day++;
             randomDialog();
             save();
             renderAll();
         }
 
         function skipCrime(id) {
-            if (!confirm('Пропустить дело? Репутация упадёт.')) return;
-            state.reputation = clamp(state.reputation - 5, 0, 100);
             state.completed.push(id);
-            addDialog('📋 Пропуск', 'Ты проигнорировал дело. Репутация упала.');
+            state.crimes = state.crimes.filter(c => c.id !== id);
+            addDialog('📋 Пропуск', 'Ты проигнорировал дело.');
             save();
             renderAll();
-        }
-
-        function selectCar(model) {
-            state.car = model;
-            addDialog('🚗 Гараж', `Ты пересел на ${model}`);
-            save();
-            renderAll();
-        }
-
-        function repairCar() {
-            if (state.money < 5000) { alert('Нужно 5000 ₽!'); return; }
-            state.money -= 5000;
-            state.carHealth = clamp(state.carHealth + 25, 0, 100);
-            addDialog('🔧 Ремонт', 'Машина отремонтирована. Здоровье +25%');
-            save();
-            renderAll();
-        }
-
-        function refuelCar() {
-            if (state.money < 2000) { alert('Нужно 2000 ₽!'); return; }
-            state.money -= 2000;
-            state.fuel = clamp(state.fuel + 30, 0, 100);
-            addDialog('⛽ Заправка', 'Бак заправлен. Бензин +30%');
-            save();
-            renderAll();
-        }
-
-        function resetGame() {
-            if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
-            localStorage.removeItem('barviha_rp');
-            location.reload();
         }
 
         // ================================================================
-        // 7.  РЕНДЕРИНГ
+        // 9.  РАПОРТЫ
+        // ================================================================
+
+        function openReportForm() {
+            const text = prompt('📝 Напишите текст рапорта:');
+            if (!text) return;
+            state.reports.push({
+                id: Date.now(),
+                text: text,
+                status: 'pending',
+                date: new Date().toLocaleDateString()
+            });
+            addDialog('📄 Рапорт', 'Ты отправил рапорт: "' + text.slice(0, 40) + '..."');
+            // Яковлев иногда одобряет
+            if (Math.random() * 100 < 40) {
+                const last = state.reports[state.reports.length - 1];
+                last.status = 'approved';
+                addDialog('👮 Яковлев', 'Рапорт одобрен. Хорошая работа.');
+                state.money += 2000;
+            } else {
+                const last = state.reports[state.reports.length - 1];
+                last.status = 'pending';
+                addDialog('👮 Яковлев', 'Рапорт на рассмотрении.');
+            }
+            save();
+            renderAll();
+        }
+
+        // ================================================================
+        // 10. РЕНДЕРИНГ
         // ================================================================
 
         function renderHUD() {
             document.getElementById('hudMoney').textContent = fmt(state.money);
             document.getElementById('hudRank').textContent = getRank().title;
             document.getElementById('hudStress').textContent = state.stress + '%';
-            document.getElementById('hudRep').textContent = state.reputation + '%';
+            document.getElementById('hudEnergy').textContent = state.energy + '%';
             document.getElementById('hudCar').textContent = state.carHealth + '%';
             document.getElementById('hudFuel').textContent = state.fuel + '%';
 
-            // Цвета
             const s = document.getElementById('hudStress');
             s.className = 'value' + (state.stress > 70 ? ' danger' : state.stress > 40 ? ' warning' : '');
 
-            const r = document.getElementById('hudRep');
-            r.className = 'value' + (state.reputation > 70 ? ' success' : state.reputation > 40 ? '' : ' danger');
+            const e = document.getElementById('hudEnergy');
+            e.className = 'value' + (state.energy > 70 ? ' success' : state.energy > 40 ? ' warning' : ' danger');
 
             const c = document.getElementById('hudCar');
             c.className = 'value' + (state.carHealth > 70 ? ' success' : state.carHealth > 40 ? ' warning' : ' danger');
 
             const f = document.getElementById('hudFuel');
             f.className = 'value' + (state.fuel > 30 ? ' success' : ' danger');
+
+            document.getElementById('locationDisplay').textContent = state.location;
+            document.getElementById('mapLocation').textContent = state.location;
+        }
+
+        function renderMap() {
+            const grid = document.getElementById('mapGrid');
+            grid.innerHTML = LOCATIONS.map(l => `
+                        <div class="map-point" onclick="driveTo('${l.name}')">
+                            <div class="point-title">${l.icon} ${l.name}</div>
+                            <div class="point-desc">${l.desc}</div>
+                            ${state.location === l.name ? '<div style="color:#4caf84;font-size:11px;margin-top:4px;">📍 Ты здесь</div>' : ''}
+                        </div>
+                    `).join('');
         }
 
         function renderCrimes() {
             const container = document.getElementById('crimesContainer');
-            const available = CRIMES.filter(c => !state.completed.includes(c.id)).slice(0, 20);
+            const crimes = state.crimes || [];
 
-            if (available.length === 0) {
+            if (crimes.length === 0) {
                 container.innerHTML =
-                    `<div class="card"><div class="title">🎉 ВСЕ ДЕЛА РАСКРЫТЫ!</div><div class="sub">Ты — легенда Барвихи! Можешь уходить на пенсию.</div></div>`;
+                    `<div class="card"><div class="title">📋 Нет доступных дел</div><div class="sub">Начни рабочий день или отдохни.</div></div>`;
                 return;
             }
 
-            container.innerHTML = available.map(c => `
+            container.innerHTML = crimes.map(c => `
                         <div class="card">
                             <div class="title">${c.title}</div>
-                            <div class="sub">${c.article} • ${c.type}</div>
-                            <div class="desc">Сложность: ${'⭐'.repeat(c.diff)}</div>
+                            <div class="sub">${c.article} • ${c.type} • 📍 ${c.location}</div>
                             <div class="meta">
                                 <span>💰 ${fmt(c.reward)}</span>
                                 <span>⚠️ Риск: ${c.risk}%</span>
+                                <span>⭐ Сложность: ${'⭐'.repeat(c.diff)}</span>
                             </div>
                             <div class="actions">
                                 <button class="btn btn-success btn-sm" onclick="solveCrime(${c.id}, 'law')">⚖️ Закон</button>
                                 <button class="btn btn-gold btn-sm" onclick="solveCrime(${c.id}, 'bribe')">💵 Взятка</button>
                                 <button class="btn btn-danger btn-sm" onclick="skipCrime(${c.id})">❌ Игнор</button>
                             </div>
+                        </div>
+                    `).join('');
+
+            document.getElementById('workCrimesCount').textContent = crimes.length;
+        }
+
+        function renderReports() {
+            const container = document.getElementById('reportsContainer');
+            if (state.reports.length === 0) {
+                container.innerHTML = `<div class="card"><div class="sub">Нет отправленных рапортов.</div></div>`;
+                return;
+            }
+            const statusMap = {
+                pending: '⏳ На рассмотрении',
+                approved: '✅ Одобрено',
+                rejected: '❌ Отклонено'
+            };
+            container.innerHTML = state.reports.slice(-5).reverse().map(r => `
+                        <div class="report-box">
+                            <div class="report-header">
+                                <span class="report-title">📄 Рапорт #${r.id}</span>
+                                <span class="report-status ${r.status}">${statusMap[r.status] || r.status}</span>
+                            </div>
+                            <div class="report-text">${r.text}</div>
+                            <div style="font-size:11px;color:#6a7a93;margin-top:4px;">📅 ${r.date}</div>
                         </div>
                     `).join('');
         }
@@ -929,14 +1120,12 @@
 
         function renderDialogs() {
             const container = document.getElementById('dialogsContainer');
-            const dialogs = state.dialogs.slice(-15).reverse();
-
+            const dialogs = state.dialogs.slice(-20).reverse();
             if (dialogs.length === 0) {
                 container.innerHTML =
                     `<div class="dialog-box"><div class="who">📢 Нет диалогов</div><div class="text">Раскрывай дела, чтобы получать звонки</div></div>`;
                 return;
             }
-
             container.innerHTML = dialogs.map(d => `
                         <div class="dialog-box">
                             <div class="who">${d.who}</div>
@@ -948,13 +1137,9 @@
 
         function renderStats() {
             const container = document.getElementById('statsContainer');
-            const total = CRIMES.length;
+            const total = CRIMES_DB.length;
             const solved = state.crimesSolved;
-            const failed = state.crimesFailed;
             const rate = total > 0 ? Math.round((solved / total) * 100) : 0;
-            const law = state.lawCount;
-            const bribe = state.bribeCount;
-            const ratio = law + bribe > 0 ? Math.round((law / (law + bribe)) * 100) : 0;
 
             container.innerHTML = `
                         <div class="grid-2">
@@ -963,17 +1148,16 @@
                                 <div class="meta">
                                     <div>Всего дел: <b>${total}</b></div>
                                     <div>Раскрыто: <b>${solved}</b></div>
-                                    <div>Провалено: <b>${failed}</b></div>
+                                    <div>Провалено: <b>${state.crimesFailed}</b></div>
                                     <div>Раскрываемость: <b>${rate}%</b></div>
-                                    <div>Дней в ОМВД: <b>${state.day}</b></div>
+                                    <div>Дней: <b>${state.day}</b></div>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="title">⚖️ Методы работы</div>
                                 <div class="meta">
-                                    <div>По закону: <b>${law}</b></div>
-                                    <div>Взятки: <b>${bribe}</b></div>
-                                    <div>Законность: <b>${ratio}%</b></div>
+                                    <div>По закону: <b>${state.lawCount}</b></div>
+                                    <div>Взятки: <b>${state.bribeCount}</b></div>
                                 </div>
                             </div>
                             <div class="card">
@@ -985,26 +1169,12 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="title">🚗 Автомобиль</div>
-                                <div class="meta">
-                                    <div>Модель: <b>${state.car}</b></div>
-                                    <div>Состояние: <b>${state.carHealth}%</b></div>
-                                    <div>Бензин: <b>${state.fuel}%</b></div>
-                                </div>
-                            </div>
-                            <div class="card">
                                 <div class="title">😰 Психология</div>
                                 <div class="meta">
                                     <div>Стресс: <b>${state.stress}%</b></div>
-                                    <div>Репутация: <b>${state.reputation}%</b></div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="title">📜 Диалоги</div>
-                                <div class="meta">
-                                    <div>Всего: <b>${state.dialogs.length}</b></div>
-                                    <div>Мухич: <b>${state.dialogs.filter(d => d.who.includes('Мухич')).length}</b></div>
-                                    <div>Яковлев: <b>${state.dialogs.filter(d => d.who.includes('Яковлев')).length}</b></div>
+                                    <div>Энергия: <b>${state.energy}%</b></div>
+                                    <div>Авто: <b>${state.carHealth}%</b></div>
+                                    <div>Бензин: <b>${state.fuel}%</b></div>
                                 </div>
                             </div>
                         </div>
@@ -1013,14 +1183,45 @@
 
         function renderAll() {
             renderHUD();
+            renderMap();
             renderCrimes();
+            renderReports();
             renderGarage();
             renderDialogs();
             renderStats();
         }
 
         // ================================================================
-        // 8.  ВКЛАДКИ
+        // 11. ГАРАЖ
+        // ================================================================
+
+        function selectCar(model) {
+            state.car = model;
+            addDialog('🚗 Гараж', `Ты пересел на ${model}`);
+            save();
+            renderAll();
+        }
+
+        function repairCar() {
+            if (state.money < 5000) { alert('Нужно 5000 ₽!'); return; }
+            state.money -= 5000;
+            state.carHealth = clamp(state.carHealth + 25, 0, 100);
+            addDialog('🔧 Ремонт', 'Машина отремонтирована. Здоровье +25%');
+            save();
+            renderAll();
+        }
+
+        function refuelCar() {
+            if (state.money < 2000) { alert('Нужно 2000 ₽!'); return; }
+            state.money -= 2000;
+            state.fuel = clamp(state.fuel + 30, 0, 100);
+            addDialog('⛽ Заправка', 'Бак заправлен. Бензин +30%');
+            save();
+            renderAll();
+        }
+
+        // ================================================================
+        // 12. ВКЛАДКИ
         // ================================================================
 
         document.querySelectorAll('.tabs button').forEach(btn => {
@@ -1033,28 +1234,37 @@
         });
 
         // ================================================================
-        // 9.  ЗАПУСК
+        // 13. СБРОС
+        // ================================================================
+
+        function resetGame() {
+            if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
+            localStorage.removeItem('barviha_rp_v4');
+            location.reload();
+        }
+
+        // ================================================================
+        // 14. ЗАПУСК
         // ================================================================
 
         const loaded = load();
 
         if (!loaded || state.dialogs.length === 0) {
-            addDialog('🚔 ОМВД Барвиха-Северное', 'Добро пожаловать на службу! Раскрывай дела, повышай ранг, зарабатывай.');
-            addDialog('📞 Мухич', 'Привет! Жду тебя в отделе, есть дело!');
-            addDialog('👮 Яковлев', 'Новичок? Не подведи. Устав — святое.');
+            addDialog('🚔 ОМВД Барвиха', 'Добро пожаловать на службу!');
+            addDialog('📞 Мухич', 'Привет! Жду тебя в отделе!');
+            addDialog('👮 Яковлев', 'Не подведи. Устав — святое.');
             addDialog('🎯 Гриша', 'Брат, я в деле. Погнали!');
             if (state.money === 0) state.money = 5000;
+            if (!state.car) state.car = 'Porsche 911 Turbo S';
             save();
         }
 
         renderAll();
 
-        // Автосохранение
         setInterval(() => { save(); }, 30000);
 
-        console.log('🚔 ОМВД Барвиха-Северное загружен!');
-        console.log(`📋 ${CRIMES.length} дел, ${CARS.length} машин, ${MUHICH.length + YAKOVLEV.length + GRISHA.length} диалогов`);
-        console.log('💾 Автосохранение каждые 30 секунд');
+        console.log('🚔 Барвиха RP v4.0 загружена!');
+        console.log('🏠 Ты можешь жить, работать, ездить на машине и писать рапорты!');
     </script>
 </body>
 </html>
