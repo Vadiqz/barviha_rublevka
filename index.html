@@ -2,61 +2,63 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Полицейский с Рублевки | RP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ОМВД Барвиха RP</title>
     <style>
-        body { margin: 0; background: #050505; color: #fff; font-family: 'Arial', sans-serif; }
-        .hud { display: flex; justify-content: space-between; padding: 20px; background: rgba(0,0,0,0.8); border-bottom: 2px solid #b91c1c; }
-        .game-area { padding: 40px; text-align: center; }
-        .map-road { width: 100%; height: 100px; background: #1f2937; position: relative; margin: 20px 0; border: 2px solid #374151; }
-        .car-icon { position: absolute; left: 0; transition: 5s linear; font-size: 30px; }
-        .btn-action { padding: 15px 30px; background: #b91c1c; color: white; border: none; cursor: pointer; font-size: 18px; }
+        body { margin: 0; background: #050505; color: #fff; font-family: -apple-system, sans-serif; overflow: hidden; user-select: none; }
+        
+        /* Игровое поле */
+        #game-view { width: 100vw; height: 100vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.imgur.com/8FkP4Tf.jpg'); background-size: cover; display: flex; align-items: center; justify-content: center; }
+
+        /* HUD - игровой интерфейс */
+        .hud { position: absolute; top: 20px; width: 90%; display: flex; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; backdrop-filter: blur(10px); border: 1px solid #444; }
+        
+        /* Игровое меню */
+        #ui-layer { width: 90%; background: rgba(20,20,20,0.9); padding: 20px; border-radius: 15px; border: 2px solid #b91c1c; }
+        .btn-game { width: 100%; padding: 15px; margin: 10px 0; background: #b91c1c; color: white; border: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="hud">
-    <div>Персонаж: <b id="char-name">Гриша Измайлов</b></div>
-    <div>Баланс: <b id="money">50 000</b> ₽</div>
-    <div>Статус: <b id="status">Свободен</b></div>
-</div>
-
-<div class="game-area">
-    <div id="scene">
-        <h1>Барвиха-Северное</h1>
-        <p>Гриша, на вызов! Опять мажоры в Жуковке что-то натворили.</p>
-        <button class="btn-action" onclick="startCase()">Выехать на Гелике</button>
+<div id="game-view">
+    <div class="hud">
+        <div>💵 <span id="money">50000</span> ₽</div>
+        <div>👮‍♂️ <span id="role">Гриша Измайлов</span></div>
     </div>
-    <div class="map-road" id="road"><div class="car-icon" id="car">🚓</div></div>
+
+    <div id="ui-layer">
+        <h2 id="title">ОМВД БАРВИХА</h2>
+        <div id="content">
+            <button class="btn-game" onclick="engine.startPatrol()">🚨 ВЫЕХАТЬ НА ПАТРУЛЬ</button>
+            <button class="btn-game" style="background:#333" onclick="engine.openGarage()">🚗 МОЙ ГЕЛИК</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    let player = { name: "Гриша Измайлов", money: 50000, status: "Свободен" };
-    
-    function startCase() {
-        document.getElementById('status').innerText = "В пути";
-        document.getElementById('car').style.left = "90%";
-        
-        setTimeout(() => {
-            document.getElementById('scene').innerHTML = `
-                <h2>Место: Жуковка</h2>
-                <p>Нарушитель: Сын олигарха на Lamborghini. Ваши действия?</p>
-                <button onclick="endCase(true)">Оформить по полной</button>
-                <button onclick="endCase(false)">Взять «на лапу» (50к)</button>
+    const engine = {
+        money: 50000,
+        startPatrol() {
+            document.getElementById('title').innerText = "ПАТРУЛЬ РУБЛЕВКИ";
+            document.getElementById('content').innerHTML = `
+                <p>Мухич: "Гриша, там в Барвиха Luxury мажоры шумят!"</p>
+                <button class="btn-game" onclick="engine.handleCall()">Принять вызов</button>
             `;
-        }, 5000);
-    }
-
-    function endCase(legal) {
-        if(legal) {
-            player.money += 10000;
-            alert("Яковлев: 'Молодец, Измайлов! Премия — 10к.'");
-        } else {
-            player.money += 50000;
-            alert("Гриша: 'Всё, прощай, мажор'. +50к на счет.");
+        },
+        handleCall() {
+            document.getElementById('content').innerHTML = `
+                <p>Мажор на Lamborghini перекрыл дорогу!</p>
+                <button class="btn-game" onclick="engine.resolve(true)">Оштрафовать (Закон)</button>
+                <button class="btn-game" onclick="engine.resolve(false)">Взять 50к (Взятка)</button>
+            `;
+        },
+        resolve(legal) {
+            this.money += legal ? 10000 : 50000;
+            document.getElementById('money').innerText = this.money;
+            alert(legal ? "Яковлев доволен. +10к." : "Гриша: 'Неплохой день'. +50к.");
+            location.reload();
         }
-        document.getElementById('money').innerText = player.money;
-        document.getElementById('scene').innerHTML = "<h1>Смена окончена</h1><button onclick='location.reload()'>Новый день</button>";
-    }
+    };
 </script>
 </body>
 </html>
