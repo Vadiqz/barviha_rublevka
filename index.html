@@ -3,1268 +3,742 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Барвиха RP — Полицейский с Рублёвки</title>
+    <title>Полицейский с Рублёвки — Гриша Измайлов</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #070b12;
-            color: #eef2f6;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
-            padding: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #app {
-            max-width: 1100px;
-            width: 100%;
-            background: #0e1622;
-            border-radius: 28px;
-            padding: 24px 22px 30px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 18px;
-        }
-
-        .header h1 {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #5b9aff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-
-        .header .meta {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .header .meta .badge {
-            background: #1a2636;
-            color: #7aa9ff;
-            padding: 4px 16px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid rgba(122, 169, 255, 0.12);
-        }
-
-        .header .meta .btn-outline {
-            background: none;
-            border: 1px solid #2a3d57;
-            color: #8896b0;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .header .meta .btn-outline:hover {
-            background: #1a2636;
-            color: #eef2f6;
-            border-color: #5b9aff;
-        }
-
-        /* ===== HUD ===== */
-        .hud {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            background: #0b121d;
-            border-radius: 18px;
-            padding: 14px 16px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .hud-item {
-            text-align: center;
-        }
-
-        .hud-item .value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #5b9aff;
-            line-height: 1.2;
-            transition: 0.2s;
-        }
-
-        .hud-item .label {
-            font-size: 10px;
-            text-transform: uppercase;
-            color: #6a7a93;
-            letter-spacing: 0.5px;
-        }
-
-        .hud-item .value.danger {
-            color: #f06a6a;
-        }
-        .hud-item .value.warning {
-            color: #f0b34b;
-        }
-        .hud-item .value.success {
-            color: #4caf84;
-        }
-
-        /* ===== ВКЛАДКИ ===== */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-            background: #0b121d;
-            border-radius: 16px;
-            padding: 4px;
-        }
-
-        .tabs button {
-            background: none;
-            border: none;
-            color: #7a8aa3;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            flex: 1;
-            min-width: 80px;
-        }
-
-        .tabs button:hover {
-            color: #eef2f6;
-            background: #1a2636;
-        }
-
-        .tabs button.active {
-            color: #fff;
-            background: #1f2d42;
-            box-shadow: inset 0 0 0 1px rgba(91, 154, 255, 0.15);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeUp 0.3s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== КАРТОЧКИ ===== */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 14px;
-        }
-
-        .grid-1 {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .card {
-            background: #0b121d;
-            border-radius: 16px;
-            padding: 16px 18px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: 0.2s;
-        }
-
-        .card:hover {
-            background: #111c2b;
-            border-color: rgba(91, 154, 255, 0.08);
-        }
-
-        .card .title {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .card .sub {
-            font-size: 13px;
-            color: #7a8aa3;
-            margin-top: 2px;
-        }
-
-        .card .desc {
-            font-size: 13px;
-            color: #a0b0c8;
-            margin: 4px 0 8px;
-        }
-
-        .card .meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            font-size: 12px;
-            color: #7a8aa3;
-            margin-top: 6px;
-        }
-
-        .card .meta b {
-            color: #eef2f6;
-        }
-
-        .card .actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-
-        /* ===== КНОПКИ ===== */
-        .btn {
-            background: #1f2d42;
-            border: none;
-            color: #eef2f6;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 8px 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn:hover {
-            background: #2a3d57;
-            transform: scale(1.02);
-        }
-
-        .btn-primary {
-            background: #2a4d7a;
-        }
-        .btn-primary:hover {
-            background: #3a5f8f;
-        }
-
-        .btn-success {
-            background: #1e6b4c;
-        }
-        .btn-success:hover {
-            background: #2a805d;
-        }
-
-        .btn-danger {
-            background: #6b2a2a;
-        }
-        .btn-danger:hover {
-            background: #8a3535;
-        }
-
-        .btn-gold {
-            background: #7a6a2a;
-        }
-        .btn-gold:hover {
-            background: #9a8a3a;
-        }
-
-        .btn-sm {
-            padding: 5px 14px;
-            font-size: 12px;
-        }
-
-        /* ===== ДИАЛОГИ ===== */
-        .dialog-box {
-            background: #0b121d;
-            border-radius: 14px;
-            padding: 14px 18px;
-            border-left: 4px solid #5b9aff;
-            margin-bottom: 8px;
-        }
-
-        .dialog-box .who {
-            font-weight: 600;
-            font-size: 14px;
-            color: #5b9aff;
-        }
-
-        .dialog-box .text {
-            font-size: 14px;
-            margin-top: 3px;
-            line-height: 1.5;
-            color: #c8d2e0;
-        }
-
-        .dialog-box .time {
-            font-size: 11px;
-            color: #6a7a93;
-            margin-top: 4px;
-        }
-
-        /* ===== КАРТА ===== */
-        .map-container {
-            background: #0b121d;
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            margin-bottom: 14px;
-        }
-
-        .map-container .map-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .map-container .map-point {
-            background: #141e2a;
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .map-container .map-point:hover {
-            background: #1a2636;
-            border-color: rgba(91, 154, 255, 0.15);
-        }
-
-        .map-container .map-point .point-title {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .map-container .map-point .point-desc {
-            font-size: 12px;
-            color: #7a8aa3;
-            margin-top: 2px;
-        }
-
-        /* ===== РАБОЧИЙ СТОЛ ===== */
-        .desk {
-            background: #0b121d;
-            border-radius: 16px;
-            padding: 16px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            margin-bottom: 14px;
-        }
-
-        .desk .desk-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .desk .desk-header .desk-title {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        /* ===== РАПОРТЫ ===== */
-        .report-box {
-            background: #0b121d;
-            border-radius: 16px;
-            padding: 14px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            margin-bottom: 10px;
-        }
-
-        .report-box .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .report-box .report-header .report-title {
-            font-weight: 600;
-        }
-
-        .report-box .report-header .report-status {
-            font-size: 12px;
-            padding: 2px 12px;
-            border-radius: 20px;
-        }
-
-        .report-box .report-header .report-status.approved {
-            background: #1e6b4c;
-            color: #4caf84;
-        }
-
-        .report-box .report-header .report-status.pending {
-            background: #7a6a2a;
-            color: #f0b34b;
-        }
-
-        .report-box .report-header .report-status.rejected {
-            background: #6b2a2a;
-            color: #f06a6a;
-        }
-
-        .report-box .report-text {
-            font-size: 13px;
-            color: #a0b0c8;
-            margin-top: 6px;
-        }
-
-        /* ===== АДАПТИВ ===== */
-        @media (max-width: 700px) {
-            #app {
-                padding: 16px 14px 22px;
-            }
-            .header h1 {
-                font-size: 20px;
-            }
-            .hud {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 4px;
-                padding: 10px;
-            }
-            .hud-item .value {
-                font-size: 17px;
-            }
-            .grid-2 {
-                grid-template-columns: 1fr 1fr;
-            }
-            .tabs button {
-                font-size: 12px;
-                padding: 8px 12px;
-                min-width: 60px;
-            }
-            .map-container .map-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 450px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .hud {
-                grid-template-columns: 1fr 1fr;
-            }
-            .tabs button {
-                font-size: 11px;
-                padding: 6px 10px;
-            }
-            .map-container .map-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0b121d;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1f2d42;
-            border-radius: 4px;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#070b12;color:#eef2f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:12px;display:flex;justify-content:center;align-items:center}
+        #app{max-width:1100px;width:100%;background:#0e1622;border-radius:28px;padding:24px 22px 30px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.9)}
+        .header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:18px}
+        .header h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#ffffff,#5b9aff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .header .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+        .header .badge{background:#1a2636;color:#7aa9ff;padding:4px 16px;border-radius:30px;font-size:12px;font-weight:600;border:1px solid rgba(122,169,255,0.12)}
+        .header .btn-outline{background:transparent;border:1px solid #2a3d57;color:#8896b0;padding:6px 16px;border-radius:30px;font-size:12px;font-weight:500;cursor:pointer;transition:0.2s}
+        .header .btn-outline:hover{background:#1a2636;color:#eef2f6;border-color:#5b9aff}
+        .hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#0b121d;border-radius:18px;padding:14px 16px;margin-bottom:18px;border:1px solid rgba(255,255,255,0.03)}
+        .hud-item{text-align:center}
+        .hud-item .value{font-size:20px;font-weight:700;color:#5b9aff;line-height:1.2}
+        .hud-item .label{font-size:10px;text-transform:uppercase;color:#6a7a93;letter-spacing:0.5px}
+        .hud-item .value.danger{color:#f06a6a}
+        .hud-item .value.warning{color:#f0b34b}
+        .hud-item .value.success{color:#4caf84}
+        .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;background:#0b121d;border-radius:16px;padding:4px}
+        .tabs button{background:none;border:none;color:#7a8aa3;font-family:inherit;font-size:14px;font-weight:600;padding:10px 20px;border-radius:12px;cursor:pointer;transition:0.2s;flex:1;min-width:80px}
+        .tabs button:hover{color:#eef2f6;background:#1a2636}
+        .tabs button.active{color:#fff;background:#1f2d42;box-shadow:inset 0 0 0 1px rgba(91,154,255,0.15)}
+        .tab-content{display:none;animation:fadeUp 0.3s ease}
+        .tab-content.active{display:block}
+        @keyframes fadeUp{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+        .grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+        .card{background:#0b121d;border-radius:16px;padding:16px 18px 18px;border:1px solid rgba(255,255,255,0.03);transition:0.2s}
+        .card:hover{background:#111c2b;border-color:rgba(91,154,255,0.08)}
+        .card .title{font-size:16px;font-weight:600}
+        .card .sub{font-size:13px;color:#7a8aa3;margin-top:2px}
+        .card .meta{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:#7a8aa3;margin-top:6px}
+        .card .meta b{color:#eef2f6}
+        .card .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+        .btn{background:#1f2d42;border:none;color:#eef2f6;font-family:inherit;font-size:13px;font-weight:600;padding:8px 18px;border-radius:30px;cursor:pointer;transition:0.2s}
+        .btn:hover{background:#2a3d57;transform:scale(1.02)}
+        .btn-primary{background:#2a4d7a}
+        .btn-primary:hover{background:#3a5f8f}
+        .btn-success{background:#1e6b4c}
+        .btn-success:hover{background:#2a805d}
+        .btn-danger{background:#6b2a2a}
+        .btn-danger:hover{background:#8a3535}
+        .btn-gold{background:#7a6a2a}
+        .btn-gold:hover{background:#9a8a3a}
+        .btn-sm{padding:5px 14px;font-size:12px}
+        .dialog-box{background:#0b121d;border-radius:14px;padding:14px 18px;border-left:4px solid #5b9aff;margin-bottom:8px}
+        .dialog-box .who{font-weight:600;font-size:14px;color:#5b9aff}
+        .dialog-box .text{font-size:14px;margin-top:3px;line-height:1.5;color:#c8d2e0}
+        .dialog-box .time{font-size:11px;color:#6a7a93;margin-top:4px}
+        .map-container{background:#0b121d;border-radius:16px;padding:16px;border:1px solid rgba(255,255,255,0.03);margin-bottom:14px}
+        .map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+        .map-point{background:#141e2a;border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,0.04);transition:0.2s;cursor:pointer}
+        .map-point:hover{background:#1a2636;border-color:rgba(91,154,255,0.15)}
+        .map-point .point-title{font-weight:600;font-size:14px}
+        .map-point .point-desc{font-size:12px;color:#7a8aa3;margin-top:2px}
+        .profile-card{background:linear-gradient(145deg,#0b121d,#141e2a);border-radius:16px;padding:18px 20px;border:1px solid rgba(91,154,255,0.1);margin-bottom:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+        .profile-card .avatar{font-size:48px}
+        .profile-card .info{flex:1}
+        .profile-card .info .name{font-size:20px;font-weight:700;color:#5b9aff}
+        .profile-card .info .rank{font-size:14px;color:#7a8aa3}
+        .profile-card .info .stats{display:flex;gap:20px;flex-wrap:wrap;margin-top:6px;font-size:13px;color:#7a8aa3}
+        .profile-card .info .stats b{color:#eef2f6}
+        .car-status{background:#0b121d;border-radius:16px;padding:14px 18px;border:1px solid rgba(255,255,255,0.03);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+        .car-status .car-info{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:#7a8aa3}
+        .car-status .car-info b{color:#eef2f6}
+        .car-badge{font-size:10px;padding:2px 10px;border-radius:12px;font-weight:600;margin-left:6px}
+        .car-badge.service{background:#1e6b4c;color:#4caf84}
+        .car-badge.personal{background:#2a4d7a;color:#5b9aff}
+        .car-badge.premium{background:#7a6a2a;color:#f0b34b}
+        .car-badge.party{background:#6b2a2a;color:#f06a6a}
+        @media(max-width:700px){#app{padding:16px 14px 22px}.header h1{font-size:20px}.hud{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr 1fr}.tabs button{font-size:12px;padding:8px 12px;min-width:60px}.map-grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:450px){.grid-2{grid-template-columns:1fr}.tabs button{font-size:11px;padding:6px 10px}.map-grid{grid-template-columns:1fr}.car-status{flex-direction:column;align-items:stretch}}
+        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar-track{background:#0b121d}
+        ::-webkit-scrollbar-thumb{background:#1f2d42;border-radius:4px}
     </style>
 </head>
 <body>
 
-    <div id="app">
+<div id="app">
 
-        <!-- ===== ХЕДЕР ===== -->
-        <div class="header">
-            <h1>🚔 ОМВД «Барвиха-Северное»</h1>
-            <div class="meta">
-                <span class="badge">Барвиха RP v4.0</span>
-                <button class="btn-outline" onclick="resetGame()">🔄 Сброс</button>
-            </div>
+    <!-- ===== ХЕДЕР ===== -->
+    <div class="header">
+        <h1>🚔 ОМВД «Барвиха-Северное»</h1>
+        <div class="meta">
+            <span class="badge">Гриша Измайлов</span>
+            <button class="btn-outline" onclick="resetGame()">🔄 Сброс</button>
         </div>
-
-        <!-- ===== HUD ===== -->
-        <div class="hud" id="hud">
-            <div class="hud-item">
-                <div class="value" id="hudMoney">0</div>
-                <div class="label">💰 Деньги</div>
-            </div>
-            <div class="hud-item">
-                <div class="value" id="hudRank">Стажёр</div>
-                <div class="label">⭐ Ранг</div>
-            </div>
-            <div class="hud-item">
-                <div class="value" id="hudStress">0%</div>
-                <div class="label">😰 Стресс</div>
-            </div>
-            <div class="hud-item">
-                <div class="value" id="hudEnergy">100%</div>
-                <div class="label">⚡ Энергия</div>
-            </div>
-            <div class="hud-item">
-                <div class="value" id="hudCar">100%</div>
-                <div class="label">🚗 Авто</div>
-            </div>
-            <div class="hud-item">
-                <div class="value" id="hudFuel">100%</div>
-                <div class="label">⛽ Бензин</div>
-            </div>
-        </div>
-
-        <!-- ===== ВКЛАДКИ ===== -->
-        <div class="tabs">
-            <button class="active" data-tab="life">🏠 Жизнь</button>
-            <button data-tab="work">👮 Работа</button>
-            <button data-tab="map">🗺️ Карта</button>
-            <button data-tab="garage">🚗 Гараж</button>
-            <button data-tab="dialogs">💬 Диалоги</button>
-            <button data-tab="stats">📊 Статистика</button>
-        </div>
-
-        <!-- ===== ВКЛАДКА: ЖИЗНЬ ===== -->
-        <div class="tab-content active" id="tab-life">
-            <div class="desk">
-                <div class="desk-header">
-                    <span class="desk-title">🏠 Дом</span>
-                    <span style="color:#7a8aa3; font-size:13px;">📍 <b id="locationDisplay">ОМВД Барвиха</b></span>
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                    <button class="btn btn-success" onclick="rest()">😴 Отдохнуть (+30 энергии)</button>
-                    <button class="btn btn-primary" onclick="sleep()">💤 Спать (восстановить всё)</button>
-                    <button class="btn btn-outline" onclick="eat()">🍽️ Поесть (+20 энергии, -500₽)</button>
-                    <button class="btn btn-outline" onclick="driveTo('ОМВД Барвиха')">🚔 На работу</button>
-                    <button class="btn btn-outline" onclick="driveTo('Дом')">🏠 Домой</button>
-                </div>
-            </div>
-            <div id="lifeEvents"></div>
-        </div>
-
-        <!-- ===== ВКЛАДКА: РАБОТА ===== -->
-        <div class="tab-content" id="tab-work">
-            <div class="desk">
-                <div class="desk-header">
-                    <span class="desk-title">👮 Рабочий стол</span>
-                    <span style="color:#7a8aa3; font-size:13px;">📋 Дела: <b id="workCrimesCount">0</b></span>
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                    <button class="btn btn-primary" onclick="startWorkDay()">🕘 Начать рабочий день</button>
-                    <button class="btn btn-success" onclick="openReportForm()">📝 Написать рапорт</button>
-                    <button class="btn btn-outline" onclick="renderCrimes()">🔄 Обновить дела</button>
-                </div>
-            </div>
-            <div id="crimesContainer"></div>
-            <div id="reportsContainer" style="margin-top:14px;"></div>
-        </div>
-
-        <!-- ===== ВКЛАДКА: КАРТА ===== -->
-        <div class="tab-content" id="tab-map">
-            <div class="map-container">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
-                    <div>
-                        <span style="font-weight:600;">📍 Рублёвка</span>
-                        <span style="color:#7a8aa3; font-size:13px; margin-left:8px;">🚗 Ты на: <b id="mapLocation">ОМВД Барвиха</b></span>
-                    </div>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-sm btn-primary" onclick="driveTo('ОМВД Барвиха')">🚔 Отдел</button>
-                        <button class="btn btn-sm btn-primary" onclick="driveTo('Дом')">🏠 Дом</button>
-                        <button class="btn btn-sm btn-primary" onclick="driveTo('Жуковка')">🏠 Жуковка</button>
-                        <button class="btn btn-sm btn-primary" onclick="driveTo('Luxury Village')">🛍️ ТЦ</button>
-                        <button class="btn btn-sm btn-primary" onclick="driveTo('Барвиха-3')">🏘️ Барвиха-3</button>
-                        <button class="btn btn-sm btn-primary" onclick="driveTo('Кофейня')">☕ Кофейня</button>
-                    </div>
-                </div>
-                <div class="map-grid" id="mapGrid"></div>
-            </div>
-            <div id="mapEvents"></div>
-        </div>
-
-        <!-- ===== ВКЛАДКА: ГАРАЖ ===== -->
-        <div class="tab-content" id="tab-garage">
-            <div id="garageContainer"></div>
-        </div>
-
-        <!-- ===== ВКЛАДКА: ДИАЛОГИ ===== -->
-        <div class="tab-content" id="tab-dialogs">
-            <div id="dialogsContainer"></div>
-        </div>
-
-        <!-- ===== ВКЛАДКА: СТАТИСТИКА ===== -->
-        <div class="tab-content" id="tab-stats">
-            <div id="statsContainer"></div>
-        </div>
-
     </div>
 
-    <!-- ================================================================
-    СКРИПТ
-    ================================================================ -->
-    <script>
-        // ================================================================
-        // 1.  СОСТОЯНИЕ
-        // ================================================================
+    <!-- ===== ПРОФИЛЬ ГРИШИ ===== -->
+    <div class="profile-card" id="profileCard">
+        <div class="avatar">👮</div>
+        <div class="info">
+            <div class="name">Григорий Александрович Измайлов</div>
+            <div class="rank" id="profileRank">Капитан полиции</div>
+            <div class="stats">
+                <span>📌 Раскрыто дел: <b id="profileSolved">0</b></span>
+                <span>⭐ Звание: <b id="profileLevel">Капитан</b></span>
+                <span>🎯 Следующее: <b id="profileNext">Майор</b></span>
+            </div>
+        </div>
+    </div>
 
-        const state = {
-            money: 5000,
-            rank: 0,
-            stress: 0,
-            energy: 100,
-            carHealth: 100,
-            fuel: 100,
-            day: 1,
-            location: 'ОМВД Барвиха',
-            crimesSolved: 0,
-            crimesFailed: 0,
-            bribeCount: 0,
-            lawCount: 0,
-            car: 'Porsche 911 Turbo S',
-            completed: [],
-            reports: [],
-            dialogs: [],
-            isWorking: false,
-            crimes: []
+    <!-- ===== HUD ===== -->
+    <div class="hud" id="hud">
+        <div class="hud-item">
+            <div class="value" id="hudMoney">0</div>
+            <div class="label">💰 Деньги</div>
+        </div>
+        <div class="hud-item">
+            <div class="value" id="hudRank">Капитан</div>
+            <div class="label">⭐ Звание</div>
+        </div>
+        <div class="hud-item">
+            <div class="value" id="hudStress">0%</div>
+            <div class="label">😰 Стресс</div>
+        </div>
+        <div class="hud-item">
+            <div class="value" id="hudEnergy">100%</div>
+            <div class="label">⚡ Энергия</div>
+        </div>
+    </div>
+
+    <!-- ===== СТАТУС МАШИНЫ ===== -->
+    <div class="car-status" id="carStatus">
+        <div class="car-info">
+            <span>🚗 <b id="carModel">Porsche 911 Turbo S</b></span>
+            <span>🔢 <b id="carPlate">А 777 АА 77</b></span>
+            <span>⛽ Бензин: <b id="carFuel">100%</b></span>
+            <span>🔧 Состояние: <b id="carHealth">100%</b></span>
+            <span id="carBadge" class="car-badge service">🚔 Служебная</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-sm btn-primary" onclick="startCar()">🔑 Завести</button>
+            <button class="btn btn-sm btn-outline" onclick="repairCar()">🔧 Ремонт (3000₽)</button>
+            <button class="btn btn-sm btn-outline" onclick="refuelCar()">⛽ Заправить (1500₽)</button>
+        </div>
+    </div>
+
+    <!-- ===== ВКЛАДКИ ===== -->
+    <div class="tabs">
+        <button class="active" data-tab="map">🗺️ Карта</button>
+        <button data-tab="garage">🚗 Гараж</button>
+        <button data-tab="dialogs">💬 Диалоги</button>
+        <button data-tab="stats">📊 Статистика</button>
+    </div>
+
+    <!-- ===== КАРТА ===== -->
+    <div class="tab-content active" id="tab-map">
+        <div class="map-container">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+                <div>
+                    <span style="font-weight:600;">📍 Рублёвка</span>
+                    <span style="color:#7a8aa3; font-size:13px; margin-left:8px;">Ты на: <b id="currentLocation">ОМВД Барвиха</b></span>
+                </div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-success" onclick="driveTo('ОМВД Барвиха')">🚔 Отдел</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Жуковка')">🏠 Жуковка</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Luxury Village')">🛍️ ТЦ</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Барвиха-3')">🏘️ Барвиха-3</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Особняк')">🏰 Особняк</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Дискотека')">🎧 Дискотека</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Кофейня')">☕ Кофейня</button>
+                    <button class="btn btn-sm btn-primary" onclick="driveTo('Дом')">🏠 Дом</button>
+                </div>
+            </div>
+            <div class="map-grid" id="mapGrid"></div>
+        </div>
+        <div id="mapEvents"></div>
+    </div>
+
+    <!-- ===== ГАРАЖ ===== -->
+    <div class="tab-content" id="tab-garage">
+        <div id="garageContainer"></div>
+    </div>
+
+    <!-- ===== ДИАЛОГИ ===== -->
+    <div class="tab-content" id="tab-dialogs">
+        <div id="dialogsContainer"></div>
+    </div>
+
+    <!-- ===== СТАТИСТИКА ===== -->
+    <div class="tab-content" id="tab-stats">
+        <div id="statsContainer"></div>
+    </div>
+
+</div>
+
+<script>
+    // ================================================================
+    // 1. СОСТОЯНИЕ ИГРОКА (ГРИША ИЗМАЙЛОВ)
+    // ================================================================
+    const state = {
+        name: 'Григорий Александрович Измайлов',
+        rank: 'Капитан полиции',
+        rankLevel: 2, // Капитан = 2 (из RANKS)
+        money: 5000,
+        stress: 0,
+        energy: 100,
+        location: 'ОМВД Барвиха',
+
+        // Текущая машина (из гаража)
+        car: 'Porsche 911 Turbo S',
+        carPlate: 'А 777 АА 77',
+        carType: 'service', // service, personal, premium, party
+        carFuel: 100,
+        carHealth: 100,
+        carStarted: false,
+
+        // Статистика
+        crimesSolved: 0,
+        crimesFailed: 0,
+        arrested: 0,
+        fined: 0,
+        killed: 0,
+
+        // Диалоги
+        dialogs: []
+    };
+
+    // ================================================================
+    // 2. СИСТЕМА ЗВАНИЙ (ПО СЕРИАЛУ)
+    // ================================================================
+    const RANKS = [
+        { level: 0, title: 'Лейтенант', need: 0 },
+        { level: 1, title: 'Старший лейтенант', need: 3 },
+        { level: 2, title: 'Капитан', need: 8 },
+        { level: 3, title: 'Майор', need: 15 },
+        { level: 4, title: 'Подполковник', need: 25 },
+        { level: 5, title: 'Полковник', need: 40 },
+        { level: 6, title: 'Генерал-майор', need: 60 },
+        { level: 7, title: 'Генерал-лейтенант', need: 80 },
+        { level: 8, title: 'Генерал-полковник', need: 100 },
+        { level: 9, title: 'Генерал армии', need: 150 }
+    ];
+
+    // ================================================================
+    // 3. ГАРАЖ ГРИШИ (ПО СЕРИАЛУ)
+    // ================================================================
+    const CARS = [{
+        model: 'Porsche 911 Turbo S',
+        plate: 'А 777 АА 77',
+        type: 'service',
+        typeLabel: '🚔 Служебная',
+        typeClass: 'service',
+        desc: 'Для выездов на дела и патруль',
+        fuelMax: 100,
+        reliability: 95
+    }, {
+        model: 'Mercedes-Benz E212',
+        plate: 'А 222 ЕЕ 77',
+        type: 'personal',
+        typeLabel: '🏠 Личная',
+        typeClass: 'personal',
+        desc: 'Для повседневной жизни и работы',
+        fuelMax: 90,
+        reliability: 90
+    }, {
+        model: 'Jaguar XK',
+        plate: 'А 333 ЯЯ 77',
+        type: 'premium',
+        typeLabel: '🍾 Выходная',
+        typeClass: 'premium',
+        desc: 'Для статусных встреч и особых случаев',
+        fuelMax: 85,
+        reliability: 85
+    }, {
+        model: 'Ferrari 488 Spider',
+        plate: 'А 555 ФФ 77',
+        type: 'party',
+        typeLabel: '🎉 Для тусовок',
+        typeClass: 'party',
+        desc: 'Для дискотек и особняка',
+        fuelMax: 75,
+        reliability: 80
+    }];
+
+    // ================================================================
+    // 4. ЛОКАЦИИ
+    // ================================================================
+    const LOCATIONS = [
+        { name: 'ОМВД Барвиха', icon: '🚔', desc: 'Главное здание' },
+        { name: 'Дом', icon: '🏠', desc: 'Твой дом' },
+        { name: 'Жуковка', icon: '🏠', desc: 'Элитный посёлок' },
+        { name: 'Luxury Village', icon: '🛍️', desc: 'Торговый центр' },
+        { name: 'Барвиха-3', icon: '🏘️', desc: 'Коттеджный посёлок' },
+        { name: 'Особняк', icon: '🏰', desc: 'Твой особняк на Рублёвке' },
+        { name: 'Дискотека', icon: '🎧', desc: 'Ночной клуб' },
+        { name: 'Кофейня', icon: '☕', desc: 'Место встреч' }
+    ];
+
+    // ================================================================
+    // 5. ДИАЛОГИ
+    // ================================================================
+    const MUHICH = [
+        'Гриша! Ты не видел мои очки? Я без них как крот!',
+        'Срочно! Кто-то украл носки из моего шкафа!',
+        'Я хочу купить попугая. Ты не знаешь, где их продают?',
+        'Гриш, я нашёл в архиве дело о пропавшем кексе!',
+        'Скажи честно, моя причёска похожа на Элвиса?',
+        'Ты не знаешь, сколько стоит козёл? Мне нужен козёл!',
+        'У меня в кабинете призрак! Он переставляет папки!'
+    ];
+
+    const YAKOVLEV = [
+        'Измайлов, ты опять опоздал! Объяснись.',
+        'Хорошая работа по "Барвихинскому стрелку". Не ожидал.',
+        'Твой отчёт — полный бардак. Переделай.',
+        'Измайлов, ты слишком много времени проводишь с Мухичем.',
+        'Твои методы неэтичны, но эффективны. Продолжай.',
+        'Ты — лучший сыщик в моём отделе. Не подведи.'
+    ];
+
+    const GRISHA = [
+        'Брат, я в деле. Ты тоже в деле? Погнали!',
+        'Это просто бизнес, ничего личного.',
+        'Слушай, я ценю твой подход. Ты как я.',
+        'Помнишь дело на Рублёвке? Мы их круто развели!',
+        'Деньги любят смелых. Ты смелый?'
+    ];
+
+    // ================================================================
+    // 6. СОХРАНЕНИЕ
+    // ================================================================
+    function save() {
+        try { localStorage.setItem('barviha_grisha_garage', JSON.stringify(state)); } catch (e) {}
+    }
+
+    function load() {
+        try {
+            const raw = localStorage.getItem('barviha_grisha_garage');
+            if (!raw) return false;
+            const data = JSON.parse(raw);
+            Object.assign(state, data);
+            return true;
+        } catch (e) { return false; }
+    }
+
+    // ================================================================
+    // 7. УТИЛИТЫ
+    // ================================================================
+    function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+    function pick(arr) { return arr[rand(0, arr.length - 1)]; }
+
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+    function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
+
+    function getRank() {
+        let result = RANKS[0];
+        for (const r of RANKS) {
+            if (state.crimesSolved >= r.need) result = r;
+        }
+        return result;
+    }
+
+    function getCarBadge(type) {
+        const map = {
+            'service': '🚔 Служебная',
+            'personal': '🏠 Личная',
+            'premium': '🍾 Выходная',
+            'party': '🎉 Для тусовок'
         };
+        return map[type] || '🚗';
+    }
 
-        // ================================================================
-        // 2.  БАЗА ДАННЫХ
-        // ================================================================
+    function getCarClass(type) {
+        const map = {
+            'service': 'service',
+            'personal': 'personal',
+            'premium': 'premium',
+            'party': 'party'
+        };
+        return map[type] || '';
+    }
 
-        const LOCATIONS = [
-            { name: 'ОМВД Барвиха', icon: '🚔', desc: 'Главное здание' },
-            { name: 'Дом', icon: '🏠', desc: 'Твой дом, можно отдохнуть' },
-            { name: 'Жуковка', icon: '🏠', desc: 'Элитный посёлок' },
-            { name: 'Luxury Village', icon: '🛍️', desc: 'ТЦ, угон Porsche' },
-            { name: 'Барвиха-3', icon: '🏘️', desc: 'Коттеджный посёлок' },
-            { name: 'Кофейня', icon: '☕', desc: 'Место встреч' }
-        ];
+    function addDialog(who, text) {
+        state.dialogs.push({ who, text, time: new Date().toLocaleTimeString() });
+        if (state.dialogs.length > 100) state.dialogs.shift();
+        save();
+        renderDialogs();
+    }
 
-        const CRIMES_DB = [
-            { id: 1, title: 'Угон Porsche в Luxury Village', article: 'ст. 166 УК РФ', diff: 3, reward: 8000, risk: 30,
-                type: 'Угон', location: 'Luxury Village' },
-            { id: 2, title: 'Кража часов в Жуковке', article: 'ст. 158 УК РФ', diff: 4, reward: 15000, risk: 45,
-                type: 'Кража', location: 'Жуковка' },
-            { id: 3, title: 'Барвихинский стрелок', article: 'ст. 105 УК РФ', diff: 6, reward: 30000, risk: 70,
-                type: 'Убийство', location: 'Барвиха-3' },
-            { id: 4, title: 'Мошенничество в Рублёвке', article: 'ст. 159 УК РФ', diff: 5, reward: 25000, risk: 55,
-                type: 'Мошенничество', location: 'ОМВД Барвиха' },
-            { id: 5, title: 'Незаконный оборот оружия', article: 'ст. 222 УК РФ', diff: 4, reward: 14000, risk: 40,
-                type: 'Оружие', location: 'Барвиха-3' },
-            { id: 6, title: 'Сбыт наркотиков', article: 'ст. 228.1 УК РФ', diff: 4, reward: 16000, risk: 50,
-                type: 'Наркотики', location: 'Жуковка' },
-            { id: 7, title: 'ДТП на Рублёвке', article: 'ст. 264 УК РФ', diff: 2, reward: 6000, risk: 20, type: 'ДТП',
-                location: 'Luxury Village' },
-            { id: 8, title: 'Коррупция в ОМВД', article: 'ст. 290 УК РФ', diff: 6, reward: 25000, risk: 70,
-                type: 'Коррупция', location: 'ОМВД Барвиха' },
-            { id: 9, title: 'Вымогательство в Барвихе', article: 'ст. 163 УК РФ', diff: 5, reward: 18000, risk: 50,
-                type: 'Эксторшн', location: 'Барвиха-3' },
-            { id: 10, title: 'Кража драгоценностей', article: 'ст. 158 УК РФ', diff: 3, reward: 10000, risk: 35,
-                type: 'Кража', location: 'Жуковка' },
-            { id: 11, title: 'Финансовая пирамида', article: 'ст. 159 УК РФ', diff: 4, reward: 18000, risk: 40,
-                type: 'Мошенничество', location: 'ОМВД Барвиха' },
-            { id: 12, title: 'Угон Lamborghini Urus', article: 'ст. 166 УК РФ', diff: 4, reward: 12000, risk: 40,
-                type: 'Угон', location: 'Luxury Village' },
-            { id: 13, title: 'Убийство в Жуковке', article: 'ст. 105 УК РФ', diff: 5, reward: 22000, risk: 60,
-                type: 'Убийство', location: 'Жуковка' },
-            { id: 14, title: 'Хранение взрывчатки', article: 'ст. 222.1 УК РФ', diff: 5, reward: 20000, risk: 60,
-                type: 'Оружие', location: 'Барвиха-3' },
-            { id: 15, title: 'Наркопритон', article: 'ст. 232 УК РФ', diff: 5, reward: 22000, risk: 55, type: 'Наркотики',
-                location: 'Жуковка' }
-        ];
+    // ================================================================
+    // 8. МАШИНА
+    // ================================================================
 
-        const MUHICH = [
-            'Ты не видел мои очки? Без них я как слепой крот!',
-            'Срочно! Кто-то украл у меня носки с Рублёвки!',
-            'Я хочу купить попугая. Ты не знаешь, где их продают?',
-            'Слышал, у тебя есть кот? Я хочу с ним познакомиться!',
-            'Я нашёл в архиве дело о пропавшем кексе!',
-            'Скажи честно, моя новая причёска похожа на Элвиса?',
-            'Ты не знаешь, сколько стоит козёл? Мне нужен козёл для экспериментов!',
-            'У меня в кабинете завёлся призрак. Он переставляет папки!',
-            'Помнишь, я просил хлеб? Я передумал — мне нужен багет!',
-            'Я купил себе йо-йо. Тренируюсь. Пока не очень...'
-        ];
+    function startCar() {
+        if (state.carFuel < 5) { addDialog('⛽ Ошибка', 'Нет бензина!'); return; }
+        if (state.carHealth < 10) { addDialog('🔧 Ошибка', 'Машина сломана!'); return; }
+        state.carStarted = !state.carStarted;
+        addDialog('🔑 Двигатель', state.carStarted ? 'Машина заведена!' : 'Машина заглушена.');
+        renderCarStatus();
+    }
 
-        const YAKOVLEV = [
-            'Ты опять опоздал на планерку. Объяснись.',
-            'Отличная работа по "Барвихинскому стрелку". Горжусь.',
-            'Твой отчёт — полный бардак. Переделай.',
-            'Ты слишком много времени проводишь с Измайловым.',
-            'Твои методы не всегда этичны, но они работают.',
-            'Ты — лучший сыщик в моём отделе. Не подведи.',
-            'Я перевожу тебя в отдел по особо важным делам.'
-        ];
+    function driveTo(location) {
+        if (!state.carStarted) { addDialog('🚗 Ошибка', 'Сначала заведи машину!'); return; }
+        if (state.carFuel < 10) { addDialog('⛽ Ошибка', 'Нет бензина!'); return; }
 
-        const GRISHA = [
-            'Брат, я в деле. Ты тоже в деле? Погнали!',
-            'Это просто бизнес, ничего личного.',
-            'Слушай, я ценю твой подход к работе. Ты как я.',
-            'Помнишь дело на Рублёвке? Мы круто их развели!',
-            'Деньги любят смелых. Ты смелый?'
-        ];
+        state.carFuel = clamp(state.carFuel - rand(5, 15), 0, 100);
+        state.carHealth = clamp(state.carHealth - rand(1, 5), 0, 100);
+        state.location = location;
 
-        const CARS = [
-            { model: 'Porsche 911 Turbo S', price: 22000000, desc: 'V8 битурбо, 650 л.с.' },
-            { model: 'Mercedes-Benz S-Class', price: 15000000, desc: 'V8 битурбо. Символ статуса' },
-            { model: 'Lamborghini Urus', price: 25000000, desc: 'V8 битурбо, 650 л.с.' },
-            { model: 'BMW X5 M', price: 12000000, desc: 'V8, 600 л.с.' },
-            { model: 'Audi A4', price: 5000000, desc: 'Турбодизель. Надёжный' },
-            { model: 'Ford Focus II', price: 2500000, desc: 'Служебная машина' },
-            { model: 'УАЗ Патриот', price: 1500000, desc: 'Внедорожник' },
-            { model: 'Chrysler PT Cruiser', price: 800000, desc: 'Ретро-хэтчбек' },
-            { model: 'Porsche Cayenne', price: 18000000, desc: 'V6, 340 л.с.' },
-            { model: 'BMW 4-Series', price: 8000000, desc: 'Спортивное купе' }
-        ];
+        let eventText = 'Приехал в ' + location;
 
-        const RANKS = [
-            { level: 0, title: 'Стажёр', salary: 30000, need: 0 },
-            { level: 1, title: 'Мл. лейтенант', salary: 50000, need: 3 },
-            { level: 2, title: 'Лейтенант', salary: 70000, need: 8 },
-            { level: 3, title: 'Ст. лейтенант', salary: 90000, need: 15 },
-            { level: 4, title: 'Капитан', salary: 110000, need: 25 },
-            { level: 5, title: 'Майор', salary: 140000, need: 40 },
-            { level: 6, title: 'Подполковник', salary: 170000, need: 60 },
-            { level: 7, title: 'Полковник', salary: 200000, need: 80 },
-            { level: 8, title: 'Генерал-майор', salary: 250000, need: 100 },
-            { level: 9, title: 'Начальник ОМВД', salary: 350000, need: 150 }
-        ];
-
-        // ================================================================
-        // 3.  СОХРАНЕНИЕ
-        // ================================================================
-
-        function save() {
-            try {
-                localStorage.setItem('barviha_rp_v4', JSON.stringify(state));
-            } catch (e) {}
+        // События в пути
+        if (Math.random() * 100 < 25) {
+            const ev = pick(['Попал в пробку', 'Увидел аварию', 'Остановил гаишник']);
+            eventText += '. ' + ev;
+            state.stress = clamp(state.stress + rand(2, 5), 0, 100);
         }
 
-        function load() {
-            try {
-                const raw = localStorage.getItem('barviha_rp_v4');
-                if (!raw) return false;
-                const data = JSON.parse(raw);
-                Object.assign(state, data);
-                return true;
-            } catch (e) { return false; }
+        // Мухич звонит
+        if (Math.random() * 100 < 15) {
+            const msg = pick(MUHICH);
+            addDialog('📞 Мухич', msg);
+            state.stress = clamp(state.stress + rand(2, 5), 0, 100);
         }
 
-        // ================================================================
-        // 4.  УТИЛИТЫ
-        // ================================================================
+        addDialog('🚗 Поездка', eventText);
 
-        function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-
-        function pick(arr) { return arr[rand(0, arr.length - 1)]; }
-
-        function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-
-        function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
-
-        function getRank() {
-            let result = RANKS[0];
-            for (const r of RANKS) {
-                if (state.crimesSolved >= r.need) result = r;
-            }
-            return result;
-        }
-
-        // ================================================================
-        // 5.  ДИАЛОГИ
-        // ================================================================
-
-        function addDialog(who, text) {
-            state.dialogs.push({ who, text, time: new Date().toLocaleTimeString() });
-            if (state.dialogs.length > 100) state.dialogs.shift();
-        }
-
-        function randomDialog() {
-            const r = rand(1, 100);
-            if (r < 30) addDialog('📞 Мухич', pick(MUHICH));
-            else if (r < 60) addDialog('👮 Яковлев', pick(YAKOVLEV));
-            else if (r < 80) addDialog('🎯 Гриша', pick(GRISHA));
-            else addDialog('📢 ОМВД', 'Ничего особенного. Скучный день в Барвихе.');
-        }
-
-        // ================================================================
-        // 6.  ЖИЗНЕННЫЕ МЕХАНИКИ
-        // ================================================================
-
-        function rest() {
-            state.energy = clamp(state.energy + 30, 0, 100);
-            state.stress = clamp(state.stress - 10, 0, 100);
-            addDialog('😴 Отдых', 'Ты отдохнул. Энергия +30, стресс -10%');
-            save();
-            renderAll();
-        }
-
-        function sleep() {
-            state.energy = 100;
-            state.stress = clamp(state.stress - 30, 0, 100);
-            state.day++;
-            addDialog('💤 Сон', 'Ты хорошо выспался! Энергия восстановлена. Наступил день ' + state.day);
-            save();
-            renderAll();
-        }
-
-        function eat() {
-            if (state.money < 500) { alert('Не хватает денег! Нужно 500 ₽'); return; }
-            state.money -= 500;
-            state.energy = clamp(state.energy + 20, 0, 100);
-            addDialog('🍽️ Обед', 'Ты поел. Энергия +20%');
-            save();
-            renderAll();
-        }
-
-        // ================================================================
-        // 7.  ПЕРЕДВИЖЕНИЕ (МАШИНА)
-        // ================================================================
-
-        function driveTo(location) {
-            if (state.fuel < 10) {
-                alert('⛽ Нет бензина! Заправь машину в гараже.');
-                return;
-            }
-
-            state.fuel = clamp(state.fuel - rand(5, 15), 0, 100);
-            state.carHealth = clamp(state.carHealth - rand(1, 5), 0, 100);
-
-            state.location = location;
-            addDialog('🚗 Поездка', 'Ты приехал в ' + location);
-
-            // Случайное событие в пути
-            if (Math.random() * 100 < 20) {
-                const events = ['Попал в пробку', 'Увидел аварию', 'Остановил гаишник', 'Нашёл 1000₽ на дороге'];
-                const event = pick(events);
-                if (event.includes('1000₽')) {
-                    state.money += 1000;
-                    addDialog('💰 Удача', 'Нашёл 1000₽ на дороге!');
-                } else {
-                    addDialog('🚦 Событие', event);
-                    state.stress = clamp(state.stress + rand(2, 5), 0, 100);
+        // Если приехали не в ОМВД и не домой — возможен вызов
+        const crimeLocations = ['Жуковка', 'Luxury Village', 'Барвиха-3'];
+        if (crimeLocations.includes(location)) {
+            setTimeout(() => {
+                if (confirm('📍 ' + location + '. Поступил вызов. Действуем?')) {
+                    showCrimeActions(location);
                 }
-            }
-
-            // Мухич звонит в пути
-            if (Math.random() * 100 < 25) {
-                addDialog('📞 Мухич', pick(MUHICH));
-                state.stress = clamp(state.stress + rand(2, 5), 0, 100);
-            }
-
-            save();
-            renderAll();
+            }, 300);
         }
 
-        // ================================================================
-        // 8.  РАБОТА
-        // ================================================================
-
-        function startWorkDay() {
-            if (state.location !== 'ОМВД Барвиха') {
-                alert('Ты не в ОМВД! Приезжай на работу.');
-                return;
-            }
-            state.isWorking = true;
-            addDialog('👮 Работа', 'Ты начал рабочий день. Дела загружены.');
-            // Загружаем дела
-            state.crimes = CRIMES_DB.filter(c => !state.completed.includes(c.id)).slice(0, 10);
-            save();
-            renderAll();
-        }
-
-        function solveCrime(id, method) {
-            if (!state.isWorking) {
-                alert('Ты не на работе! Начни рабочий день.');
-                return;
-            }
-
-            const crime = state.crimes.find(c => c.id === id);
-            if (!crime) return;
-
-            if (state.energy < 10) {
-                alert('😰 Ты слишком устал! Отдохни или поспи.');
-                return;
-            }
-
-            state.energy = clamp(state.energy - rand(10, 20), 0, 100);
-
-            const base = 100 - crime.risk;
-            const mod = state.energy / 100 * 10 - state.stress / 100 * 20;
-            const chance = clamp(base + mod, 10, 95);
-
-            const success = Math.random() * 100 < chance;
-
-            if (success) {
-                let reward = crime.reward;
-                let repDelta = 5;
-                let stressDelta = -5;
-
-                if (method === 'bribe') {
-                    reward = Math.round(reward * 1.6);
-                    repDelta = -12;
-                    stressDelta = 10;
-                    state.bribeCount++;
-                    if (Math.random() * 100 < 12) {
-                        alert('🚨 Тебя поймали на взятке!');
-                        state.money = Math.round(state.money * 0.7);
-                        addDialog('🚨 ССБ', 'Тебя поймали на взятке! Потеряно 30% денег.');
-                    }
-                } else {
-                    state.lawCount++;
-                    repDelta = 12;
-                    stressDelta = -12;
-                }
-
-                state.money += reward;
-                state.stress = clamp(state.stress + stressDelta, 0, 100);
-                state.crimesSolved++;
-                state.completed.push(id);
-                state.crimes = state.crimes.filter(c => c.id !== id);
-
-                addDialog('✅ Успех!', `Дело "${crime.title}" раскрыто! +${fmt(reward)}`);
-
-                const newRank = getRank();
-                if (newRank.level > state.rank) {
-                    state.rank = newRank.level;
-                    addDialog('🎉 Повышение!', `Ты теперь ${newRank.title}!`);
-                }
-            } else {
-                state.crimesFailed++;
-                state.stress = clamp(state.stress + 18, 0, 100);
-                addDialog('❌ Провал', `Дело "${crime.title}" провалено!`);
-            }
-
-            randomDialog();
-            save();
-            renderAll();
-        }
-
-        function skipCrime(id) {
-            state.completed.push(id);
-            state.crimes = state.crimes.filter(c => c.id !== id);
-            addDialog('📋 Пропуск', 'Ты проигнорировал дело.');
-            save();
-            renderAll();
-        }
-
-        // ================================================================
-        // 9.  РАПОРТЫ
-        // ================================================================
-
-        function openReportForm() {
-            const text = prompt('📝 Напишите текст рапорта:');
-            if (!text) return;
-            state.reports.push({
-                id: Date.now(),
-                text: text,
-                status: 'pending',
-                date: new Date().toLocaleDateString()
-            });
-            addDialog('📄 Рапорт', 'Ты отправил рапорт: "' + text.slice(0, 40) + '..."');
-            // Яковлев иногда одобряет
-            if (Math.random() * 100 < 40) {
-                const last = state.reports[state.reports.length - 1];
-                last.status = 'approved';
-                addDialog('👮 Яковлев', 'Рапорт одобрен. Хорошая работа.');
-                state.money += 2000;
-            } else {
-                const last = state.reports[state.reports.length - 1];
-                last.status = 'pending';
-                addDialog('👮 Яковлев', 'Рапорт на рассмотрении.');
-            }
-            save();
-            renderAll();
-        }
-
-        // ================================================================
-        // 10. РЕНДЕРИНГ
-        // ================================================================
-
-        function renderHUD() {
-            document.getElementById('hudMoney').textContent = fmt(state.money);
-            document.getElementById('hudRank').textContent = getRank().title;
-            document.getElementById('hudStress').textContent = state.stress + '%';
-            document.getElementById('hudEnergy').textContent = state.energy + '%';
-            document.getElementById('hudCar').textContent = state.carHealth + '%';
-            document.getElementById('hudFuel').textContent = state.fuel + '%';
-
-            const s = document.getElementById('hudStress');
-            s.className = 'value' + (state.stress > 70 ? ' danger' : state.stress > 40 ? ' warning' : '');
-
-            const e = document.getElementById('hudEnergy');
-            e.className = 'value' + (state.energy > 70 ? ' success' : state.energy > 40 ? ' warning' : ' danger');
-
-            const c = document.getElementById('hudCar');
-            c.className = 'value' + (state.carHealth > 70 ? ' success' : state.carHealth > 40 ? ' warning' : ' danger');
-
-            const f = document.getElementById('hudFuel');
-            f.className = 'value' + (state.fuel > 30 ? ' success' : ' danger');
-
-            document.getElementById('locationDisplay').textContent = state.location;
-            document.getElementById('mapLocation').textContent = state.location;
-        }
-
-        function renderMap() {
-            const grid = document.getElementById('mapGrid');
-            grid.innerHTML = LOCATIONS.map(l => `
-                        <div class="map-point" onclick="driveTo('${l.name}')">
-                            <div class="point-title">${l.icon} ${l.name}</div>
-                            <div class="point-desc">${l.desc}</div>
-                            ${state.location === l.name ? '<div style="color:#4caf84;font-size:11px;margin-top:4px;">📍 Ты здесь</div>' : ''}
-                        </div>
-                    `).join('');
-        }
-
-        function renderCrimes() {
-            const container = document.getElementById('crimesContainer');
-            const crimes = state.crimes || [];
-
-            if (crimes.length === 0) {
-                container.innerHTML =
-                    `<div class="card"><div class="title">📋 Нет доступных дел</div><div class="sub">Начни рабочий день или отдохни.</div></div>`;
-                return;
-            }
-
-            container.innerHTML = crimes.map(c => `
-                        <div class="card">
-                            <div class="title">${c.title}</div>
-                            <div class="sub">${c.article} • ${c.type} • 📍 ${c.location}</div>
-                            <div class="meta">
-                                <span>💰 ${fmt(c.reward)}</span>
-                                <span>⚠️ Риск: ${c.risk}%</span>
-                                <span>⭐ Сложность: ${'⭐'.repeat(c.diff)}</span>
-                            </div>
-                            <div class="actions">
-                                <button class="btn btn-success btn-sm" onclick="solveCrime(${c.id}, 'law')">⚖️ Закон</button>
-                                <button class="btn btn-gold btn-sm" onclick="solveCrime(${c.id}, 'bribe')">💵 Взятка</button>
-                                <button class="btn btn-danger btn-sm" onclick="skipCrime(${c.id})">❌ Игнор</button>
-                            </div>
-                        </div>
-                    `).join('');
-
-            document.getElementById('workCrimesCount').textContent = crimes.length;
-        }
-
-        function renderReports() {
-            const container = document.getElementById('reportsContainer');
-            if (state.reports.length === 0) {
-                container.innerHTML = `<div class="card"><div class="sub">Нет отправленных рапортов.</div></div>`;
-                return;
-            }
-            const statusMap = {
-                pending: '⏳ На рассмотрении',
-                approved: '✅ Одобрено',
-                rejected: '❌ Отклонено'
-            };
-            container.innerHTML = state.reports.slice(-5).reverse().map(r => `
-                        <div class="report-box">
-                            <div class="report-header">
-                                <span class="report-title">📄 Рапорт #${r.id}</span>
-                                <span class="report-status ${r.status}">${statusMap[r.status] || r.status}</span>
-                            </div>
-                            <div class="report-text">${r.text}</div>
-                            <div style="font-size:11px;color:#6a7a93;margin-top:4px;">📅 ${r.date}</div>
-                        </div>
-                    `).join('');
-        }
-
-        function renderGarage() {
-            const container = document.getElementById('garageContainer');
-            container.innerHTML = `
-                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
-                            <button class="btn btn-primary" onclick="repairCar()">🔧 Ремонт (5000₽)</button>
-                            <button class="btn btn-primary" onclick="refuelCar()">⛽ Заправить (2000₽)</button>
-                        </div>
-                        <div class="grid-2">
-                            ${CARS.map(c => `
-                                <div class="card">
-                                    <div class="title">${c.model}</div>
-                                    <div class="sub">${c.desc}</div>
-                                    <div class="meta">
-                                        <span>💰 ${fmt(c.price)}</span>
-                                        ${state.car === c.model ? '<span><b>✅ Текущее авто</b></span>' : ''}
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn btn-primary btn-sm" onclick="selectCar('${c.model}')">🚗 Выбрать</button>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-        }
-
-        function renderDialogs() {
-            const container = document.getElementById('dialogsContainer');
-            const dialogs = state.dialogs.slice(-20).reverse();
-            if (dialogs.length === 0) {
-                container.innerHTML =
-                    `<div class="dialog-box"><div class="who">📢 Нет диалогов</div><div class="text">Раскрывай дела, чтобы получать звонки</div></div>`;
-                return;
-            }
-            container.innerHTML = dialogs.map(d => `
-                        <div class="dialog-box">
-                            <div class="who">${d.who}</div>
-                            <div class="text">${d.text}</div>
-                            <div class="time">${d.time || ''}</div>
-                        </div>
-                    `).join('');
-        }
-
-        function renderStats() {
-            const container = document.getElementById('statsContainer');
-            const total = CRIMES_DB.length;
-            const solved = state.crimesSolved;
-            const rate = total > 0 ? Math.round((solved / total) * 100) : 0;
-
-            container.innerHTML = `
-                        <div class="grid-2">
-                            <div class="card">
-                                <div class="title">📊 Общая статистика</div>
-                                <div class="meta">
-                                    <div>Всего дел: <b>${total}</b></div>
-                                    <div>Раскрыто: <b>${solved}</b></div>
-                                    <div>Провалено: <b>${state.crimesFailed}</b></div>
-                                    <div>Раскрываемость: <b>${rate}%</b></div>
-                                    <div>Дней: <b>${state.day}</b></div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="title">⚖️ Методы работы</div>
-                                <div class="meta">
-                                    <div>По закону: <b>${state.lawCount}</b></div>
-                                    <div>Взятки: <b>${state.bribeCount}</b></div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="title">🏆 Карьера</div>
-                                <div class="meta">
-                                    <div>Ранг: <b>${getRank().title}</b></div>
-                                    <div>Зарплата: <b>${fmt(getRank().salary)}</b></div>
-                                    <div>Деньги: <b>${fmt(state.money)}</b></div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="title">😰 Психология</div>
-                                <div class="meta">
-                                    <div>Стресс: <b>${state.stress}%</b></div>
-                                    <div>Энергия: <b>${state.energy}%</b></div>
-                                    <div>Авто: <b>${state.carHealth}%</b></div>
-                                    <div>Бензин: <b>${state.fuel}%</b></div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-        }
-
-        function renderAll() {
-            renderHUD();
-            renderMap();
-            renderCrimes();
-            renderReports();
-            renderGarage();
-            renderDialogs();
-            renderStats();
-        }
-
-        // ================================================================
-        // 11. ГАРАЖ
-        // ================================================================
-
-        function selectCar(model) {
-            state.car = model;
-            addDialog('🚗 Гараж', `Ты пересел на ${model}`);
-            save();
-            renderAll();
-        }
-
-        function repairCar() {
-            if (state.money < 5000) { alert('Нужно 5000 ₽!'); return; }
-            state.money -= 5000;
-            state.carHealth = clamp(state.carHealth + 25, 0, 100);
-            addDialog('🔧 Ремонт', 'Машина отремонтирована. Здоровье +25%');
-            save();
-            renderAll();
-        }
-
-        function refuelCar() {
-            if (state.money < 2000) { alert('Нужно 2000 ₽!'); return; }
-            state.money -= 2000;
-            state.fuel = clamp(state.fuel + 30, 0, 100);
-            addDialog('⛽ Заправка', 'Бак заправлен. Бензин +30%');
-            save();
-            renderAll();
-        }
-
-        // ================================================================
-        // 12. ВКЛАДКИ
-        // ================================================================
-
-        document.querySelectorAll('.tabs button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-            });
-        });
-
-        // ================================================================
-        // 13. СБРОС
-        // ================================================================
-
-        function resetGame() {
-            if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
-            localStorage.removeItem('barviha_rp_v4');
-            location.reload();
-        }
-
-        // ================================================================
-        // 14. ЗАПУСК
-        // ================================================================
-
-        const loaded = load();
-
-        if (!loaded || state.dialogs.length === 0) {
-            addDialog('🚔 ОМВД Барвиха', 'Добро пожаловать на службу!');
-            addDialog('📞 Мухич', 'Привет! Жду тебя в отделе!');
-            addDialog('👮 Яковлев', 'Не подведи. Устав — святое.');
-            addDialog('🎯 Гриша', 'Брат, я в деле. Погнали!');
-            if (state.money === 0) state.money = 5000;
-            if (!state.car) state.car = 'Porsche 911 Turbo S';
-            save();
-        }
-
+        save();
         renderAll();
+    }
 
-        setInterval(() => { save(); }, 30000);
+    function showCrimeActions(location) {
+        const choice = prompt(
+            `📍 ${location}\n\nВыбери действие:\n1 - Выписать штраф\n2 - Арестовать\n3 - Застрелить\n4 - Уехать`,
+            '1'
+        );
+        switch (choice) {
+            case '1':
+                doFine();
+                break;
+            case '2':
+                doArrest();
+                break;
+            case '3':
+                doKill();
+                break;
+            default:
+                addDialog('🚔 Уезд', 'Ты уехал. Дело осталось нераскрытым.');
+                break;
+        }
+    }
 
-        console.log('🚔 Барвиха RP v4.0 загружена!');
-        console.log('🏠 Ты можешь жить, работать, ездить на машине и писать рапорты!');
-    </script>
+    function doFine() {
+        const amount = rand(1000, 5000);
+        state.money += amount;
+        state.fined++;
+        state.stress = clamp(state.stress + rand(2, 5), 0, 100);
+        addDialog('📋 Штраф', 'Выписал штраф на ' + fmt(amount));
+        checkRankUp();
+        save();
+        renderAll();
+    }
+
+    function doArrest() {
+        if (Math.random() * 100 < 70) {
+            state.money += rand(2000, 8000);
+            state.crimesSolved++;
+            state.arrested++;
+            state.stress = clamp(state.stress + rand(3, 8), 0, 100);
+            addDialog('🔗 Арест', 'Преступник арестован! Дело раскрыто!');
+        } else {
+            state.crimesFailed++;
+            state.stress = clamp(state.stress + rand(10, 20), 0, 100);
+            addDialog('❌ Провал', 'Преступник сбежал!');
+        }
+        checkRankUp();
+        save();
+        renderAll();
+    }
+
+    function doKill() {
+        if (state.stress > 80) { addDialog('😰 Отказ', 'Слишком устал, чтобы стрелять.'); return; }
+        if (Math.random() * 100 < 60) {
+            state.money += rand(5000, 15000);
+            state.crimesSolved++;
+            state.killed++;
+            state.stress = clamp(state.stress + rand(15, 30), 0, 100);
+            addDialog('💀 Застрелил', 'Преступник ликвидирован. Тяжёлое решение...');
+        } else {
+            state.crimesFailed++;
+            state.stress = clamp(state.stress + rand(20, 40), 0, 100);
+            addDialog('💀 Промах', 'Промах! Преступник сбежал.');
+        }
+        checkRankUp();
+        save();
+        renderAll();
+    }
+
+    // ================================================================
+    // 9. СИСТЕМА ПОВЫШЕНИЯ
+    // ================================================================
+
+    function checkRankUp() {
+        const current = getRank();
+        if (current.level > state.rankLevel) {
+            state.rankLevel = current.level;
+            state.rank = current.title;
+            addDialog('🎉 ПОВЫШЕНИЕ!', 'Поздравляю! Теперь ты ' + current.title + '!');
+            if (current.title === 'Майор') {
+                addDialog('⭐ МАЙОР!', 'Гриша, ты стал майором! Как в сериале!');
+            }
+        }
+    }
+
+    // ================================================================
+    // 10. ГАРАЖ
+    // ================================================================
+
+    function selectCar(model) {
+        const car = CARS.find(c => c.model === model);
+        if (!car) return;
+        state.car = car.model;
+        state.carPlate = car.plate;
+        state.carType = car.type;
+        addDialog('🚗 Гараж', 'Ты пересел на ' + car.model + ' (' + car.typeLabel + ')');
+        save();
+        renderAll();
+    }
+
+    function repairCar() {
+        if (state.money < 3000) { alert('Нужно 3000 ₽!'); return; }
+        state.money -= 3000;
+        state.carHealth = clamp(state.carHealth + 30, 0, 100);
+        addDialog('🔧 Ремонт', 'Машина отремонтирована. +30%');
+        save();
+        renderAll();
+    }
+
+    function refuelCar() {
+        if (state.money < 1500) { alert('Нужно 1500 ₽!'); return; }
+        state.money -= 1500;
+        state.carFuel = clamp(state.carFuel + 30, 0, 100);
+        addDialog('⛽ Заправка', 'Бак заправлен. +30%');
+        save();
+        renderAll();
+    }
+
+    // ================================================================
+    // 11. РЕНДЕРИНГ
+    // ================================================================
+
+    function renderProfile() {
+        document.getElementById('profileRank').textContent = state.rank;
+        document.getElementById('profileSolved').textContent = state.crimesSolved;
+        document.getElementById('profileLevel').textContent = state.rank;
+
+        const current = getRank();
+        const next = current.level < RANKS.length - 1 ? RANKS[current.level + 1] : null;
+        document.getElementById('profileNext').textContent = next ? next.title : '🏆 Легенда';
+    }
+
+    function renderHUD() {
+        document.getElementById('hudMoney').textContent = fmt(state.money);
+        document.getElementById('hudRank').textContent = state.rank;
+        document.getElementById('hudStress').textContent = state.stress + '%';
+        document.getElementById('hudEnergy').textContent = state.energy + '%';
+    }
+
+    function renderCarStatus() {
+        document.getElementById('carModel').textContent = state.car;
+        document.getElementById('carPlate').textContent = state.carPlate;
+        document.getElementById('carFuel').textContent = state.carFuel + '%';
+        document.getElementById('carHealth').textContent = state.carHealth + '%';
+
+        const badge = document.getElementById('carBadge');
+        badge.textContent = getCarBadge(state.carType);
+        badge.className = 'car-badge ' + getCarClass(state.carType);
+    }
+
+    function renderMap() {
+        const grid = document.getElementById('mapGrid');
+        grid.innerHTML = LOCATIONS.map(l => `
+                    <div class="map-point" onclick="driveTo('${l.name}')">
+                        <div class="point-title">${l.icon} ${l.name}</div>
+                        <div class="point-desc">${l.desc}</div>
+                        ${state.location === l.name ? '<div style="color:#4caf84;font-size:11px;margin-top:4px;">📍 Ты здесь</div>' : ''}
+                    </div>
+                `).join('');
+        document.getElementById('currentLocation').textContent = state.location;
+    }
+
+    function renderGarage() {
+        const container = document.getElementById('garageContainer');
+        container.innerHTML = `
+                    <div class="grid-2">
+                        ${CARS.map(c => `
+                            <div class="card">
+                                <div class="title">${c.model}</div>
+                                <div class="sub">${c.plate}</div>
+                                <div class="sub" style="color:#5b9aff;">${c.typeLabel}</div>
+                                <div class="desc">${c.desc}</div>
+                                <div class="meta">
+                                    <span>⛽ ${c.fuelMax}%</span>
+                                    <span>🔧 ${c.reliability}%</span>
+                                    ${state.car === c.model ? '<span><b>✅ Текущее авто</b></span>' : ''}
+                                </div>
+                                <div class="actions">
+                                    <button class="btn btn-primary btn-sm" onclick="selectCar('${c.model}')">🚗 Выбрать</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+    }
+
+    function renderDialogs() {
+        const container = document.getElementById('dialogsContainer');
+        const dialogs = state.dialogs.slice(-20).reverse();
+        if (dialogs.length === 0) {
+            container.innerHTML =
+                `<div class="dialog-box"><div class="who">📢 Нет диалогов</div><div class="text">Раскрывай дела, чтобы получать звонки</div></div>`;
+            return;
+        }
+        container.innerHTML = dialogs.map(d => `
+                    <div class="dialog-box">
+                        <div class="who">${d.who}</div>
+                        <div class="text">${d.text}</div>
+                        <div class="time">${d.time || ''}</div>
+                    </div>
+                `).join('');
+    }
+
+    function renderStats() {
+        const container = document.getElementById('statsContainer');
+        container.innerHTML = `
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="title">👮 Статистика Гриши</div>
+                            <div class="meta">
+                                <div>Раскрыто дел: <b>${state.crimesSolved}</b></div>
+                                <div>Провалено: <b>${state.crimesFailed}</b></div>
+                                <div>Арестов: <b>${state.arrested}</b></div>
+                                <div>Штрафов: <b>${state.fined}</b></div>
+                                <div>Ликвидаций: <b>${state.killed}</b></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="title">⭐ Звания</div>
+                            <div class="meta">
+                                <div>Текущее: <b>${state.rank}</b></div>
+                                <div>Дел до следующего: <b>${RANKS.find(r => r.level > getRank().level) ? RANKS.find(r => r.level > getRank().level).need - state.crimesSolved : '🏆 Достигнут максимум'}</b></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="title">🚗 ГАРАЖ ГРИШИ</div>
+                            <div class="meta">
+                                ${CARS.map(c => `
+                                    <div>${c.model} — ${c.typeLabel}</div>
+                                `).join('')}
+                                <div>Текущая: <b>${state.car}</b></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="title">😰 Психология</div>
+                            <div class="meta">
+                                <div>Стресс: <b>${state.stress}%</b></div>
+                                <div>Энергия: <b>${state.energy}%</b></div>
+                                <div>Деньги: <b>${fmt(state.money)}</b></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+    }
+
+    function renderAll() {
+        renderProfile();
+        renderHUD();
+        renderCarStatus();
+        renderMap();
+        renderGarage();
+        renderDialogs();
+        renderStats();
+    }
+
+    // ================================================================
+    // 12. ВКЛАДКИ
+    // ================================================================
+
+    document.querySelectorAll('.tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ================================================================
+    // 13. СБРОС
+    // ================================================================
+
+    function resetGame() {
+        if (!confirm('⚠️ ВСЁ БУДЕТ УДАЛЕНО! Начать заново?')) return;
+        localStorage.removeItem('barviha_grisha_garage');
+        location.reload();
+    }
+
+    // ================================================================
+    // 14. ЗАПУСК
+    // ================================================================
+
+    const loaded = load();
+
+    if (!loaded || state.dialogs.length === 0) {
+        addDialog('🚔 ОМВД Барвиха', 'Гриша, добро пожаловать на службу!');
+        addDialog('📞 Мухич', 'Гриша! Жду тебя в отделе, есть дело!');
+        addDialog('👮 Яковлев', 'Измайлов, не подведи. Устав — святое.');
+        addDialog('🎯 Гриша', 'Брат, я в деле. Ты тоже в деле? Погнали!');
+        if (state.money === 0) state.money = 5000;
+        if (!state.car) state.car = 'Porsche 911 Turbo S';
+        if (!state.rank) state.rank = 'Капитан полиции';
+        save();
+    }
+
+    renderAll();
+
+    setInterval(() => { save(); }, 30000);
+
+    console.log('🚔 Григорий Измайлов — Барвиха RP загружена!');
+    console.log('🚗 В гараже: Porsche (служебная), Mercedes E212 (личная), Jaguar (выходная), Ferrari (для тусовок)');
+    console.log('⭐ Начальное звание: Капитан полиции');
+</script>
 </body>
 </html>
